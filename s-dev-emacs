@@ -6,7 +6,8 @@ set -euo pipefail
 DEPS=(emacs git doom)
 s-checkdeps "${DEPS[@]}"
 
-s-echo "Doom Emacs"
+# ===================================================
+# DOOM EMACS
 
 EMACS_D_HOME="$HOME/.emacs.d"
 [[ -d $EMACS_D_HOME ]] && rm -rf "$EMACS_D_HOME"
