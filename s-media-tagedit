@@ -20,7 +20,7 @@ ARTIST = lambda do |info, file|
   end
 end
 
-ALBUM = lambda do |info|
+ALBUM = lambda do |info, file|
   TagLib::FileRef.open(file) do |t|
     t.tag.album = info
     t.save
