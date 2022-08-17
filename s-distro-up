@@ -42,7 +42,7 @@ s-distro-flatpak
 # ** EDITORS
 s-echo "Editors"
 
-s-dev-doom
+s-dev-emacs
 
 # ** LANGS
 s-echo "Languages package installers"
