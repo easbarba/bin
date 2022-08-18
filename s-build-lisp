@@ -7,10 +7,10 @@ BUILDS_LOCATION=$HOME/Builds
 
 # ===========================
 # SBCL INSTALL
-# if [[ ! -x "$PREFIX/bin/sbcl" ]]; then
+
 SBCL_LOCATION="$HOME/Builds/sbcl"
 [[ ! -d "$SBCL_LOCATION" ]] && git clone git://git.code.sf.net/p/sbcl/sbcl "$SBCL_LOCATION"
-git checkout sbcl-2.2.5
+cd $SBCL_LOCATION && git checkout sbcl-2.2.5
 
 export -n SBCL_HOME
 cd "$SBCL_LOCATION"
