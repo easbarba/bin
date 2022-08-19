@@ -13,7 +13,7 @@ MX=(emacs libgccjit0 libgccjit-12-dev libwebkit2gtk-4.0-dev libjansson-dev libja
 s-dolist "$COMMAND" "${MX[@]}"
 
 # PROGRAMMING LANGUAGES
-LANGS_HOBBY=(libssl-dev libfixposix-dev libzstd-dev sbcl guile-3.0)
+LANGS_HOBBY=(libssl-dev libfixposix-dev libzstd-dev guile-3.0)
 s-dolist "$COMMAND" "${LANGS_HOBBY[@]}"
 
 LANGS_WORK=(openjdk-17-jre openjdk-17-jdk ruby-full ruby-dev nodejs
