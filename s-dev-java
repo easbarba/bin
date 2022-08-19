@@ -9,19 +9,24 @@ s-checkdeps "${DEPS[@]}"
 # * SDKMAN
 
 COMMAND='sdk install'
+BUILDS="$HOME/Builds"
 
 [[ ! -f $HOME/.sdkman/bin/sdkman-init.sh ]] && curl -s "https://get.sdkman.io" | bash
 
-TOOLS=(gradle maven ant kotlin)
-s-dolist "$COMMAND" "${TOOLS[@]}"
+# TOOLS=(gradle maven ant)
+# s-dolist "$COMMAND" "${TOOLS[@]}"
 
-LANG=(kotlin)
-s-dolist "$COMMAND" "${LANG[@]}"
+# LANGS=(kotlin)
+# s-dolist "$COMMAND" "${LANGS[@]}"
 
-# * Eclipse
+# * ECLIPSE
 
 ECLIPSE_URL='https://eclipse.c3sl.ufpr.br/oomph/epp/2022-06/R/eclipse-inst-jre-linux64.tar.gz'
-wget -c "$ECLIPSE_URL" -P "$HOME/Builds"
-tar -xf $HOME/Builds/eclipse-inst-jre-linux64.tar.gz
+wget -c "$ECLIPSE_URL" -P "$BUILDS"
+tar -xf "$BUILDS/eclipse-inst-jre-linux64.tar.gz"
 
-# * Intellij Idea
+# * SPRING TOOLS SUITE
+
+STS_URL='https://download.springsource.com/release/STS4/4.15.3.RELEASE/dist/e4.24/spring-tool-suite-4-4.15.3.RELEASE-e4.24.0-linux.gtk.x86_64.tar.gz'
+wget -c "$STS_URL" -P "$BUILDS"
+tar -xf "$BUILDS/spring-tool-suite-4-4.15.3.RELEASE-e4.24.0-linux.gtk.x86_64.tar.gz"
