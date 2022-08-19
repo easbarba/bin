@@ -16,8 +16,7 @@ TOOLS=('udiskie --notify --tray'
 APPS=("$HOME/.config/emacs/bin/doom run"
   'chromium')
 
-XORG=("$LOCAL_BIN/st"
-  "$LOCAL_BIN/slstatus"
+XORG=('alacritty'
   'xautolock -time 8 -locker "slock" -detectsleep'
   'setxkbmap -model abnt2 -layout br -variant abnt2')
 
