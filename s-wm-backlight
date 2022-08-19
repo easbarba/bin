@@ -2,12 +2,14 @@
 
 # frozen_string_literal: true
 
+require 'optparse'
+
 # Manage System backlight.
 class Backlight
   attr_reader :state, :brighters
 
-  def initialize(state, brighters)
-    @state = state.to_sym
+  def initialize(state, brighters = Brighters.new.all)
+    @state = state
     @brighters = brighters
   end
 
@@ -29,8 +31,6 @@ class Backlight
   end
 
   def run
-    return if %w[up down].include? state
-
     system final_command
   end
 end
@@ -49,5 +49,25 @@ class Brighters
   end
 end
 
+options = {}
+oparser = OptionParser.new do |parser|
+  parser.banner = 'Usage: dots [options]'
+
+  parser.on('-u', '--up', String, 'turn backlight up') do
+    options[:up] = :up
+  end
+
+  parser.on('-d', '--down', String, 'turn backlight down') do
+    options[:down] = :down
+  end
+
+  parser.on('-i', '--info', 'general information of internals backlight') do
+    options[:info] = true
+  end
+end
+
+oparser.parse! ['--help'] if ARGV.empty?
+oparser.parse!
+
 # RUN
-Backlight.new(ARGV.first, Brighters.new.all).run
+Backlight.new(options.values.first).run
