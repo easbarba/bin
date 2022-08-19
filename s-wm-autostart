@@ -14,6 +14,7 @@ TOOLS=('udiskie --notify --tray'
   'mpd')
 
 APPS=("$HOME/.config/emacs/bin/doom run"
+  'atril'
   'chromium')
 
 XORG=('alacritty'
