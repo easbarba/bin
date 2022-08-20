@@ -10,16 +10,12 @@ set -euo pipefail
 DEPS=(yt-dlp ffmpeg)
 s-checkdeps "${DEPS[@]}"
 
-FREE=(vorbis mp3 ogg)
+FREE=(vorbis mp3)
 EXT="${FREE[0]}"
 URL="$(s-url)"
 FOLDER="$HOME/Music/temp"
 
 cd "$FOLDER"
-
-__info="Format: $EXT
-URL: $URL
-Folder: $FOLDER"
 
 # GETTERS ATTRIBUTES
 declare -A YTDL
@@ -27,7 +23,17 @@ YTDL=([bin]='yt-dlp'
       [audio]='--extract-audio --audio-format'
       [title]="-o '%(title)s.%(ext)s'")
 
-# RUN
-echo "$__info"
+declare -A YOUTUBEDL
+YOUTUBEDL=([bin]='youtube-dl'
+      [audio]='--extract-audio --audio-format'
+      [title]="-o '%(title)s.%(ext)s'")
 
-${YTDL[bin]} ${YTDL[audio]} "$EXT" ${YTDL[title]} "$URL"
+# RUN
+echo <<EOF
+Format: $EXT
+URL: $URL
+Folder: $FOLDER
+EOF
+
+[[ -x $(youtube-dl) ]] && ${YOUTUBEDL[bin]} ${YOUTUBEDL[audio]} "$EXT" ${YOUTUBEDL[title]} "$URL" && exit
+[[ -x $(yt-dlp) ]] && ${YTDL[bin]} ${YTDL[audio]} "$EXT" ${YTDL[title]} "$URL" && exit
