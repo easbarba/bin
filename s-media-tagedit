@@ -1,6 +1,9 @@
 #!/usr/bin/env ruby
 # frozen_string_literal: true
 
+# TODO: permited media files extension
+# TODO: walk through all sub-directories if required
+
 require 'taglib'
 require 'pathname'
 require 'optparse'
