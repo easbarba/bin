@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+[[ -x "$HOME/.local/bin/emacs" ]] && exec "$HOME/.local/bin/emacs"
+[[ -x $(command -v emacs) ]] && exec emacs
+# [[ $(pgrep emacs) ]] && emacsclient -c
