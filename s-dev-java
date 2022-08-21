@@ -13,12 +13,11 @@ BUILDS="$HOME/Builds"
 
 [[ ! -f $HOME/.sdkman/bin/sdkman-init.sh ]] && curl -s "https://get.sdkman.io" | bash
 
-# TOOLS=(gradle maven ant)
+# source "$HOME/.sdkman/bin/sdkman-init.sh"
+# TOOLS=(maven ant gradle)
 # s-dolist "$COMMAND" "${TOOLS[@]}"
 
-# LANGS=(kotlin)
-# s-dolist "$COMMAND" "${LANGS[@]}"
-
+exit
 # * ECLIPSE
 
 ECLIPSE_URL='https://eclipse.c3sl.ufpr.br/oomph/epp/2022-06/R/eclipse-inst-jre-linux64.tar.gz'
