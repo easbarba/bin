@@ -1,131 +1,120 @@
 #!/usr/bin/env bash
 
-# Debug Options
+# DEBUG OPTIONS
 set -euo pipefail
 
-DEPS=(sudo pacman sed)
+DEPS=(sudo apt wget systemctl timedatectl fc-cache firewalld)
 s-checkdeps "${DEPS[@]}"
 
-s-echo "Arch Linux - System Packages and Services Instalation."
+REMOVE='sudo apt remove -y'
+PURGE='sudo apt purge -y'
+INSTALL='sudo pacman -S --noconfirm'
 
-s-echo "Updating Arch Linux"
-/usr/bin/sudo /usr/bin/pacman -Syu
+#s-echo "Welcome to Arch '$(cat /etc/debian_version)'"
 
-if [[ ! $(grep '^\[multilib\]' /etc/pacman.conf) == '[multilib]' ]]; then
-    s-echo "Enable Multi-Arch"
-    /usr/bin/sudo /usr/bin/sed -i "/\[multilib\]/,/Include/"'s/^#//' /etc/pacman.conf
-fi
+# =================================
 
-s-echo "Installing system packages"
+s-echo "Pre Install"
+s-echo "Enable Multi-Arch"
+#sudo dpkg --add-architecture i386
 
-essentials=(git openssh curl unzip tmux lynx)
+# =================================
+s-echo "Upgrading System"
+#sudo pacman -Syy
 
-editors=(neovim)
+# =================================
 
-gnu=(emacs zile wget parallel)
+s-echo "System Packages"
 
-zig=(zig)
+arch=()
 
-ruby=(ruby openssl)
+gnu=(bash gcc make wget screen parallel gawk parted) # info recutils
 
-lua=(lua luarocks)
+system=(git openssh unzip zip p7zip at usbutils lsof atool time entr tree bc curl
+	strace ltrace cpio lhasa lzop rsync pv texinfo autoconf automake socat tmux)
 
-database=(postgresql)
+shell=(bash-completion shellcheck fish)
 
-shell=(bash bash-completion shellcheck fish ksh starship)
+fonts=(ttf-hack ttf-dejavu ttf-jetbrains-mono adobe-source-han-sans-otc-fonts)
 
-music=(mpd mpc ncmpcpp)
+laptop=(acpi lm-sensors lshw libinput-tools)
 
-system=(p7zip zip subversion jq lshw at usbutils lsof time entr tree xsel
-    xclip fontconfig bc htop strace ltrace cpio lhasa lzop atool perf
-    sysstat ncdu rsync rclone util-linux)
+wayland=(sway swaybg swaylock swayidle foot grim slurp wl-clipboard xorg-xwayland mako) #clipman
 
-gnu=(wget parted texinfo parallel automake autoconf)
+xorg=(xorg xorg-server xclip xsel feh scrot network-manager-applet xautolock)
 
-network=(net-tools iproute2 socat iw wireless_tools)
+wm=(udiskie brightnessctl bluez blueman mpd mpc ncmpcpp playerctl bspwm sxhkd)
 
-infra=(podman qemu virt-manager ovmf bridge-utils vagrant)
+laptop=(acpid lm_sensors) #tlp vainfo i965-va-driver libvdpau-va-gl1 libiw-dev hddtemp acpi-call dialog sysstat)
 
-fonts=(ttf-dejavu adobe-source-han-sans-kr-fonts)
+gtk=(atril cheese)
 
-security=(nftables firewalld gnutls)
+kde=(ktorrent kdenlive kate falkon kdeconnect krita elisa) # plasma-workspace-wayland kamoso  kdevelop
 
-laptop=(acpi tlp) # laptop-mode-tools # libiw-dev
+cli=(htop ffmpeg mpv elinks libnotify ranger aria2)
 
-arch=(pacman-contrib base-devel)
+user=(chromium firefox libreoffice gimp xdg-utils imagemagick aspell aspell-pt
+	calibre pandoc obs-studio inkscape vlc)
 
-xorg=(xorg xorg-xinit awesome scrot feh zathura slock cheese atril dmenu) # xf86-video-fbdev
+sound=(pipewire pipewire-pulse lib32-pipewire pipewire-docs) # wireplumber pulseaudio-utils
 
-wayland=(sway swaybg swaylock)
+media=(gstreamer gst-libav gst-plugins-bad gst-plugins-base gst-plugins-good gst-plugins-ugly)
 
-wmapps=(youtube-dl ffmpeg lm_sensors mpv libnotify imagemagick pandoc aspell
-    aria2 udiskie gnome-keyring xdg-utils playerctl bluez bluez-utils
-    w3m elinks dunst) #seahorse
+amd=(amd-ucode mesa lib32-mesa xf86-video-amdgpu vulkan-radeon lib32-vulkan-radeon)
 
-user=(netsurf falkon firefox libreoffice gimp obs-studio amfora telegram-desktop
-    kdeconnect)
+groups=("${arch[@]}"
+	"${gnu[@]}"
+	"${system[@]}"
+	"${shell[@]}"
+	"${wayland[@]}"
+	"${xorg[@]}"
+	"${sound[@]}"
+	"${user[@]}"
+	"${wm[@]}"
+	"${kde[@]}"
+	"${gtk[@]}"
+	"${cli[@]}"
+	"${laptop[@]}"
+	"${amd[@]}"
+	"${media[@]}"
+	"${fonts[@]}")
 
-codec=(vorbis-tools gst-libav gst-plugins-bad
-    gst-plugins-base gst-plugins-good gst-plugins-ugly)
-
-sound=(pulseaudio-bluetooth)
-
-amd=(amd-ucode mesa lib32-mesa xf86-video-amdgpu vulkan-radeon
-    lib32-vulkan-radeon lib32-amdvlk libva-mesa-driver
-    lib32-libva-mesa-driver mesa-vdpau lib32-mesa-vdpau)
-
-local command='/usr/bin/sudo /usr/bin/pacman -S --noconfirm --needed'
-
-enabled=("${essentials[@]}"
-    "${arch[@]}"
-    "${network[@]}"
-    "${gnu[@]}"
-    "${editors[@]}"
-    "${ruby[@]}"
-    "${lua[@]}"
-    "${zig[@]}"
-    "${shell[@]}"
-    "${system[@]}"
-    "${music[@]}"
-    "${gtk[@]}"
-    "${qt[@]}"
-    "${infra[@]}"
-    "${fonts[@]}"
-    "${security[@]}"
-    "${laptop[@]}"
-    "${wmapps[@]}"
-    "${wayland[@]}"
-    "${xorg[@]}"
-    "${sound[@]}"
-    "${user[@]}"
-    "${codec[@]}"
-    "${amd[@]}")
-
-for i in "${enabled[@]}"; do
-    s-dolist "$command" "$i"
+for group in "${groups[@]}"; do
+	s-dolist "$INSTALL" "$group"
 done
 
+# =================================
+s-echo "Post Install"
+#sudo apt -y build-dep emacs
+#sudo apt-file update # update Debian database
+
+# =================================
 s-echo "Clean up"
-/usr/bin/pacman -Rns "$(/usr/bin/pacman -Qdtq)"
+#UNUSED=(firefox-esr)
+#s-dolist "$REMOVE" "${UNUSED[@]}"
 
-s-echo "Arch Services"
+#TOPURGE=(*nvidia*)
+#s-dolist "$PURGE" "${TOPURGE[@]}"
 
-/usr/bin/sudo /usr/bin/systemctl disable mpd
+s-echo "Distro Services"
+sudo systemctl enable fstrim.timer
 
-# kdeconnect
-/usr/bin/sudo firewall-cmd --zone=public --permanent --add-port=1714-1764/tcp
-/usr/bin/sudo firewall-cmd --zone=public --permanent --add-port=1714-1764/udp
-/usr/bin/sudo systemctl restart firewalld.service
+# =================================
+s-echo "Foreign packages"
 
-# timezone
-desired_zone='America/Sao_Paulo'
-current_zone=$(/usr/bin/timedatectl | /usr/bin/grep 'Time zone' | /usr/bin/awk '{print $3}')
+if [[ ! -x $(command -v flatpak) ]]; then
+	"$INSTALL" flatpak 
+	sudo flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
+fi
 
-[[ "$current_zone" != "$desired_zone" ]] && /usr/bin/sudo /usr/bin/timedatectl set-timezone America/Sao_Paulo
+#if [[ -x $(command -v google-chrome) ]]; then
+#	wget -P "/tmp" https://dl.google.com/linux/direct/google-chrome-stable-current_amd64.deb
+#	"$INSTALL" /tmp/google-chrome-stable-current_amd64.deb
+#fi
 
-# set python to python3
-/usr/bin/sudo update-alternatives --install /usr/bin/python python "$(which python3)" 1
+if [[ ! -x $(command -v code) ]]; then
+	wget -c "https://code.visualstudio.com/sha/download?build=stable&os=linux-deb-x64" -O '/tmp/vscode-x64.deb'
+	"$INSTALL" /tmp/vscode-x64.deb
+fi
 
-# virtualization
-/usr/bin/sudo /usr/bin/usermod -aG libvirt "$USER"
-/usr/bin/sudo /usr/bin/usermod -aG kvm "$USER"
+exit
