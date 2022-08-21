@@ -42,8 +42,8 @@ guix upgrade
 PACKAGES=(nss-certs font-dejavu neofetch) # font-gnu-freefont-ttf
 s-dolist "guix install" "${PACKAGES[@]}"
 
-# APPS=() # font-gnu-freefont-ttf
-# s-dolist "guix install" "${APPS[@]}"
+LANGS=(guile guile-readline)
+s-dolist "guix install" "${LANGS[@]}"
 
-# LANGS=()
-# s-dolist "guix install" "${LANGS[@]}"
+APPS=(haunt) # font-gnu-freefont-ttf
+s-dolist "guix install" "${APPS[@]}"
