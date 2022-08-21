@@ -35,7 +35,8 @@ system=(git openssh unzip zip p7zip at usbutils lsof atool time entr tree bc cur
 
 shell=(bash-completion shellcheck fish)
 
-fonts=(ttf-hack ttf-dejavu ttf-jetbrains-mono adobe-source-han-sans-otc-fonts)
+fonts=(ttf-hack ttf-dejavu ttf-jetbrains-mono adobe-source-han-sans-otc-fonts
+	noto-fonts noto-fonts-emoji ttf-liberation ttf-droid adobe-source-sans-fonts)
 
 laptop=(acpi lm-sensors lshw libinput-tools)
 
@@ -103,7 +104,7 @@ sudo systemctl enable fstrim.timer
 s-echo "Foreign packages"
 
 if [[ ! -x $(command -v flatpak) ]]; then
-	"$INSTALL" flatpak 
+	"$INSTALL" flatpak
 	sudo flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
 fi
 
