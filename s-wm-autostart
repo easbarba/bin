@@ -10,7 +10,7 @@ LOCAL_BIN="$HOME/.local/bin"
 TOOLS=('udiskie --notify --tray'
   'blueman-applet'
   'dunst'
-  'nm-applet'
+  'nm-applet --indicator'
   'mpd')
 
 APPS=("$LOCAL_BIN/s-run-emacs"

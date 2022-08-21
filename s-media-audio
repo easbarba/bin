@@ -29,11 +29,14 @@ YOUTUBEDL=([bin]='youtube-dl'
       [title]="-o '%(title)s.%(ext)s'")
 
 # RUN
-echo <<EOF
+INFO=$(
+      cat <<EOF
 Format: $EXT
 URL: $URL
 Folder: $FOLDER
 EOF
+)
+echo "$INFO"
 
-[[ -x $(youtube-dl) ]] && ${YOUTUBEDL[bin]} ${YOUTUBEDL[audio]} "$EXT" ${YOUTUBEDL[title]} "$URL" && exit
 [[ -x $(yt-dlp) ]] && ${YTDL[bin]} ${YTDL[audio]} "$EXT" ${YTDL[title]} "$URL" && exit
+[[ -x $(youtube-dl) ]] && ${YOUTUBEDL[bin]} ${YOUTUBEDL[audio]} "$EXT" ${YOUTUBEDL[title]} "$URL" && exit
