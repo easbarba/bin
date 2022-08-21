@@ -1,0 +1,30 @@
+#!/usr/bin/env bash
+
+# Debug Options
+set -euo pipefail
+
+DEPS=(apt-get bash)
+s-checkdeps "${DEPS[@]}"
+
+COMMAND='sudo pacman -S --noconfirm'
+
+# EAMCS PACKAGES
+# MX=(emacs libgccjit0 libgccjit-12-dev libwebkit2gtk-4.0-dev libjansson-dev libjansson4)
+# s-dolist "$COMMAND" "${MX[@]}"
+
+# PROGRAMMING LANGUAGES
+LANGS_HOBBY=(guile) # libssl-dev libfixposix-dev libzstd-dev lua5.4 luajit luarocks
+s-dolist "$COMMAND" "${LANGS_HOBBY[@]}"
+
+LANGS_WORK=(jre17-openjdk jdk17-openjdk openjdk17-doc openjdk17-src ruby nodejs npm go python-pip)
+s-dolist "$COMMAND" "${LANGS_WORK[@]}"
+
+# PROGRAMMING EDITORS
+EDITORS=(zile vim neovim tidy ripgrep)
+s-dolist "$COMMAND" "${EDITORS[@]}"
+
+# PROGRAMMING TOOLS
+TOOLS=(jq subversion mercurial editorconfig-checker direnv fd) # libpq-dev git-email gnome-keyring
+s-dolist "$COMMAND" "${TOOLS[@]}"
+
+exit
