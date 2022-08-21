@@ -1,0 +1,128 @@
+#!/usr/bin/env bash
+
+# Debug Options
+set -euo pipefail
+
+DEPS=(sudo apt curl python3 go systemctl tee gpasswd)
+s-checkdeps "${DEPS[@]}"
+
+INSTALL='sudo pacman -S --noconfirm'
+UPDATE='sudo apt-get update'
+
+if [[ ! -x $(command -v podman) ]]; then
+    $INSTALL podman fuse-overlayfs slirp4netns
+
+    sudo systemctl enable podman.socket
+    sudo systemctl start podman.socket
+
+    sudo sysctl kernel.unprivileged_userns_clone
+
+    # Add a new group called podman so its easier to manage who can run podman w/out sudo
+    echo '%podman ALL=(ALL) NOPASSWD: /usr/bin/podman' | sudo tee -a /etc/sudoers.d/podman
+
+    # Set subuid and subgid
+    sudo touch /etc/subuid /etc/subgid
+    sudo chmod 644 /etc/subuid /etc/subgid
+    sudo usermod --add-subuids 100000-165535 --add-subgids 100000-165535 $USER
+
+    # Rootless Podman
+    podman system migrate
+fi
+
+if [[ ! -x $(command -v podman-compose) ]]; then
+    python3 -m pip install podman-compose --upgrade
+
+    # Docker Compose will use the correct socket.
+    # export DOCKER_HOST=///run/user/$UID/podman/podman.sock
+fi
+
+if [[ ! -x $(command -v kubectl) ]]; then
+    KUBE=(kubectl kubelet kubeadm)
+    s-dolist "$INSTALL" "${KUBE[@]}"
+fi
+
+[[ ! -x $(command -v kind) ]] && GO111MODULE=on go install sigs.k8s.io/kind@v0.14.0
+
+NET=(gnutls net-tools iproute2 perl-net-telnet dnsutils iwd iw wireless_tools
+    resolvconf gnu-netcat tcpdump httpie) # dhcpcd5
+s-dolist "$INSTALL" "${NET[@]}"
+
+if [[ ! -x $(command -v docker) ]]; then
+    $INSTALL docker #-ce docker-ce-cli containerd.io docker-compose
+
+    sudo systemctl start docker
+    sudo systemctl enable docker.service
+
+    sudo groupadd docker
+    sudo gpasswd -a "$USER" docker
+
+    sudo systemctl restart docker
+
+    # activate group, for now
+    newgrp docker
+fi
+
+if [[ ! -x $(command -v firewalld) ]]; then
+    $INSTALL firewalld
+
+    sudo systemctl enable firewalld
+    sudo systemctl start firewalld
+fi
+
+if [[ ! -x $(command -v vagrant) ]]; then
+    $INSTALL vagrant
+    vagrant plugin install vagrant-libvirt
+fi
+
+[[ ! -x $(command -v qemu-img) ]] && $INSTALL qemu # infra=( qemu qemu-utils qemu-efi qemu-kvm ) # ebtables
+
+if [[ ! -x $(command -v virt-manager) ]]; then
+    VIRT=(libvirt bridge-utils virt-manager) #libvirt-clients libvirt-daemon-system virtinst
+    s-dolist "$INSTALL" "${VIRT[@]}"
+
+    sudo systemctl start libvirtd
+    sudo systemctl enable libvirtd
+
+    sudo usermod -aG libvirt "$USER"
+    sudo usermod -aG kvm "$USER"
+fi
+
+exit
+
+if [[ ! -x $(command -v ansible) ]]; then
+    $INSTALL ansible
+    python3 -m pip install cryptography # faster ansible vault encryption
+fi
+
+[[ ! -x $(command -v aws) ]] && $INSTALL awscli
+
+if [[ ! -x $(command -v aws-iam-authenticator) ]]; then
+    curl -o aws-iam-authenticator https://amazon-eks.s3.us-west-2.amazonaws.com/1.21.2/2021-07-05/bin/linux/amd64/aws-iam-authenticator -P "$HOME/.local/bin"
+    chmod +x "$HOME/.local/bin/aws-iam-authenticator"
+fi
+
+if [[ ! -x $(command -v eksctl) ]]; then
+    curl --silent --location "https://github.com/weaveworks/eksctl/releases/latest/download/eksctl_$(uname -s)_amd64.tar.gz" | tar xz -C /tmp
+    sudo mv /tmp/eksctl /usr/local/bin
+fi
+
+if [[ ! -x $(command -v gcloud) ]]; then
+    $UPDATE && $INSTALL google-cloud-sdk
+fi
+
+[[ ! -x $(command -v gitlab-runner) ]] && $INSTALL gitlab-runner
+
+if [[ ! -x $(command -v helm) ]]; then
+    $INSTALL helm
+fi
+
+if [[ ! -x $(command -v minikube) ]]; then
+    curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube_latest_amd64.deb
+    sudo apt install ./minikube_latest_amd64.deb
+fi
+
+if [[ ! -x $(command -v jenkins) ]]; then
+    $UPDATE && $INSTALL fontconfig openjdk-11-jre jenkins
+fi
+
+[[ ! -x $(command -v virtualbox) ]] && $INSTALL virtualbox
