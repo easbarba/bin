@@ -42,6 +42,8 @@ if [[ ! -f "$HOME/quicklisp/dists/quicklisp/installed/releases/dbus.txt" ]]; the
         --eval "(quit)"
 fi
 
+exit
+
 # ===========================
 # STUMPWM
 
@@ -60,8 +62,6 @@ cd "$STUMPWM_LOCATION"
 ./configure --prefix="$PREFIX"
 make -j4
 make install
-
-exit
 
 if ! grep 'Type=XSession' /usr/share/xsessions/stumpwm-local.desktop; then
     cat <<EOF | sudo tee -a "/usr/share/xsessions/stumpwm-local.desktop"
