@@ -57,7 +57,7 @@ kde=(ktorrent kdenlive kate falkon kdeconnect krita elisa) # plasma-workspace-wa
 
 cli=(htop ffmpeg mpv elinks libnotify-bin ranger aria2)
 
-user=(chromium firefox libreoffice gimp xdg-utils imagemagick aspell aspell-pt-br
+user=(zathura chromium firefox libreoffice gimp xdg-utils imagemagick aspell aspell-pt-br
 	calibre pandoc obs-studio inkscape)
 
 sound=(pipewire pipewire-pulse wireplumber pulseaudio-utils vlc)
