@@ -49,7 +49,7 @@ xorg=(xorg xserver-xorg-core xclip xsel feh scrot network-manager-gnome xautoloc
 
 wm=(udiskie brightnessctl bluez blueman mpd mpc ncmpcpp playerctl bspwm sxhkd)
 
-laptop=(acpid tlp vainfo i965-va-driver libvdpau-va-gl1 libiw-dev hddtemp acpi-call dialog sysstat)
+laptop=(acpid tlp vainfo i965-va-driver libvdpau-va-gl1 libiw-dev acpi-call dialog sysstat) # hddtemp
 
 gtk=(atril cheese)
 
@@ -113,7 +113,7 @@ sudo systemctl enable fstrim.timer
 s-echo "Foreign packages"
 
 if [[ ! -x $(command -v flatpak) ]]; then
-	"$INSTALL" flatpak gnome-software-plugin-flatpak
+	"$INSTALL flatpak gnome-software-plugin-flatpak"
 	sudo flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
 fi
 
