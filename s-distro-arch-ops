@@ -9,6 +9,10 @@ s-checkdeps "${DEPS[@]}"
 INSTALL='sudo pacman -S --noconfirm'
 UPDATE='sudo apt-get update'
 
+if [[ ! -x $(command -v k3s) ]]; then
+    curl -sfL https://get.k3s.io | sh -
+fi
+
 if [[ ! -x $(command -v podman) ]]; then
     $INSTALL podman fuse-overlayfs slirp4netns
 
