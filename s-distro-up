@@ -49,9 +49,13 @@ s-echo "Languages package installers"
 
 s-dev-golang
 s-dev-ruby
+s-dev-python
+s-dev-javascript
 
 # * USER
 s-echo "User tasks"
 
-qas --grab
-qas --archive lar,annotations,mx,rake # TODO: save to usb-stick
+if [[ -x $(command -v qas) ]]; then
+    qas --grab
+    qas --archive lar,annotations,mx,rake # TODO: save to usb-stick
+fi
