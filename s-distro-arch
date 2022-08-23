@@ -51,12 +51,12 @@ laptop=(acpid lm_sensors) #tlp vainfo i965-va-driver libvdpau-va-gl1 libiw-dev h
 
 gtk=(atril cheese)
 
-kde=(ktorrent kdenlive kate falkon kdeconnect krita elisa) # plasma-workspace-wayland kamoso  kdevelop
+kde=(ktorrent kdenlive kate falkon kdeconnect krita kdevelop)
 
 cli=(htop ffmpeg mpv elinks libnotify ranger aria2)
 
 user=(chromium firefox libreoffice gimp xdg-utils imagemagick aspell aspell-pt
-	calibre pandoc obs-studio inkscape vlc)
+	calibre pandoc obs-studio inkscape)
 
 sound=(pipewire pipewire-pulse lib32-pipewire pipewire-docs) # wireplumber pulseaudio-utils
 
