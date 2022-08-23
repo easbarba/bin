@@ -21,12 +21,12 @@ cd "$FOLDER"
 declare -A YTDL
 YTDL=([bin]='yt-dlp'
       [audio]='--extract-audio --audio-format'
-      [title]="-o '%(title)s.%(ext)s'")
+      [title]="-o %(title)s.%(ext)s")
 
 declare -A YOUTUBEDL
 YOUTUBEDL=([bin]='youtube-dl'
       [audio]='--extract-audio --audio-format'
-      [title]="-o '%(title)s.%(ext)s'")
+      [title]="-o %(title)s.%(ext)s")
 
 # RUN
 INFO=$(
@@ -38,5 +38,5 @@ EOF
 )
 echo "$INFO"
 
-[[ -x $(yt-dlp) ]] && ${YTDL[bin]} ${YTDL[audio]} "$EXT" ${YTDL[title]} "$URL" && exit
-[[ -x $(youtube-dl) ]] && ${YOUTUBEDL[bin]} ${YOUTUBEDL[audio]} "$EXT" ${YOUTUBEDL[title]} "$URL" && exit
+[[ -x $(command -v yt-dlp) ]] && ${YTDL[bin]} ${YTDL[audio]} $EXT ${YTDL[title]} $URL && exit
+[[ -x $(command -v youtube-dl) ]] && ${YOUTUBEDL[bin]} ${YOUTUBEDL[audio]} "$EXT" ${YOUTUBEDL[title]} "$URL" && exit
