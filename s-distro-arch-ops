@@ -35,9 +35,6 @@ fi
 
 if [[ ! -x $(command -v podman-compose) ]]; then
     python3 -m pip install podman-compose --upgrade
-
-    # Docker Compose will use the correct socket.
-    # export DOCKER_HOST=///run/user/$UID/podman/podman.sock
 fi
 
 if [[ ! -x $(command -v kubectl) ]]; then
