@@ -109,14 +109,4 @@ if [[ ! -x $(command -v flatpak) ]]; then
 	sudo flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
 fi
 
-#if [[ -x $(command -v google-chrome) ]]; then
-#	wget -P "/tmp" https://dl.google.com/linux/direct/google-chrome-stable-current_amd64.deb
-#	"$INSTALL" /tmp/google-chrome-stable-current_amd64.deb
-#fi
-
-if [[ ! -x $(command -v code) ]]; then
-	wget -c "https://code.visualstudio.com/sha/download?build=stable&os=linux-deb-x64" -O '/tmp/vscode-x64.deb'
-	"$INSTALL" /tmp/vscode-x64.deb
-fi
-
 exit

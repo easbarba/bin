@@ -60,7 +60,7 @@ cli=(htop ffmpeg mpv elinks libnotify-bin ranger aria2)
 user=(zathura chromium firefox libreoffice gimp xdg-utils imagemagick aspell aspell-pt-br
 	calibre pandoc obs-studio inkscape)
 
-sound=(pipewire pipewire-pulse wireplumber pulseaudio-utils vlc)
+sound=(pipewire pipewire-pulse wireplumber pulseaudio-utils)
 
 media=(libtag1-dev vorbis-tools gstreamer1.0-plugins-bad
 	gstreamer1.0-plugins-base gstreamer1.0-plugins-good
@@ -113,18 +113,8 @@ sudo systemctl enable fstrim.timer
 s-echo "Foreign packages"
 
 if [[ ! -x $(command -v flatpak) ]]; then
-	"$INSTALL flatpak gnome-software-plugin-flatpak"
+	$INSTALL flatpak gnome-software-plugin-flatpak
 	sudo flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
-fi
-
-#if [[ -x $(command -v google-chrome) ]]; then
-#	wget -P "/tmp" https://dl.google.com/linux/direct/google-chrome-stable-current_amd64.deb
-#	"$INSTALL" /tmp/google-chrome-stable-current_amd64.deb
-#fi
-
-if [[ ! -x $(command -v code) ]]; then
-	wget -c "https://code.visualstudio.com/sha/download?build=stable&os=linux-deb-x64" -O '/tmp/vscode-x64.deb'
-	"$INSTALL" /tmp/vscode-x64.deb
 fi
 
 exit
