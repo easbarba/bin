@@ -44,7 +44,8 @@ wayland=(sway swaybg swaylock swayidle foot grim slurp wl-clipboard xorg-xwaylan
 
 xorg=(xorg xorg-server xclip xsel feh scrot network-manager-applet xautolock)
 
-wm=(udiskie brightnessctl bluez blueman mpd mpc ncmpcpp playerctl slock dmenu awesome)
+wm=(udiskie brightnessctl bluez blueman mpd mpc ncmpcpp playerctl slock dmenu
+	awesome zathura-cb zathura-pdf-mupdf zathura-djvu zathura-ps perl-file-mimeinfo)
 
 laptop=(acpid lm_sensors) #tlp vainfo i965-va-driver libvdpau-va-gl1 libiw-dev hddtemp acpi-call dialog sysstat)
 
