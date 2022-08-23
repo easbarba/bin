@@ -14,7 +14,7 @@ TOOLS=('udiskie --notify --tray'
   'mpd')
 
 APPS=("$LOCAL_BIN/s-run-emacs"
-  'atril'
+  'zathura'
   'chromium')
 
 XORG=('alacritty'
