@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
 
+# ===================================================
+# GUIX
+
 # * Information
 # Site: https://guix.gnu.org/
 
@@ -33,17 +36,16 @@ guix upgrade
 # PACKAGES
 
 # Fix GUIX_LOCPATH warning
-# guix install glibc-locales
-
-# export GUIX_LOCPATH="$HOME/.guix-profile/lib/locale"
-# version=$(ls ~/.guix-profile/lib/locale/)
-# guix install "glibc-locales@$version"
+guix install glibc-locales
 
 PACKAGES=(nss-certs font-dejavu neofetch) # font-gnu-freefont-ttf
 s-dolist "guix install" "${PACKAGES[@]}"
 
 LANGS=(guile guile-readline)
 s-dolist "guix install" "${LANGS[@]}"
+
+TOOLS=(maven ant)
+s-dolist "guix install" "${TOOLS[@]}"
 
 APPS=(haunt) # font-gnu-freefont-ttf
 s-dolist "guix install" "${APPS[@]}"
