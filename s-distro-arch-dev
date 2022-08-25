@@ -16,11 +16,11 @@ LANGS_WORK=(jre17-openjdk jdk17-openjdk clang)
 s-dolist "$COMMAND" "${LANGS_WORK[@]}"
 
 # PROGRAMMING EDITORS
-EDITORS=(zile vim neovim tidy ripgrep)
+EDITORS=(zile vim neovim)
 s-dolist "$COMMAND" "${EDITORS[@]}"
 
 # PROGRAMMING TOOLS
-TOOLS=(jq subversion mercurial editorconfig-checker direnv fd) # libpq-dev git-email gnome-keyring
+TOOLS=(jq subversion mercurial editorconfig-checker direnv fd tidy ripgrep shfmt) # libpq-dev git-email gnome-keyring
 s-dolist "$COMMAND" "${TOOLS[@]}"
 
 exit
