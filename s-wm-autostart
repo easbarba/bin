@@ -10,6 +10,7 @@ LOCAL_BIN="$HOME/.local/bin"
 TOOLS=('udiskie --notify --tray'
   'blueman-applet'
   'dunst'
+  'picom'
   'nm-applet --indicator'
   'mpd')
 
