@@ -9,7 +9,7 @@ s-checkdeps "${DEPS[@]}"
 COMMAND='sudo pacman -S --noconfirm'
 
 # PROGRAMMING LANGUAGES
-LANGS_HOBBY=(guile) # libssl-dev libfixposix-dev libzstd-dev
+LANGS_HOBBY=(guile sbcl libfixposix) # libssl-dev libzstd-dev
 s-dolist "$COMMAND" "${LANGS_HOBBY[@]}"
 
 LANGS_WORK=(jre17-openjdk jdk17-openjdk clang)
