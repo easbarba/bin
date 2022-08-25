@@ -47,10 +47,6 @@ s-dev-emacs
 # ** LANGS
 s-echo "Languages package installers"
 
-s-dev-ruby
-s-dev-python
-s-dev-javascript
-
 # * USER
 s-echo "User tasks"
 
