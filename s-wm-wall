@@ -7,5 +7,5 @@ echo "wallpaper: $WALL"
 # if [[ -n $WAYLAND_DISPLAY ]]; then
 #     swaybg -m fit -i "$WALL" &
 # else
-#     feh --bg-max "$WALL" &
+feh --bg-max "$WALL" &
 # fi
