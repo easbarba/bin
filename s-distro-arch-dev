@@ -9,10 +9,11 @@ s-checkdeps "${DEPS[@]}"
 COMMAND='sudo pacman -S --noconfirm'
 
 # PROGRAMMING LANGUAGES
-LANGS_HOBBY=(guile clojure elixir lua luajit luarocks) # libssl-dev libfixposix-dev libzstd-dev
+LANGS_HOBBY=(guile clojure elixir erlang lua luajit luarocks kotlin rust) # libssl-dev libfixposix-dev libzstd-dev
 s-dolist "$COMMAND" "${LANGS_HOBBY[@]}"
 
-LANGS_WORK=(jre17-openjdk jdk17-openjdk openjdk17-doc openjdk17-src clang ruby nodejs npm go python-pip)
+LANGS_WORK=(jre17-openjdk jdk17-openjdk openjdk17-doc openjdk17-src
+    dotnet-runtime clang ruby nodejs npm go python-pip)
 s-dolist "$COMMAND" "${LANGS_WORK[@]}"
 
 # PROGRAMMING EDITORS
