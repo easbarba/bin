@@ -25,26 +25,6 @@ sh install.sh --prefix="${HOME}/.local"
 # fi
 
 # ===========================
-# QUICKLISP INSTALL
-
-QUICKLISP=quicklisp.lisp
-QUICKLISP_LOCATION="/tmp/$QUICKLISP"
-[[ ! -f $QUICKLISP_LOCATION ]] && wget -c https://beta.quicklisp.org/quicklisp.lisp -P /tmp
-
-# ===========================
-# STUMPWM INSTALL
-
-if [[ ! -f "$HOME/quicklisp/dists/quicklisp/installed/releases/dbus.txt" ]]; then
-    sbcl --no-sysinit --no-userinit --load /tmp/quicklisp.lisp \
-        --eval '(quicklisp-quickstart:install)' \
-        --eval "(ql:quickload '(:quicklisp-slime-helper :clx :cl-ppcre :alexandria))" \
-        --eval "(ql:quickload '(:xembed :xml-emitter :dbus :prove :swank))" \
-        --eval "(quit)"
-fi
-
-exit
-
-# ===========================
 # STUMPWM
 
 export SBCL_HOME=$HOME/.local/lib/sbcl # set sbcl to local build
