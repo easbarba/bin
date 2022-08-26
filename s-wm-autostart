@@ -7,14 +7,15 @@ LOCAL_BIN="$HOME/.local/bin"
 
 # ===================================================
 # * LIST OF PROGRAMS
-TOOLS=('udiskie --notify --tray'
-  'blueman-applet'
+TOOLS=('blueman-applet'
   'dunst'
   'picom'
-  'nm-applet --indicator'
-  'mpd')
+  "$LOCAL_BIN/nm-applet --indicator"
+  'udiskie --notify --tray')
 
 APPS=("$LOCAL_BIN/s-run-emacs"
+  'mpd'
+  's-wm-wall'
   'zathura'
   'chromium')
 
