@@ -17,7 +17,7 @@ GPUT="\Uf11b $(sensors 2>&1 | gawk '/edge/ {print substr($2, 2)}')" # sensors 2>
 MEMORY="\Uf18d $(free -m | gawk 'NR==2 {printf "%dMB\n", $3,$2,$3*100/$2 }')"
 VOLUME="\Uf026 $(pactl list sinks | gawk '/Volume: front/ {print $5}')"
 KERNEL=$(gawk '{ print substr($3,1,4)}' /proc/version) # uname -r | sed 's/.//5g'
-UPTIME=$(uptime -p | gawk '{ print $2 "d|" $4 "h"}')   # uptime -p | awk '{print $2 $3}' | tr -d ','
+UPTIME=$(uptime | gawk '{ print $2 "d|" $4 "h"}')      # uptime -p | awk '{print $2 $3}' | tr -d ','
 
 _cpuf() {
     read -r _ a b c previdle rest </proc/stat
