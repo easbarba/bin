@@ -6,6 +6,32 @@ set -euo pipefail
 DEPS=(sudo dnf usermod command systemctl tee)
 s-checkdeps "${DEPS[@]}"
 
+INSTALL='sudo dnf install -y'
+
+if [[ ! -x $(command -v podman) ]]; then
+    $INSTALL podman podman-compose
+
+    sudo systemctl enable podman.socket
+    sudo systemctl start podman.socket
+
+    sudo sysctl kernel.unprivileged_userns_clone
+
+    # Add a new group called podman so its easier to manage who can run podman w/out sudo
+    echo '%podman ALL=(ALL) NOPASSWD: /usr/bin/podman' | sudo tee -a /etc/sudoers.d/podman
+
+    # Set subuid and subgid
+    sudo touch /etc/subuid /etc/subgid
+    sudo chmod 644 /etc/subuid /etc/subgid
+    sudo usermod --add-subuids 100000-165535 --add-subgids 100000-165535 $USER
+
+    # Rootless Podman
+    podman system migrate
+fi
+
+exit
+
+# TODO: check and up to date every statement below
+
 if [[ ! -x $(command -v docker) ]]; then
     # uninstall old versions
     sudo dnf remove docker docker-client docker-client-latest \
@@ -166,28 +192,6 @@ _vagrant() {
     }
 
     _install
-}
-
-_podman() {
-    _install() {
-        sudo dnf install -y podman podman-compose
-    }
-
-    _services() {
-        sudo systemctl enable podman.socket
-        sudo systemctl start podman.socket
-        sudo systemctl status podman.socket
-    }
-
-    _post() {
-        # Add a new group called podman so its easier to manage who can run podman w/out sudo
-        echo '%podman ALL=(ALL) NOPASSWD: /usr/bin/podman' | sudo tee -a /etc/sudoers.d/podman
-    }
-
-    # run
-    for func in {_install,_services,_post}; do
-        $func
-    done
 }
 
 _podman_docker_compose() {
