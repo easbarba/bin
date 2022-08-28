@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-FOLDER="$HOME/Pictures/wallpapers"
+FOLDER="$HOME/Pictures/wallpapers/"
 WALL="$(find "$FOLDER" -type f | shuf -n 1)"
 
 echo "wallpaper: $WALL"
