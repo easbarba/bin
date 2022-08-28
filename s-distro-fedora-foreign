@@ -33,3 +33,12 @@ groups=("${media[@]}"
 for group in "${groups[@]}"; do
 	s-dolist "$INSTALL" "$group"
 done
+
+# =================================
+s-echo "Foreign packages"
+
+if [[ ! -x $(command -v flatpak) ]]; then
+	sudo flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
+fi
+
+exit
