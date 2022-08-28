@@ -1,97 +1,87 @@
 #!/usr/bin/env bash
 
-# Debug Options
+# DEBUG OPTIONS
 set -euo pipefail
 
-DEPS=(sudo dnf wget systemctl fc-cache)
+DEPS=(sudo apt wget systemctl timedatectl fc-cache firewalld)
 s-checkdeps "${DEPS[@]}"
 
-s-echo "Fedora"
+REMOVE='sudo dnf remove -y'
+PURGE='sudo dnf purge -y'
+INSTALL='sudo dnf install -y'
 
+
+# =================================
 s-echo "Upgrading System"
-sudo dnf update -y
 sudo dnf upgrade -y
 
-s-echo "Installing system packages"
+# =================================
 
-essentials=(git openssh curl unzip bash tmux zile lynx)
+s-echo "System Packages"
 
-system=(zip p7zip recutils lshw at usbutils lsof atool perf time entr tree
-	bc htop strace ltrace cpio lzop libnotify jq rsync pv texinfo unrar nscd
-	autoconf automake socat)
+arch=()
 
-network=(net-tools iproute telnet)
+gnu=(bash gcc make wget screen parallel gawk parted) # info recutils
 
-programming=(gawk git-email subversion mercurial direnv libpq editorconfig)
+system=(git openssh unzip zip p7zip at usbutils lsof atool time entr tree bc curl
+	strace ltrace cpio lzop rsync pv texinfo autoconf automake socat tmux
+	rpmbuild)
 
-shell=(bash-completion ShellCheck zsh fish)
+shell=(bash-completion ShellCheck fish)
 
-editors=(emacs vim neovim libstdc++-static)
+fonts=(dejavu-fonts jetbrains-mono-fonts liberation-fonts google-noto-emoji-fonts) 
+# ttf-droid adobe-source-sans-fonts adobe-source-han-sans-otc-fonts
 
-gnu=(gcc make info wget parallel)
+laptop=(acpi lm-sensors lshw libinput-tools)
 
-languages=(golang guile30 lua ruby-devel python3-pip nodejs npm)
+wayland=(sway swaybg swaylock swayidle foot grim slurp wl-clipboard
+xorg-x11-server-Xwayland mako) #clipman
 
-laptop=(acpi lm_sensors)
+xorg=(xorg-x11-server-Xorg xorg-x11-xinit-session xclip xsel feh scrot
+network-manager-applet xautolock)
 
-gnome=(gnome-tweaks gnome-shell-extension-auto-move-windows gnome-shell-extension-launch-new-instance)
+wm=(udiskie brightnessctl bluez blueman playerctl slock dmenu picom
+	awesome zathura-cb zathura-pdf-mupdf zathura-djvu zathura-ps
+	perl-File-MimeInfo)
 
-wmapps=(ffmpeg mpv elinks wl-clipboard)
+laptop=(acpid lm_sensors) #tlp vainfo i965-va-driver libvdpau-va-gl1 libiw-dev hddtemp acpi-call dialog sysstat)
 
-books=(pandoc) #  texlive texlive-xetex
+gtk=(atril cheese)
 
-user=(exaile gimp obs-studio xdg-utils ImageMagick aspell vlc
-	telegram-desktop calibre gaupol)
+kde=(ktorrent kate falkon krita kdeconnectd kdevelop) # kdenlive
 
-locale=(libreoffice-langpack-pt-BR aspell-pt_BR)
+cli=(alacritty htop neofetch elinks libnotify ranger aria2)
 
-media=(vorbis-tools gstreamer1-plugins-bad-free gstreamer1-plugins-base
-	gstreamer1-plugins-good gstreamer1-plugins-ugly)
+user=(chromium firefox libreoffice gimp xdg-utils ImageMagick aspell aspell-pt
+	aspell-en calibre pandoc inkscape)
 
-command='sudo dnf install -y'
+builds=(libX11-devel libXft-devel libXinerama-devel libXrandr-devel)
 
-enabled=(
-	"${essentials[@]}"
-	"${system[@]}"
+
+groups=("${arch[@]}"
 	"${gnu[@]}"
-	"${network[@]}"
+	"${system[@]}"
 	"${shell[@]}"
-	"${fedora[@]}"
-	"${languages[@]}"
-	"${programming[@]}"
-	"${editors[@]}"
-	"${gnome[@]}"
-	"${locale[@]}"
-	"${laptop[@]}"
-	"${wmapps[@]}"
-	"${books[@]}"
+	"${wayland[@]}"
+	"${xorg[@]}"
+	"${sound[@]}"
 	"${user[@]}"
-	"${media[@]}")
+	"${wm[@]}"
+    "${builds[@]}"
+	"${kde[@]}"
+	"${gtk[@]}"
+   "${cli[@]}"
+	"${laptop[@]}"
+	"${fonts[@]}")
 
-for i in "${enabled[@]}"; do
-	s-dolist "$command" "$i"
+for group in "${groups[@]}"; do
+	s-dolist "$INSTALL" "$group"
 done
 
-s-echo "System Services"
+# =================================
+s-echo "Post Install"
+mkdir -pv "$HOME"/{Downloads,Pictures,Documents,Videos,Builds,Projects,.local/bin}
 
-sudo firewall-cmd --zone=public --permanent --add-port=1714-1764/tcp
-sudo firewall-cmd --zone=public --permanent --add-port=1714-1764/udp
-sudo systemctl restart firewalld.service
+s-echo "Distro Services"
+sudo systemctl enable fstrim.timer
 
-sudo systemctl enable nscd
-sudo systemctl start nscd
-
-echo "Foreign packages"
-if [[ ! $(grep -rni 'rpmfusion-free' /etc/yum.repos.d) ]]; then
-	sudo dnf install "https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm" \
-		"https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm"
-fi
-
-if [[ ! -x $(command -v code) ]]; then
-	sudo rpm --import https://packages.microsoft.com/keys/microsoft.asc
-	sudo sh -c 'echo -e "[code]\nname=Visual Studio Code\nbaseurl=https://packages.microsoft.com/yumrepos/vscode\nenabled=1\ngpgcheck=1\ngpgkey=https://packages.microsoft.com/keys/microsoft.asc" > /etc/yum.repos.d/vscode.repo'
-
-	sudo dnf install -y code
-fi
-
-[[ ! -x $HOME/.cargo/bin/cargo ]] && curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
