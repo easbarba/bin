@@ -7,7 +7,7 @@ DEPS=(sudo apt curl python3 go systemctl tee gpasswd)
 s-checkdeps "${DEPS[@]}"
 
 INSTALL='sudo pacman -S --noconfirm'
-UPDATE='sudo apt-get update'
+# UPDATE='sudo apt-get update'
 
 if [[ ! -x $(command -v podman) ]]; then
     $INSTALL podman fuse-overlayfs slirp4netns
