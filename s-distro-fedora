@@ -10,7 +10,6 @@ REMOVE='sudo dnf remove -y'
 PURGE='sudo dnf purge -y'
 INSTALL='sudo dnf install -y'
 
-
 # =================================
 s-echo "Upgrading System"
 sudo dnf upgrade -y
@@ -29,16 +28,16 @@ system=(git openssh unzip zip p7zip at usbutils lsof atool time entr tree bc cur
 
 shell=(bash-completion ShellCheck fish)
 
-fonts=(dejavu-fonts jetbrains-mono-fonts liberation-fonts google-noto-emoji-fonts) 
+fonts=(dejavu-fonts jetbrains-mono-fonts liberation-fonts google-noto-emoji-fonts)
 # ttf-droid adobe-source-sans-fonts adobe-source-han-sans-otc-fonts
 
 laptop=(acpi lm-sensors lshw libinput-tools)
 
 wayland=(sway swaybg swaylock swayidle foot grim slurp wl-clipboard
-xorg-x11-server-Xwayland mako) #clipman
+	xorg-x11-server-Xwayland mako) #clipman
 
 xorg=(xorg-x11-server-Xorg xorg-x11-xinit-session xclip xsel feh scrot
-network-manager-applet xautolock)
+	network-manager-applet xautolock)
 
 wm=(udiskie brightnessctl bluez blueman playerctl slock dmenu picom
 	awesome zathura-cb zathura-pdf-mupdf zathura-djvu zathura-ps
@@ -53,10 +52,9 @@ kde=(ktorrent kate falkon krita kdeconnectd kdevelop) # kdenlive
 cli=(alacritty htop neofetch elinks libnotify ranger aria2)
 
 user=(chromium firefox libreoffice gimp xdg-utils ImageMagick aspell aspell-pt
-	aspell-en calibre pandoc inkscape)
+	aspell-en calibre pandoc inkscape discord telegram-desktop)
 
 builds=(libX11-devel libXft-devel libXinerama-devel libXrandr-devel)
-
 
 groups=("${arch[@]}"
 	"${gnu[@]}"
@@ -67,10 +65,10 @@ groups=("${arch[@]}"
 	"${sound[@]}"
 	"${user[@]}"
 	"${wm[@]}"
-    "${builds[@]}"
+	"${builds[@]}"
 	"${kde[@]}"
 	"${gtk[@]}"
-   "${cli[@]}"
+	"${cli[@]}"
 	"${laptop[@]}"
 	"${fonts[@]}")
 
@@ -84,4 +82,3 @@ mkdir -pv "$HOME"/{Downloads,Pictures,Documents,Videos,Builds,Projects,.local/bi
 
 s-echo "Distro Services"
 sudo systemctl enable fstrim.timer
-
