@@ -36,7 +36,6 @@ s-echo "Upgrading $DISTRO system packages."
 # ** FOREIGN
 s-echo "Foreign installers"
 
-s-distro-guix
 s-distro-flatpak
 
 # ** EDITORS
@@ -46,6 +45,8 @@ s-dev-emacs
 
 # ** LANGS
 s-echo "Languages package installers"
+
+s-dev-ruby
 
 # * USER
 s-echo "User tasks"
