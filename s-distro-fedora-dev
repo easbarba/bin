@@ -1,0 +1,26 @@
+#!/usr/bin/env bash
+
+# Debug Options
+set -euo pipefail
+
+DEPS=(apt-get bash)
+s-checkdeps "${DEPS[@]}"
+
+COMMAND='sudo dnf install -y'
+
+# PROGRAMMING LANGUAGES
+LANGS_HOBBY=(guile) # sbcl libfixposixpacman libssl-dev libzstd-dev
+s-dolist "$COMMAND" "${LANGS_HOBBY[@]}"
+
+LANGS_WORK=(java-17-openjdk clang)
+s-dolist "$COMMAND" "${LANGS_WORK[@]}"
+
+# PROGRAMMING EDITORS
+EDITORS=(zile vim neovim)
+s-dolist "$COMMAND" "${EDITORS[@]}"
+
+# PROGRAMMING TOOLS
+TOOLS=(jq subversion mercurial direnv editorconfig fd-find tidy ripgrep shfmt git-email)
+s-dolist "$COMMAND" "${TOOLS[@]}"
+
+exit
