@@ -1,0 +1,35 @@
+#!/usr/bin/env bash
+
+# DEBUG OPTIONS
+set -euo pipefail
+
+DEPS=(sudo apt wget systemctl timedatectl fc-cache firewalld)
+s-checkdeps "${DEPS[@]}"
+
+sudo dnf install \
+ https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E
+ %fedora).noarch.rpm
+
+sudo dnf install \
+  https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm
+  -E %fedora).noarch.rpm
+
+sudo dnf groupupdate multimedia --setop="install_weak_deps=False" \
+    --exclude=PackageKit-gstreamer-plugin
+
+sudo dnf groupupdate sound-and-video
+
+INSTALL=sudo dnf install -y
+
+media=(mpv ffmpeg mpc mpd ncmpcpp )
+
+sound=(pipewire pipewire-pulse lib32-pipewire pipewire-docs) # wireplumber pulseaudio-utils
+
+amd=(amd-ucode mesa lib32-mesa xf86-video-amdgpu vulkan-radeon lib32-vulkan-radeon)
+
+groups=("${media[@]}"
+	"${sound[@]}") # 	"${amd[@]}"
+
+for group in "${groups[@]}"; do
+	s-dolist "$INSTALL" "$group"
+done
