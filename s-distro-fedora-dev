@@ -15,6 +15,9 @@ s-dolist "$COMMAND" "${LANGS_HOBBY[@]}"
 LANGS_WORK=(java-17-openjdk java-17-openjdk-devel clang)
 s-dolist "$COMMAND" "${LANGS_WORK[@]}"
 
+LANGS_TOOLS=(maven ant)
+s-dolist "$COMMAND" "${LANGS_TOOLS[@]}"
+
 # PROGRAMMING EDITORS
 EDITORS=(zile vim neovim)
 s-dolist "$COMMAND" "${EDITORS[@]}"
