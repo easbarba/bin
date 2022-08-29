@@ -4,6 +4,9 @@
 # TODO: permited media files extension
 # TODO: walk through all sub-directories if required
 
+# Requirements
+# gem install taglib-ruby
+
 require 'taglib'
 require 'pathname'
 require 'optparse'
