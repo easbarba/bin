@@ -52,7 +52,7 @@ kde=(ktorrent kate falkon krita kdeconnectd kdevelop) # kdenlive
 cli=(alacritty htop neofetch elinks libnotify ranger aria2)
 
 user=(chromium firefox libreoffice gimp xdg-utils ImageMagick aspell aspell-pt
-	aspell-en calibre pandoc inkscape discord telegram-desktop)
+	aspell-en calibre pandoc inkscape discord telegram-desktop pavucontrol)
 
 builds=(libX11-devel libXft-devel libXinerama-devel libXrandr-devel)
 
