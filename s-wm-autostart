@@ -16,7 +16,7 @@ TOOLS=('blueman-applet'
 APPS=("$LOCAL_BIN/s-run-emacs"
   'mpd'
   's-wm-wall'
-  'zathura'
+  'evince'
   'chromium-browser')
 
 XORG=('alacritty'
