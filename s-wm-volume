@@ -26,10 +26,6 @@ class Commands
   def down
     manager.down
   end
-
-  def info
-    manager.to_s
-  end
 end
 
 # List of available sound managers
@@ -50,16 +46,16 @@ class Pactl
   EXEC = '/usr/bin/pactl'
   STEP = 3
 
-  output_data = { id: '@DEFAULT_SINK@',
-                  toggle: "#{EXEC} set-sink-mute #{id} toggle",
-                  up: "#{EXEC} set-sink-volume #{id} +#{STEP}%",
-                  down: "#{EXEC} set-sink-volume #{id} -#{STEP}%" }
+  output_id = '@DEFAULT_SINK@'
+  output_data = { toggle: "#{EXEC} set-sink-mute #{output_id} toggle",
+                  up: "#{EXEC} set-sink-volume #{output_id} +#{STEP}%",
+                  down: "#{EXEC} set-sink-volume #{output_id} -#{STEP}%" }
   output = OpenStruct.new(output_data)
 
-  input_data = { id: '@DEFAULT_SOURCE@', 
-                 toggle: "#{EXEC} set-source-mute #{id} toggle",
-                 up: "#{EXEC} set-source-volume #{id} +#{STEP}%",
-                 down: "#{EXEC} set-source-volume #{id} -#{STEP}%" }
+  input_id= '@DEFAULT_SOURCE@' 
+  input_data = { toggle: "#{EXEC} set-source-mute #{input_id} toggle",
+                 up: "#{EXEC} set-source-volume #{input_id} +#{STEP}%",
+                 down: "#{EXEC} set-source-volume #{input_id} -#{STEP}%" }
   input = OpenStruct.new(input_data)
 
   def to_s
