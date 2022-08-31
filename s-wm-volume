@@ -51,15 +51,15 @@ class Pactl
   STEP = 3
 
   output_data = { id: '@DEFAULT_SINK@',
-                  toggle: "#{EXEC} set-sink-mute #{sink} toggle",
-                  up: "#{EXEC} set-sink-volume #{sink} +#{STEP}%",
-                  down: "#{EXEC} set-sink-volume #{sink} -#{STEP}%" }
+                  toggle: "#{EXEC} set-sink-mute #{id} toggle",
+                  up: "#{EXEC} set-sink-volume #{id} +#{STEP}%",
+                  down: "#{EXEC} set-sink-volume #{id} -#{STEP}%" }
   output = OpenStruct.new(output_data)
 
   input_data = { id: '@DEFAULT_SOURCE@', 
-                 toggle: "#{EXEC} set-source-mute #{input_id} toggle",
-                 up: "#{EXEC} set-source-volume #{input_id} toggle",
-                 down: "#{EXEC} set-source-volume #{input_id} toggle" }
+                 toggle: "#{EXEC} set-source-mute #{id} toggle",
+                 up: "#{EXEC} set-source-volume #{id} +#{STEP}%",
+                 down: "#{EXEC} set-source-volume #{id} -#{STEP}%" }
   input = OpenStruct.new(input_data)
 
   def to_s
