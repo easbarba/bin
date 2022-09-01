@@ -4,27 +4,38 @@
 require 'ostruct'
 
 # Commands available
-class Commands
-  attr_reader :manager
-
-  def initialize
+class Volume
+  def initialize(options)
+    @options = options
     @manager = Managers.new.first { |exec| File.executable?(exec.to_s) }
   end
 
-  def toggle
-    manager.toggle
+  def final_command
+    result = case @options[:action]
+             when :down
+               @manager.output.down
+             when :up
+               @manager.output.up
+             when :toggle
+               @manager.output.toggle
+             end
+
+    if @options[:direction] === :input
+      result = case @options[:action]
+               when :down
+                 @manager.input.down
+               when :up
+                 @manager.input.up
+               when :toggle
+                 @manager.input.toggle
+               end
+    end
+
+    result
   end
 
-  def mic
-    manager.mic
-  end
-
-  def up
-    manager.up
-  end
-
-  def down
-    manager.down
+  def run
+    system final_command
   end
 end
 
@@ -43,20 +54,15 @@ end
 
 # pactl - Control a running PulseAudio sound server
 class Pactl
+  attr_reader :input, :output
+
   EXEC = '/usr/bin/pactl'
   STEP = 3
 
-  output_id = '@DEFAULT_SINK@'
-  output_data = { toggle: "#{EXEC} set-sink-mute #{output_id} toggle",
-                  up: "#{EXEC} set-sink-volume #{output_id} +#{STEP}%",
-                  down: "#{EXEC} set-sink-volume #{output_id} -#{STEP}%" }
-  output = OpenStruct.new(output_data)
-
-  input_id= '@DEFAULT_SOURCE@' 
-  input_data = { toggle: "#{EXEC} set-source-mute #{input_id} toggle",
-                 up: "#{EXEC} set-source-volume #{input_id} +#{STEP}%",
-                 down: "#{EXEC} set-source-volume #{input_id} -#{STEP}%" }
-  input = OpenStruct.new(input_data)
+  def initialize
+    @output = OpenStruct.new(output_data)
+    @input = OpenStruct.new(input_data)
+  end
 
   def to_s
     <<~INFO
@@ -67,6 +73,22 @@ class Pactl
 
       #{`pactl info`}
     INFO
+  end
+
+  private
+
+  def output_data
+    output_id = '@DEFAULT_SINK@'
+    { toggle: "#{EXEC} set-sink-mute #{output_id} toggle",
+      up: "#{EXEC} set-sink-volume #{output_id} +#{STEP}%",
+      down: "#{EXEC} set-sink-volume #{output_id} -#{STEP}%" }
+  end
+
+  def input_data
+    input_id = '@DEFAULT_SOURCE@'
+    { toggle: "#{EXEC} set-source-mute #{input_id} toggle",
+      up: "#{EXEC} set-source-volume #{input_id} +#{STEP}%",
+      down: "#{EXEC} set-source-volume #{input_id} -#{STEP}%" }
   end
 end
 
