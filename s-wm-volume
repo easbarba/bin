@@ -134,37 +134,32 @@ class Pipewire
   end
 end
 
-module Cli
-  require 'optparse'
+options = {}
+oparser = OptionParser.new do |opts|
+  opts.banner = 'Usage: volume [options]'
 
-  def self.options
-    cmds = Commands.new
+  opts.on('-u', '--up', 'Increase volume') do
+    options[:action] = :up
+  end
 
-    OptionParser.new do |opts|
-      opts.banner = 'Usage: volume [options]'
+  opts.on('-d', '--down', 'Decrease volume') do
+    options[:action] = :down
+  end
 
-      opts.on('-u', '--up', 'Increase volume') do
-        system cmds.up
-      end
+  opts.on('-t', '--toggle', 'Toggle volume') do
+    options[:action] = :toggle
+  end
 
-      opts.on('-d', '--down', 'Decrease volume') do
-        system cmds.down
-      end
+  opts.on('-i', '--input', 'Manage input settings') do
+    options[:direction] = :input
+  end
 
-      opts.on('-t', '--toggle', 'Toggle volume') do
-        system cmds.toggle
-      end
-
-      opts.on('-i', '--input', 'Manage input settings') do
-        puts cmds.info
-      end
-
-      opts.on('-i', '--input', 'Manage input settings') do
-        puts cmds.info
-      end
-    end
+  opts.on('-o', '--output', 'Manage output settings') do
+    options[:direction] = :output
   end
 end
 
-Cli.options.parse! ['--help'] if ARGV.empty?
-Cli.options.parse!
+oparser.parse! ['--help'] if ARGV.empty?
+oparser.parse!
+
+Volume.new(options).run
