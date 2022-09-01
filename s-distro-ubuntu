@@ -1,188 +1,113 @@
 #!/usr/bin/env bash
 
-# Debug Options
+# DEBUG OPTIONS
 set -euo pipefail
 
-DEPS=(sudo apt wget systemctl timedatectl fc-cache)
+DEPS=(sudo apt wget systemctl timedatectl fc-cache firewalld)
 s-checkdeps "${DEPS[@]}"
 
-# =======================================
+REMOVE='sudo apt remove -y'
+PURGE='sudo apt purge -y'
+INSTALL='sudo apt-get install -y'
+
+s-echo "Welcome to Debian '$(cat /etc/debian_version)'"
+
+# =================================
 
 s-echo "Upgrading System"
-
 sudo apt update
 sudo apt upgrade -y
-sudo apt autoremove -y
 
-# =======================================
+# =================================
 
+s-echo "Pre Install"
 s-echo "Enable Multi-Arch"
-sudo dpkg --add-architecture i386
+#sudo dpkg --add-architecture i386
 
-# =======================================
+# =================================
 
-s-echo "Installing system packages"
+s-echo "System Packages"
 
-essentials=(git ssh curl unzip bash tmux zile lynx stterm)
+essentials=(git ssh curl unzip tmux)
 
-system=(zip p7zip p7zip-full recutils lshw at usbutils lsof atool
-	time entr tree bc htop strace ltrace cpio lhasa lzop unrar
-	libnotify-bin jq rsync pv texinfo autoconf automake socat ripgrep) #		linux-perf
+system=(zip p7zip p7zip-full recutils at usbutils lsof atool time entr tree bc
+	strace ltrace cpio lhasa lzop rsync pv texinfo autoconf automake socat)
 
-network=(net-tools iproute2 telnet)
+shell=(bash-completion shellcheck fish)
 
-infra=(podman ansible vagrant qemu qemu-utils qemu-efi qemu-kvm) # ebtables
+gnu=(bash gcc make vrms info wget parallel gawk screen parted)
 
-programming=(gawk git-email subversion mercurial direnv libpq-dev editorconfig sqlite3 tidy)
+fonts=(fonts-hack fonts-dejavu fonts-jetbrains-mono ttf-ancient-fonts fonts-nanum)
 
-shell=(bash-completion shellcheck zsh fish)
+laptop=(acpi lm-sensors lshw libinput-tools)
 
-editors=(neovim)
+debian=(build-essential apt-listbugs apt-listchanges reportbug aptitude apt-file gdebi)
 
-gnu=(gcc make vrms info wget parallel)
+wayland=(sway swaybg swaylock swayidle foot clipman grim slurp wl-clipboard xwayland mako-notifier)
 
-langs=(nodejs npm golang python3-pip ruby-dev libssl-dev lua5.4 lua-check) # luarocks
+xorg=(xorg xserver-xorg-core xclip xsel feh scrot network-manager-gnome xautolock)
 
-emacs=(emacs libgccjit-10-dev libwebkit2gtk-4.0-dev)
+wm=(udiskie brightnessctl bluez blueman mpd mpc ncmpcpp playerctl awesome awesome-extra)
 
-#	latex=(texlive-latex-recommended texlive-latex-extra texlive-latex-base)
+laptop=(acpid tlp vainfo i965-va-driver libvdpau-va-gl1 libiw-dev acpi-call dialog sysstat Antes de aprender a programar haha) # hddtemp
 
-fonts=(fonts-hack fonts-dejavu ttf-ancient-fonts fonts-nanum)
+gtk=(atril cheese)
 
-debian=(build-essential)
+kde=(ktorrent kdenlive kate falkon kdeconnect krita elisa) # plasma-workspace-wayland kamoso  kdevelop
 
-cliapps=(lm-sensors wl-clipboard)
+cli=(htop ffmpeg mpv elinks libnotify-bin ranger aria2 neofetch)
 
-wmapps=(ffmpeg mpv elinks) # udiskie bluez zathura aria2 playerctl brightnessctl libnotify-bin w3m dunst suckless-tools
+user=(zathura firefox libreoffice gimp xdg-utils imagemagick aspell aspell-pt-br
+	calibre pandoc obs-studio inkscape) # chromium
 
-books=(pandoc)
+sound=(pipewire pipewire-pulse wireplumber pulseaudio-utils)
 
-user=(gnome-tweaks firefox libreoffice gimp obs-studio xdg-utils imagemagick aspell
-	clementine aspell-pt-br telegram-desktop calibre gaupol kdeconnect)
-
-media=(vorbis-tools gstreamer1.0-plugins-bad gstreamer1.0-plugins-base
-	gstreamer1.0-plugins-good gstreamer1.0-plugins-ugly)
+media=(libtag1-dev vorbis-tools gstreamer1.0-plugins-bad
+	gstreamer1.0-plugins-base gstreamer1.0-plugins-good
+	gstreamer1.0-plugins-ugly libavcodec58)
 
 amd=(firmware-linux-nonfree amd64-microcode firmware-amd-graphics
-	libgl1-mesa-dri libglx-mesa0 mesa-utils libgl1-mesa-glx mesa-vulkan-drivers xserver-xorg-video-all
-	libglx-mesa0:i386 mesa-vulkan-drivers:i386 libgl1-mesa-dri:i386
-	radeontop)
+	libgl1-mesa-dri libglx-mesa0 mesa-utils libgl1-mesa-glx mesa-vulkan-drivers
+	xserver-xorg-video-all libglx-mesa0:i386 mesa-vulkan-drivers:i386
+	libgl1-mesa-dri:i386 radeontop)
 
-local command='sudo apt install -y'
-
-enabled=(
-	"${essentials[@]}"
+groups=("${essentials[@]}"
+#	"${debian[@]}"
 	"${system[@]}"
 	"${gnu[@]}"
 	"${shell[@]}"
-	"${debian[@]}"
-	"${langs[@]}"
-	"${programming[@]}"
-	"${editors[@]}"
-	"${emacs[@]}"
-	"${infra[@]}"
-	"${fonts[@]}"
-	"${security[@]}"
-	"${cliapps[@]}"
-	"${wmapps[@]}"
-	"${user[@]}"
 	"${media[@]}"
-	"${books[@]}")
+	"${sound[@]}"
+	"${user[@]}"
+	"${wayland[@]}"
+	"${xorg[@]}"
+	"${wm[@]}"
+	"${kde[@]}"
+	"${gtk[@]}"
+	"${cli[@]}"
+	"${laptop[@]}"
+#	"${amd[@]}"
+	"${fonts[@]}")
 
-for i in "${enabled[@]}"; do
-	s-dolist "$command" "$i"
+for group in "${groups[@]}"; do
+	s-dolist "$INSTALL" "$group"
 done
 
-# =======================================
-
-# builds dep
+# =================================
+s-echo "Post Install"
 sudo apt -y build-dep emacs
+sudo apt-file update # update Debian database
 
+# =================================
 s-echo "Clean up"
+UNUSED=(firefox-esr)
+s-dolist "$REMOVE" "${UNUSED[@]}"
 
-unused=(firefox-esr)
-command='sudo apt remove -y'
-s-dolist "$command" "${unused[@]}"
-
-purging=(*nvidia*)
-command='sudo apt purge -y'
-s-dolist "$command" "${purging[@]}"
-
-# =======================================
+TOPURGE=(*nvidia*)
+s-dolist "$PURGE" "${TOPURGE[@]}"
 
 s-echo "Debian Services"
+sudo systemctl enable fstrim.timer
 
-# kdeconnect
-sudo firewall-cmd --zone=public --permanent --add-port=1714-1764/tcp
-sudo firewall-cmd --zone=public --permanent --add-port=1714-1764/udp
-sudo systemctl restart firewalld.service
+exit
 
-# infra
-sudo usermod -aG libvirt "$USER"
-sudo usermod -aG kvm "$USER"
-
-# =======================================
-
-echo "Non-Debian packages"
-
-# _flatpak() {
-sudo apt install -y flatpak gnome-software-plugin-flatpak
-sudo flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
-
-# _docker() {
-sudo apt-get install ca-certificates curl gnupg lsb-release
-
-# Add Docker’s official GPG key:
-curl -fsSL https://download.docker.com/linux/debian/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
-
-# set up the stable repository
-echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/debian bullseye stable" | sudo tee /etc/apt/sources.list.d/docker.list >/dev/null
-
-# Install Docker Engine
-sudo apt-get update -y
-sudo apt-get install -y docker-ce docker-ce-cli containerd.io
-
-sudo groupadd docker
-sudo usermod -aG docker $USER
-
-# _chrome() {
-wget -P "/tmp" https://dl.google.com/linux/direct/google-chrome-stable-current_amd64.deb
-sudo apt install -y /tmp/google-chrome-stable-current_amd64.deb
-
-# _virtualbox() {
-wget -P "/tmp" https://download.virtualbox.org/virtualbox/6.1.28/virtualbox-6.1_6.1.28-147628~Debian~bullseye-amd64.deb
-sudo apt install -y /tmp/virtualbox-6.1_6.1.28-147628~Debian~bullseye-amd64.deb
-
-# _vagrant() {
-curl -fsSL https://apt.releases.hashicorp.com/gpg | sudo apt-key add -
-sudo apt-add-repository "deb [arch=amd64] https://apt.releases.hashicorp.com buster main"
-
-sudo apt install -y software-properties-common
-sudo apt update
-sudo apt install -y vagrant
-
-# _vscode() {
-wget -c "https://code.visualstudio.com/sha/download?build=stable&os=linux-deb-x64" -O '/tmp/vscode-x64.deb'
-sudo apt install -y /tmp/vscode-x64.deb
-
-# _hyper() {
-wget -c "https://releases.hyper.is/download/deb" -O '/tmp/hyper.deb'
-sudo apt install -y /tmp/hyper.deb
-
-# _hashicorp() {
-curl -fsSL https://apt.releases.hashicorp.com/gpg | sudo apt-key add -
-
-sudo apt-add-repository "deb [arch=$(dpkg --print-architecture)] https://apt.releases.hashicorp.com $(lsb_release -cs) main"
-sudo apt update
-sudo apt install -y terraform packer
-
-if [[ -x $(command -v aws) ]]; then
-
-	cd /tmp
-	curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
-	unzip awscliv2.zip
-
-	sudo /tmp/aws/install
-
-	[[ -x $(command -v aws) ]] && rm -rf /tmp/aws /tmp/awscliv2.zip
-fi

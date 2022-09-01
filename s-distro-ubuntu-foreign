@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+
+# DEBUG OPTIONS
+set -euo pipefail
+
+DEPS=(sudo apt wget systemctl timedatectl fc-cache firewalld)
+s-checkdeps "${DEPS[@]}"
+
+REMOVE='sudo apt remove -y'
+PURGE='sudo apt purge -y'
+INSTALL='sudo apt-get install -y'
+
+# =================================
+s-echo "Foreign packages"
+
+if [[ ! -x $(command -v flatpak) ]]; then
+	$INSTALL flatpak gnome-software-plugin-flatpak
+	sudo flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
+fi
