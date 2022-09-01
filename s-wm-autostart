@@ -17,7 +17,7 @@ APPS=("$LOCAL_BIN/s-run-emacs"
   'mpd'
   's-wm-wall'
   'evince'
-  'chromium-browser')
+  'firefox')
 
 XORG=('alacritty'
   'xautolock -time 8 -locker "i3lock" -detectsleep'
