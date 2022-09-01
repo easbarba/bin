@@ -2,6 +2,7 @@
 # frozen_string_literal: true
 
 require 'ostruct'
+require 'optparse'
 
 # Commands available
 class Volume
