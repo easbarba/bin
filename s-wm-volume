@@ -12,27 +12,17 @@ class Volume
   end
 
   def final_command
-    result = case @options[:action]
-             when :down
-               @manager.output.down
-             when :up
-               @manager.output.up
-             when :toggle
-               @manager.output.toggle
-             end
+    direction = @manager.output
+    direction = @manager.input if @options[:direction] == :input
 
-    if @options[:direction] === :input
-      result = case @options[:action]
-               when :down
-                 @manager.input.down
-               when :up
-                 @manager.input.up
-               when :toggle
-                 @manager.input.toggle
-               end
+    case @options[:action]
+    when :down
+      direction.down
+    when :up
+      direction.up
+    when :toggle
+      direction.toggle
     end
-
-    result
   end
 
   def run
