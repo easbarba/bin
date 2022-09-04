@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+
+# DEBUG OPTIONS
+set -euo pipefail
+
+DEPS=(systemctl)
+s-checkdeps "${DEPS[@]}"
+
+s-echo "Services"
+sudo systemctl enable fstrim.timer
+
+# pipewire
+systemctl --user --now enable wireplumber pipewire pipewire-pulse
+
+# autostart ssh agent
+# systemctl --user --now enable ssh-agent.service
