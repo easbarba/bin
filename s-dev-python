@@ -8,14 +8,15 @@ s-checkdeps "${DEPS[@]}"
 
 COMMAND="python3 -m pip install --upgrade"
 
-TOOLS=(black pipenv pyflakes pytest isort nose poetry)
-s-dolist "$COMMAND" "${TOOLS[@]}"
+tools=(black pipenv pyflakes pytest isort nose poetry)
+libs=(beautifulsoup4 interval)
+apps=(yt-dlp cryptography)
 
-LIBS=(beautifulsoup4 interval)
-s-dolist "$COMMAND" "${LIBS[@]}"
+groups=("${tools[@]}" "${libs[@]}" "${apps[@]}")
 
-APPS=(yt-dlp cryptography)
-s-dolist "$COMMAND" "${APPS[@]}"
+for group in "${groups[@]}"; do
+    s-dolist "$COMMAND" "${group[@]}"
+done
 
 exit
 

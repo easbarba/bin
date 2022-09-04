@@ -7,7 +7,7 @@ DEPS=(sudo guix wget bash)
 s-checkdeps "${DEPS[@]}"
 COMMAND="guix install"
 
-packages=(nss-certs font-dejavu neofetch)
+packages=(nss-certs font-dejavu)
 apps=(haunt)
 langs=(guile guile-readline)
 
