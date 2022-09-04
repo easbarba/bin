@@ -14,11 +14,11 @@ TOOLS=('blueman-applet'
 APPS=("$LOCAL_BIN/s-run-emacs"
   'mpd'
   's-wm-wall'
-  'evince'
-  'firefox')
+  'atril'
+  'google-chrome')
 
 XORG=('st'
-  'xautolock -time 8 -locker "i3lock" -detectsleep'
+  'xautolock -time 8 -locker "slock" -detectsleep'
   'setxkbmap -model abnt2 -layout br -variant abnt2')
 
 WAYLAND=("foot")
