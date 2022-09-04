@@ -13,18 +13,22 @@ MX=(emacs libgccjit0 libgccjit-12-dev libwebkit2gtk-4.0-dev libjansson-dev libja
 s-dolist "$COMMAND" "${MX[@]}"
 
 # PROGRAMMING LANGUAGES
-LANGS_HOBBY=(sbcl libssl-dev libfixposix-dev libzstd-dev guile-3.0)
+LANGS_HOBBY=(libzstd-dev guile-3.0)
 s-dolist "$COMMAND" "${LANGS_HOBBY[@]}"
 
-LANGS_WORK=(openjdk-17-jre openjdk-17-jdk)
+LANGS_WORK=(openjdk-17-jre openjdk-17-jdk ruby-full)
 s-dolist "$COMMAND" "${LANGS_WORK[@]}"
+
+LANGS_TOOLS=(clang-format maven ant)
+s-dolist "$COMMAND" "${LANGS_TOOLS[@]}"
 
 # PROGRAMMING EDITORS
 EDITORS=(zile vim neovim tidy ripgrep)
 s-dolist "$COMMAND" "${EDITORS[@]}"
 
 # PROGRAMMING TOOLS
-TOOLS=(jq git-email subversion mercurial libpq-dev editorconfig gnome-keyring direnv fd-find)
+TOOLS=(jq git-email subversion mercurial libpq-dev editorconfig gnome-keyring
+direnv fd-find shfmt)
 s-dolist "$COMMAND" "${TOOLS[@]}"
 
 exit
