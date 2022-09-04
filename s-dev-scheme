@@ -44,8 +44,5 @@ s-dolist "guix install" "${PACKAGES[@]}"
 LANGS=(guile guile-readline)
 s-dolist "guix install" "${LANGS[@]}"
 
-TOOLS=(maven ant)
-s-dolist "guix install" "${TOOLS[@]}"
-
 APPS=(haunt) # font-gnu-freefont-ttf
 s-dolist "guix install" "${APPS[@]}"
