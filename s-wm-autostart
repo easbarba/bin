@@ -8,9 +8,7 @@ LOCAL_BIN="$HOME/.local/bin"
 # ===================================================
 # * LIST OF PROGRAMS
 TOOLS=('blueman-applet'
-  'dunst'
-  'picom'
-  "$LOCAL_BIN/nm-applet --indicator"
+  "nm-applet --indicator"
   'udiskie --notify --tray')
 
 APPS=("$LOCAL_BIN/s-run-emacs"
@@ -19,7 +17,7 @@ APPS=("$LOCAL_BIN/s-run-emacs"
   'evince'
   'firefox')
 
-XORG=('alacritty'
+XORG=('st'
   'xautolock -time 8 -locker "i3lock" -detectsleep'
   'setxkbmap -model abnt2 -layout br -variant abnt2')
 
@@ -29,7 +27,9 @@ WAYLAND=("foot")
 # * HELPERS
 
 not_found() {
+  # type: boolean
   # check if program executable is found
+
   local app=$(echo "$1" | awk '{ print $1}') # get first word of command string with options given
 
   [[ ! -x $(command -v "$app") ]]
@@ -43,13 +43,14 @@ is_running() {
 }
 
 run() {
-  # run program as background process
-  # TODO: use dbus-session-run
+  # type: void
+  # run program as gnu bash background process
 
   nohup bash -c "$1" &
 }
 
 dolist() {
+  # type: void
   # given a list of programs, perform a few tasks before running.
 
   local apps=("$@")
