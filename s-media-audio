@@ -13,11 +13,15 @@ s-checkdeps "${DEPS[@]}"
 FREE=(vorbis mp3)
 EXT="${FREE[0]}"
 URL="$(s-url)"
-FOLDER="$HOME/Music/temp"
+AUDIO_FOLDER="$HOME/Music/temp"
+LOG_FOLDER="$HOME/.config/misc"
 
-cd "$FOLDER"
+# CREATE REQUIRED FOLDERS
+[[ ! -d $VIDEO_FOLDER ]] && mkdir "$AUDIO_FOLDER"
+[[ ! -d $LOG_FOLDER ]] && mkdir "$LOG_FOLDER"
+cd "$AUDIO_FOLDER"
 
-# GETTERS ATTRIBUTES
+# GETTERS COMMANDS
 declare -A YTDL
 YTDL=([bin]='yt-dlp'
       [audio]='--extract-audio --audio-format'
@@ -25,10 +29,10 @@ YTDL=([bin]='yt-dlp'
 
 declare -A YOUTUBEDL
 YOUTUBEDL=([bin]='youtube-dl'
-      [audio]='--extract-audio --audio-format'
+      [format]='--extract-audio --audio-format'
       [title]="-o %(title)s.%(ext)s")
 
-# RUN
+# OUTPUT INFO
 INFO=$(
       cat <<EOF
 Format: $EXT
@@ -38,5 +42,9 @@ EOF
 )
 echo "$INFO"
 
-[[ -x $(command -v yt-dlp) ]] && ${YTDL[bin]} ${YTDL[audio]} $EXT ${YTDL[title]} $URL && exit
+# LOG AUDIO URL
+echo $URL >>"$LOG_FOLDER/audio"
+
+# RUN
+[[ -x $(command -v yt-dlp) ]] && ${YTDL[bin]} ${YTDL[format]} $EXT ${YTDL[title]} $URL && exit
 [[ -x $(command -v youtube-dl) ]] && ${YOUTUBEDL[bin]} ${YOUTUBEDL[audio]} "$EXT" ${YOUTUBEDL[title]} "$URL" && exit
