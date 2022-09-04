@@ -3,24 +3,23 @@
 # Debug Options
 set -euo pipefail
 
-DEPS=(apt-get bash)
+DEPS=(pacman)
 s-checkdeps "${DEPS[@]}"
 
-COMMAND='sudo pacman -S --noconfirm'
+INSTALL='sudo pacman -S --noconfirm'
 
-# PROGRAMMING LANGUAGES
-LANGS_HOBBY=(guile sbcl libfixposix) # libssl-dev libzstd-dev
-s-dolist "$COMMAND" "${LANGS_HOBBY[@]}"
+langs_hobby=(guile sbcl libfixposix) # libssl-dev libzstd-dev
+langs_work=(jre17-openjdk jdk17-openjdk clang)
+editors=(zile vim neovim)
+tools=(jq subversion mercurial editorconfig-checker direnv fd tidy ripgrep shfmt) # libpq-dev git-email gnome-keyring
 
-LANGS_WORK=(jre17-openjdk jdk17-openjdk clang)
-s-dolist "$COMMAND" "${LANGS_WORK[@]}"
+groups=("${langs_hobby[@]}"
+    "${langs_work[@]}"
+    "${editors[@]}"
+    "${tools[@]}")
 
-# PROGRAMMING EDITORS
-EDITORS=(zile vim neovim)
-s-dolist "$COMMAND" "${EDITORS[@]}"
-
-# PROGRAMMING TOOLS
-TOOLS=(jq subversion mercurial editorconfig-checker direnv fd tidy ripgrep shfmt) # libpq-dev git-email gnome-keyring
-s-dolist "$COMMAND" "${TOOLS[@]}"
+for group in "${groups[@]}"; do
+    s-dolist "$INSTALL" "$group"
+done
 
 exit
