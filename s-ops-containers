@@ -6,15 +6,19 @@ set -euo pipefail
 DEPS=(sudo podman)
 s-checkdeps "${DEPS[@]}"
 
-# latest
-containers=(golang ruby postgres)
-s-dolist "podman pull" "${containers[@]}"
+PULL='podman pull'
+REGISTRY='docker.io/library/'
 
-# alpine
-containers=(golang:alpine ruby:alpine postgres:13-alpine)
+stable=(openjdk:17-jdk openjdk:17-jdk ruby:3 node:16 postgres:14 mysql:8 ruby:3)
+small=(openjdk:17-jdk-alpine ruby:3-alpine node:16-alpine postgres:14-alpine)
+latest=(openjdk:19-jdk)
 
-s-dolist "podman pull" "${containers[@]}"
+groups=("${stable[@]}"
+    "${latest[@]}"
+    "${small[@]}")
 
-# debian
-containers=(golang:bullseye ruby:bullseye postgres:13-bullseye)
-s-dolist "podman pull" "${containers[@]}"
+for group in "${groups[@]}"; do
+    s-dolist "$PULL" "$group"
+done
+
+# docker images | grep -v REPOSITORY | awk 'BEGIN{OFS=":"} {print $1,$2}' | xargs -L1 docker pull

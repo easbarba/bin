@@ -49,6 +49,9 @@ s-echo "Languages package installers"
 
 s-dev-ruby
 
+# * CONTAINERS
+s-ops-containers
+
 # * USER
 s-echo "User tasks"
 
