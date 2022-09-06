@@ -48,6 +48,8 @@ s-dev-emacs
 s-echo "Languages package installers"
 
 s-dev-ruby
+s-dev-python
+s-dev-javascript
 
 # * CONTAINERS
 s-ops-containers
