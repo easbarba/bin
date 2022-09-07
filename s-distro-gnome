@@ -9,7 +9,6 @@ gsettings set org.gnome.desktop.wm.keybindings switch-to-workspace-2 "['<Super>2
 gsettings set org.gnome.desktop.wm.keybindings switch-to-workspace-3 "['<Super>3']"
 gsettings set org.gnome.desktop.wm.keybindings switch-to-workspace-4 "['<Super>4']"
 gsettings set org.gnome.desktop.wm.keybindings switch-to-workspace-5 "['<Super>5']"
-gsettings set org.gnome.desktop.wm.keybindings switch-to-workspace-6 "['<Super>6']"
 
 gsettings set org.gnome.desktop.wm.keybindings cycle-windows "['<Super>z']"
 
@@ -22,23 +21,19 @@ gsettings set org.gnome.desktop.wm.keybindings move-to-workspace-2 "['<Super><Sh
 gsettings set org.gnome.desktop.wm.keybindings move-to-workspace-3 "['<Super><Shift>3']"
 gsettings set org.gnome.desktop.wm.keybindings move-to-workspace-4 "['<Super><Shift>4']"
 gsettings set org.gnome.desktop.wm.keybindings move-to-workspace-5 "['<Super><Shift>5']"
-gsettings set org.gnome.desktop.wm.keybindings move-to-workspace-6 "['<Super><Shift>6']"
 
 # VOLUME
 gsettings set org.gnome.settings-daemon.plugins.media-keys volume-step 3
 gsettings set org.gnome.settings-daemon.plugins.media-keys volume-up "['<Shift><Super>w']"
 gsettings set org.gnome.settings-daemon.plugins.media-keys volume-down "['<Shift><Super>s']"
 gsettings set org.gnome.settings-daemon.plugins.media-keys volume-mute "['<Shift><Super>e']"
+gsettings set org.gnome.settings-daemon.plugins.media-keys mic-mute "['<Super>q']"
+gsettings set org.gnome.desktop.sound allow-volume-above-100-percent true
 
 # MEDIA
 gsettings set org.gnome.settings-daemon.plugins.media-keys next "['<Shift><Super>d']"
 gsettings set org.gnome.settings-daemon.plugins.media-keys previous "['<Shift><Super>a']"
-
-gsettings set org.gnome.settings-daemon.plugins.media-keys mic-mute "['<Super>q']"
-
-gsettings set org.gnome.desktop.sound allow-volume-above-100-percent true
 gsettings set org.gnome.desktop.wm.preferences audible-bell false
-
 gsettings set org.gnome.settings-daemon.plugins.media-keys play "['<Alt><Super>e']"
 gsettings set org.gnome.settings-daemon.plugins.media-keys previous "['<Alt><Super>a']"
 gsettings set org.gnome.settings-daemon.plugins.media-keys next "['<Alt><Super>d']"
@@ -59,7 +54,7 @@ gsettings set org.gnome.settings-daemon.plugins.power sleep-inactive-battery-typ
 gsettings set org.gnome.settings-daemon.plugins.power power-button-action suspend
 gsettings set org.gnome.desktop.lockdown disable-lock-screen true
 
-gsettings set org.gnome.settings-daemon.plugins.xrandr default-monitors-setup do-nothing
+# gsettings set org.gnome.settings-daemon.plugins.xrandr default-monitors-setup do-nothing
 
 # MISC
 gsettings set org.gnome.desktop.interface enable-hot-corners false
@@ -71,8 +66,8 @@ gsettings set org.gnome.desktop.interface clock-show-weekday true
 # gsettings set org.gnome.desktop.privacy report-technical-problems false
 gsettings set org.gnome.system.locale region "pt_BR.UTF-8"
 
-gsettings set org.gnome.desktop.wm.preferences num-workspaces 6
-gsettings set org.gnome.desktop.wm.preferences workspace-names "['www','term','mx','read', 'tune', 'media']"
+gsettings set org.gnome.desktop.wm.preferences num-workspaces 5
+gsettings set org.gnome.desktop.wm.preferences workspace-names "['mx','read', 'term','www', 'media']"
 
 gsettings set org.gnome.desktop.wm.keybindings toggle-maximized "['<Super>m']"
 
@@ -87,7 +82,7 @@ gsettings set org.gnome.desktop.wm.preferences auto-raise 'true'
 gsettings set org.gnome.desktop.wm.preferences focus-new-windows 'smart'
 
 # EXTENSIONS
-gsettings set org.gnome.shell.extensions.auto-move-windows application-list "['emacs.desktop:1', 'org.gnome.Evince.desktop:2', 'org.gnome.Terminal.desktop:3', 'firefox.desktop:4', 'vlc.desktop:5', 'transmission-gtk.desktop:5', 'rhythmbox-device.desktop:5', 'telegramdesktop.desktop:5', 'google-chrome.desktop:4', 'code.desktop:1', 'libreoffice-startcenter.desktop:2', 'libreoffice-writer.desktop:2', 'mpv.desktop:5']"
+gsettings set org.gnome.shell.extensions.auto-move-windows application-list "['emacs.desktop:1', 'org.gnome.Evince.desktop:2', 'libreoffice-startcenter.desktop:2', 'libreoffice-writer.desktop:2', 'org.gnome.Terminal.desktop:3', 'firefox.desktop:4', 'vlc.desktop:5', 'transmission-gtk.desktop:5', 'google-chrome.desktop:4', 'mpv.desktop:5', 'org.gnome.Music.desktop:5']"
 
 # APPS
 gsettings set org.gnome.Evince.Default fullscreen 'true'
