@@ -10,10 +10,12 @@ s-checkdeps "${DEPS[@]}"
 
 . "$HOME/.cargo/env"
 
+exit
+
 tools=(starship)
 apps=(fd-find ripgrep exa bat procs sd du-dust tokei)
 
-groups=("${tools[@]}" "${apps[@]}" "${LANGS[@]}")
+groups=("${tools[@]}" "${apps[@]}")
 
 for group in "${groups[@]}"; do
     s-dolist 'cargo install --locked' "$group"
