@@ -6,6 +6,8 @@ set -euo pipefail
 DEPS=(flatpak)
 s-checkdeps "${DEPS[@]}"
 
+[[ ! -x $(command -v flatpak) ]] && exit
+
 [[ ! "$(flatpak remotes)" == *'flathub'* ]] &&
     flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
 
@@ -16,12 +18,8 @@ UPDATE="flatpak update -y"
 # PACKAGES
 
 USER=(com.wps.Office io.github.NhekoReborn.Nheko)
-for package in "${USER[@]}"; do
-    s-dolist "$INSTALL" "${package[@]}"
-    s-dolist "$UPDATE" "${package[@]}"
-done
-
 DEVEL=(com.discordapp.Discord com.microsoft.Teams com.slack.Slack us.zoom.Zoom com.skype.Client)
+
 for package in "${USER[@]}"; do
     s-dolist "$INSTALL" "${package[@]}"
     s-dolist "$UPDATE" "${package[@]}"
