@@ -1,4 +1,4 @@
-#!/usr/bin/env zsh
+#!/usr/bin/env bash
 
 # Debug Options
 set -euo pipefail
@@ -7,30 +7,47 @@ DEPS=(curl bash)
 s-checkdeps "${DEPS[@]}"
 
 BUILDS="$HOME/Builds"
+LOCAL_BIN="$HOME/.local/bin"
 
-# * ECLIPSE
+# JBANG
+[[ ! -x $HOME/.jbang/bin/jbang ]] && curl -Ls https://sh.jbang.dev | bash -s - app setup
 
-ECLIPSE_URL='https://eclipse.c3sl.ufpr.br/oomph/epp/2022-06/R/eclipse-inst-jre-linux64.tar.gz'
-wget -c "$ECLIPSE_URL" -P "$BUILDS"
-tar -xf "$BUILDS/eclipse-inst-jre-linux64.tar.gz"
-
-# * SPRING TOOLS SUITE
-
-STS_URL='https://download.springsource.com/release/STS4/4.15.3.RELEASE/dist/e4.24/spring-tool-suite-4-4.15.3.RELEASE-e4.24.0-linux.gtk.x86_64.tar.gz'
-wget -c "$STS_URL" -P "$BUILDS"
-tar -xf "$BUILDS/spring-tool-suite-4-4.15.3.RELEASE-e4.24.0-linux.gtk.x86_64.tar.gz"
+# SDKMAN
+[[ ! -f $HOME/.sdkman/bin/sdkman-init.sh ]] && curl -s "https://get.sdkman.io" | bash
 
 # GRAAL
+if [[ ! -x "$LOCAL_BIN/native-image" ]]; then
+    URL="https://github.com/graalvm/graalvm-ce-builds/releases/download/vm-22.2.0/graalvm-ce-java17-linux-amd64-22.2.0.tar.gz"
+    HOME_BUILDS="$HOME/Builds"
+    GRAAL_LOCATION="$HOME_BUILDS/graalvm-ce-java17-22.2.0"
 
-URL="https://github.com/graalvm/graalvm-ce-builds/releases/download/vm-22.2.0/graalvm-ce-java17-linux-amd64-22.2.0.tar.gz"
-HOME_BUILDS="$HOME/Builds"
-GRAAL_LOCATION="$HOME_BUILDS/graalvm-ce-java17-22.2.0"
+    wget -c $URL -P /tmp
+    tar xf /tmp/graalvm-ce-java17-linux-amd64-22.2.0.tar.gz -C "$HOME_BUILDS"
+    ln -sf "$GRAAL_LOCATION/bin/gu" "$HOME/.local/bin/gu"
 
-wget -c $URL -P /tmp
-tar xf /tmp/graalvm-ce-java17-linux-amd64-22.2.0.tar.gz -C "$HOME_BUILDS"
+    gu install native-image
+    ln -sf "$GRAAL_LOCATION/bin/native-image" "$HOME/.local/bin/native-image"
+fi
 
-ln -sf "$GRAAL_LOCATION/bin/gu" "$HOME/.local/bin/gu"
+# * ECLIPSE
+if [[ ! -x "$LOCAL_BIN/eclipse" ]]; then
+    ECLIPSE_URL='https://eclipse.c3sl.ufpr.br/oomph/epp/2022-06/R/eclipse-inst-jre-linux64.tar.gz'
+    wget -c "$ECLIPSE_URL" -P "$BUILDS"
+    tar -xf "$BUILDS/eclipse-inst-jre-linux64.tar.gz" -C $BUILDS
+fi
+# * SPRING TOOLS SUITE
 
-gu install native-image
+if [[ ! -x "$LOCAL_BIN/spring-tool-suite" ]]; then
+    STS_URL='https://download.springsource.com/release/STS4/4.15.3.RELEASE/dist/e4.24/spring-tool-suite-4-4.15.3.RELEASE-e4.24.0-linux.gtk.x86_64.tar.gz'
+    wget -c "$STS_URL" -P "$BUILDS"
+    tar -xf "$BUILDS/spring-tool-suite-4-4.15.3.RELEASE-e4.24.0-linux.gtk.x86_64.tar.gz" -C $BUILDS
+    ln -sf $BUILDS/sts-4.15.3.RELEASE/SpringToolSuite4 ~/.local/bin/spring-tool-suite
+fi
 
-ln -sf "$GRAAL_LOCATION/bin/native-image" "$HOME/.local/bin/native-image"
+
+if [[ ! -x "$LOCAL_BIN/netbeans" ]]; then
+    BEANS_URL='https://dlcdn.apache.org/netbeans/netbeans/15/netbeans-15-bin.zip'
+    wget -c BEANS_URL -P $BUILDS
+    unzip $BUILDS/netbeans-15-bin.zip
+    ln -sf $BUILDS/netbeans/bin/netbeans ~/.local/bin/netbeans
+fi
