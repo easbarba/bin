@@ -17,14 +17,14 @@ AUDIO_FOLDER="$HOME/Music/temp"
 LOG_FOLDER="$HOME/.config/misc"
 
 # CREATE REQUIRED FOLDERS
-[[ ! -d $VIDEO_FOLDER ]] && mkdir "$AUDIO_FOLDER"
+[[ ! -d $AUDIO_FOLDER ]] && mkdir "$AUDIO_FOLDER"
 [[ ! -d $LOG_FOLDER ]] && mkdir "$LOG_FOLDER"
 cd "$AUDIO_FOLDER"
 
 # GETTERS COMMANDS
 declare -A YTDL
 YTDL=([bin]='yt-dlp'
-      [audio]='--extract-audio --audio-format'
+      [format]='--extract-audio --audio-format'
       [title]="-o %(title)s.%(ext)s")
 
 declare -A YOUTUBEDL
@@ -37,7 +37,7 @@ INFO=$(
       cat <<EOF
 Format: $EXT
 URL: $URL
-Folder: $FOLDER
+Folder: $AUDIO_FOLDER
 EOF
 )
 echo "$INFO"
