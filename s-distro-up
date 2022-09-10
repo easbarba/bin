@@ -62,4 +62,4 @@ if [[ -x $(command -v qas) ]]; then
     qas --archive lar,annotations,mx,rake # TODO: save to usb-stick
 fi
 
-rsync -vhazrtP --ignore-existing /da/livros "/run/media/$USER/MOAR/"
+rsync -vhazrtP --ignore-existing /da/livros "/media/$USER/MOAR/"
