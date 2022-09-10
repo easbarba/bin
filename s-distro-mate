@@ -3,6 +3,8 @@
 # Debug Options
 set -euo pipefail
 
+# discover with: gsettings list-schemas | grep WORD
+
 # keybindings
 gsettings set org.mate.Marco.global-keybindings switch-to-workspace-1 "<Super>1"
 gsettings set org.mate.Marco.global-keybindings switch-to-workspace-2 "<Super>2"
@@ -19,8 +21,11 @@ gsettings set org.mate.Marco.window-keybindings move-to-workspace-3 '<Shift><Mod
 gsettings set org.mate.Marco.window-keybindings move-to-workspace-4 '<Shift><Mod4>dollar'
 gsettings set org.mate.Marco.window-keybindings move-to-workspace-5 '<Shift><Mod4>percent'
 
+gsettings set org.mate.Marco.global-keybindings switch-windows "<Super>Z"
+gsettings set org.mate.Marco.window-keybindings close "<Super>C"
+
 # volume
-gsettings set org.gnome.desktop.sound allow-volume-above-100-percent true
+# gsettings set org.gnome.desktop.sound allow-volume-above-100-percent true
 gsettings set org.mate.Marco.general audible-bell false
 
 # interface
@@ -28,7 +33,7 @@ gsettings set org.mate.Marco.general audible-bell false
 # gsettings set org.mate.interface gtk-theme 'Materia-dark'
 
 # default
-gsettings set org.cinnamon.desktop.default-applications.terminal exec 'mate-terminal'
+gsettings set org.mate.applications-terminal exec 'mate-terminal'
 
 # misc
 gsettings set org.mate.background show-desktop-icons false
@@ -62,3 +67,10 @@ gsettings set org.mate.SettingsDaemon.plugins.media-keys volume-down-quiet '<Alt
 gsettings set org.mate.SettingsDaemon.plugins.media-keys volume-up '<Shift><Mod4>w'
 gsettings set org.mate.SettingsDaemon.plugins.media-keys volume-mute '<Shift><Mod4>e'
 gsettings set org.mate.SettingsDaemon.plugins.media-keys volume-down '<Shift><Mod4>s'
+
+# terminal
+# gsettings set org.mate.terminal.profile:/ font 'Monospace 16'
+# gsettings get org.mate.terminal.profile:/ default-show-menubar false
+
+# theme
+gsettings set org.mate.Marco.general theme 'Arc-Dark'
