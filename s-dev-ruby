@@ -8,9 +8,8 @@ s-checkdeps "${DEPS[@]}"
 
 essential=(bundler rake)
 tools=(reek rufo rubocop solargraph pry taglib-ruby)
-apps=(jekyll)
 
-all=("${essential[@]}" "${tools[@]}" "${apps[@]}")
+all=("${essential[@]}" "${tools[@]}")
 
 for i in "${all[@]}"; do
     s-echo "-> $i"
