@@ -8,10 +8,13 @@ s-checkdeps "${DEPS[@]}"
 
 essential=(bundler rake)
 tools=(reek rufo rubocop solargraph pry taglib-ruby)
+apps=(jekyll)
 
-groups=("${essential[@]}" "${tools[@]}")
+all=("${essential[@]}" "${tools[@]}" "${apps[@]}")
 
-for group in "${groups[@]}"; do
-    s-dolist "gem install" "$group"
-    s-dolist "gem update" "$group"
+for i in "${all[@]}"; do
+    s-echo "-> $i"
+
+    [[ ! -x $(command -v $i) ]] && gem install $i
+    gem update $i
 done
