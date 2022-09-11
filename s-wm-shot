@@ -2,6 +2,8 @@
 # frozen_string_literal: true
 
 require 'pathname'
+require 'fileutils'
+require 'optparse'
 
 # TODO: add --verbose option
 
@@ -20,15 +22,18 @@ class Screenshot
   end
 
   def full
-    [shotter.exec, shotter.common, shotter.full, shotter.full].join ' '
+    [shotter.exec, shotter.common, shotter.full, shotter.name].join ' '
   end
 
   def partial
-    [shotter.exec, shotter.common, shotter.partial, shotter.folder].join ' '
+    [shotter.exec, shotter.common, shotter.partial, shotter.name].join ' '
   end
 
   def info
-    "Shotters available: #{shotters.keys.join(', ')}"
+    p <<~EOL # double quote document
+      Shotters available: #{shotters.keys.join(', ')}
+      location: #{shotter.name}
+    EOL
   end
 
   private
@@ -51,54 +56,56 @@ end
 class Shotters
   require 'ostruct'
 
-  FOLDER = Pathname.new(Dir.home).join('Pictures')
   PREFERRED_FORMAT = 'png'
-  CURRENT_TIME = Time.new.strftime '%d-%m-%y-%I-%M'
+  CURRENT_TIME = Time.new.strftime '%d-%m-%y at %I-%M'
 
   def all
     {
       scrot: OpenStruct.new(exec: 'scrot',
                             full: '--focused --silent', partial: '--select --silent', common: '--border --quality=100',
-                            folder: FOLDER.join(screenshot_name)),
+                            name: screenshot_location),
       main: OpenStruct.new(exec: 'maim',
                            full: '', partial: '--select',
-                           folder: FOLDER.join(screenshot_name)),
+                           name: screenshot_location),
       flameshot: OpenStruct.new(exec: 'flameshot',
                                 full: '', partial: '--select',
-                                folder: FOLDER.join(screenshot_name))
+                                name: screenshot_location),
+      grim: OpenStruct.new(exec: 'grim',
+                           full: '', partial: '-g "$(slurp)"', common: '-t png -l 9',
+                           name: screenshot_location)
     }
   end
 
   private
 
-  def screenshot_name
-    "screenshot-#{CURRENT_TIME}.#{PREFERRED_FORMAT}"
+  def folder
+    f = Pathname.new(Dir.home).join('Pictures', 'screenshots')
+    FileUtils.mkdir_p f unless f.exist?
+
+    f
+  end
+
+  def screenshot_location
+    "'#{folder.join("Screenshot from #{CURRENT_TIME}.#{PREFERRED_FORMAT}")}'"
   end
 end
 
-module Cli
-  require 'optparse'
+options = OptionParser.new do |opts|
+  shotter = Screenshot.new
+  opts.banner = 'Usage: shot [options]'
 
-  def self.options
-    shotter = Screenshot.new
+  opts.on('-f', '--full', 'full screen shot') do
+    system shotter.full
+  end
 
-    OptionParser.new do |opts|
-      opts.banner = 'Usage: shot [options]'
+  opts.on('-p', '--partial', 'partial screen shot') do
+    system shotter.partial
+  end
 
-      opts.on('-f', '--full', 'full screen shot') do
-        system shotter.full
-      end
-
-      opts.on('-p', '--partial', 'partial screen shot') do
-        system shotter.partial
-      end
-
-      opts.on('-i', '--info', 'shotters information') do
-        puts shotter.info
-      end
-    end
+  opts.on('-i', '--info', 'shotters information') do
+    puts shotter.info
   end
 end
 
-Cli.options.parse! ['--help'] if ARGV.empty?
-Cli.options.parse!
+options.parse! ['--help'] if ARGV.empty?
+options.parse!
