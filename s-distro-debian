@@ -12,19 +12,13 @@ INSTALL='sudo apt-get install -y'
 
 s-echo "Welcome to Debian '$(cat /etc/debian_version)'"
 
-# =================================
-
 s-echo "Upgrading System"
 sudo apt update
 sudo apt upgrade -y
 
-# =================================
-
 s-echo "Pre Install"
 s-echo "Enable Multi-Arch"
 sudo dpkg --add-architecture i386
-
-# =================================
 
 s-echo "System Packages"
 
@@ -43,8 +37,7 @@ shell=(bash-completion shellcheck fish)
 sound=(pipewire pipewire-pulse wireplumber pulseaudio-utils)
 media=(ffmpeg mpv libtag1-dev vorbis-tools gstreamer1.0-plugins-bad gstreamer1.0-plugins-base gstreamer1.0-plugins-good gstreamer1.0-plugins-ugly libavcodec58)
 
-# TODO: append arrays to groups
-groups=("${debian[@]}"
+all=("${debian[@]}"
 	"${system[@]}"
 	"${gnu[@]}"
 	"${shell[@]}"
@@ -59,19 +52,19 @@ groups=("${debian[@]}"
 	"${amd[@]}"
 	"${fonts[@]}")
 
-for group in "${groups[@]}"; do
-	s-dolist "$INSTALL" "$group"
+for i in "${all[@]}"; do
+	s-echo "$INSTALL $i"
+	$INSTALL $i
 done
 
-# =================================
 s-echo "Post Install"
+
 sudo apt -y build-dep emacs
 sudo apt-file update # update Debian database
 
-# =================================
 s-echo "Clean up"
+
 UNUSED=(firefox-esr)
 s-dolist "$REMOVE" "${UNUSED[@]}"
-
-TOPURGE=(*nvidia*)
-s-dolist "$PURGE" "${TOPURGE[@]}"
+UNDESIRED=(*nvidia*)
+s-dolist "$PURGE" "${UNDESIRED[@]}"
