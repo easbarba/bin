@@ -9,10 +9,7 @@ s-checkdeps "${DEPS[@]}"
 BUILDS="$HOME/Builds"
 LOCAL_BIN="$HOME/.local/bin"
 
-# JBANG
 [[ ! -x $HOME/.jbang/bin/jbang ]] && curl -Ls https://sh.jbang.dev | bash -s - app setup
-
-# SDKMAN
 [[ ! -f $HOME/.sdkman/bin/sdkman-init.sh ]] && curl -s "https://get.sdkman.io" | bash
 
 # GRAAL
@@ -43,7 +40,6 @@ if [[ ! -x "$LOCAL_BIN/spring-tool-suite" ]]; then
     tar -xf "$BUILDS/spring-tool-suite-4-4.15.3.RELEASE-e4.24.0-linux.gtk.x86_64.tar.gz" -C $BUILDS
     ln -sf $BUILDS/sts-4.15.3.RELEASE/SpringToolSuite4 ~/.local/bin/spring-tool-suite
 fi
-
 
 if [[ ! -x "$LOCAL_BIN/netbeans" ]]; then
     BEANS_URL='https://dlcdn.apache.org/netbeans/netbeans/15/netbeans-15-bin.zip'
