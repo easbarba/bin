@@ -6,8 +6,6 @@ set -euo pipefail
 DEPS=(sudo apt wget systemctl timedatectl fc-cache firewalld)
 s-checkdeps "${DEPS[@]}"
 
-REMOVE='sudo apt remove -y'
-PURGE='sudo apt purge -y'
 INSTALL='sudo apt-get install -y'
 
 s-echo "Welcome to Debian '$(cat /etc/debian_version)'"
@@ -64,7 +62,5 @@ sudo apt-file update # update Debian database
 
 s-echo "Clean up"
 
-UNUSED=(firefox-esr)
-s-dolist "$REMOVE" "${UNUSED[@]}"
-UNDESIRED=(*nvidia*)
-s-dolist "$PURGE" "${UNDESIRED[@]}"
+sudo apt remove -y firefox-esr
+sudo apt purge -y "*nvidia*"
