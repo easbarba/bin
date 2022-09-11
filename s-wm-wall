@@ -6,6 +6,7 @@ WALL="$(find "$FOLDER" -type f | shuf -n 1)"
 cat <<EOF
 Folder: $FOLDER
 Wallpaper: $WALL
+
 EOF
 
 [[ $XDG_SESSION_TYPE = 'wayland' ]] && swaybg -m fit -i "$WALL" && exit
