@@ -27,8 +27,7 @@ fonts=(fonts-hack fonts-dejavu fonts-jetbrains-mono ttf-ancient-fonts fonts-nanu
 gnu=(bash gcc make vrms info wget parallel gawk screen parted)
 laptop=(acpi lm-sensors lshw libinput-tools) #acpid tlp vainfo i965-va-driver libvdpau-va-gl1 libiw-dev acpi-call dialog sysstat hddtemp
 wayland=(sway swaybg swaylock swayidle foot clipman grim slurp xwayland mako-notifier wl-clipboard bemenu)
-gtk=(atril)
-wm=(mpd mpc ncmpcpp playerctl brightnessctl)
+wm=(mpd mpc ncmpcpp playerctl brightnessctl zathura)
 user=(chromium firefox libreoffice gimp xdg-utils imagemagick aspell aspell-pt-br calibre pandoc obs-studio inkscape)
 system=(git ssh curl unzip tmux zip p7zip p7zip-full recutils at usbutils lsof atool time entr tree bc strace ltrace cpio lhasa lzop rsync pv texinfo autoconf automake socat)
 shell=(bash-completion shellcheck fish)
@@ -44,7 +43,6 @@ all=("${debian[@]}"
 	"${user[@]}"
 	"${wayland[@]}"
 	"${wm[@]}"
-	"${gtk[@]}"
 	"${cli[@]}"
 	"${laptop[@]}"
 	"${amd[@]}"
