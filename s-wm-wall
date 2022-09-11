@@ -3,9 +3,10 @@
 FOLDER="$HOME/Pictures/wallpapers/"
 WALL="$(find "$FOLDER" -type f | shuf -n 1)"
 
-echo "wallpaper: $WALL"
-# if [[ -n $WAYLAND_DISPLAY ]]; then
-#     swaybg -m fit -i "$WALL" &
-# else
-feh --bg-max "$WALL" &
-# fi
+cat <<EOF
+Folder: $FOLDER
+Wallpaper: $WALL
+EOF
+
+[[ $XDG_SESSION_TYPE = 'wayland' ]] && swaybg -m fit -i "$WALL" && exit
+[[ $XDG_SESSION_TYPE = 'Xorg' ]] && feh --bg-max "$WALL" && exit
