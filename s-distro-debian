@@ -43,6 +43,7 @@ shell=(bash-completion shellcheck fish)
 sound=(pipewire pipewire-pulse wireplumber pulseaudio-utils)
 media=(ffmpeg mpv libtag1-dev vorbis-tools gstreamer1.0-plugins-bad gstreamer1.0-plugins-base gstreamer1.0-plugins-good gstreamer1.0-plugins-ugly libavcodec58)
 
+# TODO: append arrays to groups
 groups=("${debian[@]}"
 	"${system[@]}"
 	"${gnu[@]}"
