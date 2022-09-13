@@ -12,7 +12,7 @@ tools=(black pipenv pyflakes pytest isort nose poetry)
 libs=(beautifulsoup4 interval)
 apps=(yt-dlp cryptography)
 
-groups=("${tools[@]}" "${libs[@]}" "${apps[@]}")
+groups=("${tools[@]}" "${apps[@]}")
 
 for group in "${groups[@]}"; do
     s-dolist "$COMMAND" "${group[@]}"
