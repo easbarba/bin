@@ -36,8 +36,8 @@ s-echo "Upgrading $DISTRO system packages."
 # ** FOREIGN
 s-echo "Foreign installers"
 
-#s-distro-guix
-#s-distro-flatpak
+s-distro-guix
+s-distro-flatpak
 
 # ** EDITORS
 s-echo "Editors"
@@ -48,8 +48,6 @@ s-dev-emacs
 s-echo "Languages package installers"
 
 s-dev-ruby
-s-dev-python
-s-dev-javascript
 
 # * CONTAINERS
 s-ops-containers
