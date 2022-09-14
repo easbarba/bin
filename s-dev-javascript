@@ -7,9 +7,10 @@ DEPS=(npm)
 s-checkdeps "${DEPS[@]}"
 
 ESSENTIAL=(npm)
+LIBS=(stylelint js-beautify)
 LANGS=(typescript)
 
-groups=("${ESSENTIAL[@]}" "${LANGS[@]}")
+groups=("${ESSENTIAL[@]}" "${LIBS[@]}" "${LANGS[@]}")
 
 for group in "${groups[@]}"; do
 	s-dolist 'npm install --global' "$group"
