@@ -39,9 +39,9 @@ s-distro-flatpak
 
 # ** DEVELOPMENT
 s-dev-emacs
-s-dev-ruby
 s-dev-java
 s-dev-scheme
+s-dev-ruby
 s-dev-python
 s-ops-containers
 
