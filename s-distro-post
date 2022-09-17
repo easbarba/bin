@@ -3,7 +3,7 @@
 s-echo "Post Install"
 
 # default folders
-mkdir -pv "$HOME"/{Downloads,Pictures,Documents,Videos,Builds,Projects,.local/bin}
+mkdir -pv "$HOME"/{Downloads,Pictures,Documents,Videos,Builds,Projects,.local/bin,.config/scripts}
 
 # cache all system fonts
 sudo fc-cache -fv
