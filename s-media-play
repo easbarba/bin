@@ -29,8 +29,8 @@ fi
 
 replay_last_media() {
     echo "Replaying last watched media"
-    # local last=$(tail -1 "$LOG_FILE")
-    # PLAYER "$last"
+    local last=$(tail -1 "$LOG_FILE")
+    $PLAYER "$last"
     exit
 }
 
