@@ -22,17 +22,17 @@ fi
 PLAYER=mpv
 
 # Play media found in clipboard url if no argument is given
-[[ $# -ne 0 ]] && $PLAYER "$CLIPBOARD_URL" && exit 1
+# [[ $# -ne 0 ]] && echo 'PLAYING CLIPBOARD URL' && exit # $PLAYER "$CLIPBOARD_URL" && exit 1
 
 replay_last_media() {
     echo "Replaying last watched media"
-    local last=$(tail -1 "$LOG_FILE")
-    PLAYER "$last"
+    # local last=$(tail -1 "$LOG_FILE")
+    # PLAYER "$last"
     exit
 }
 
 # Parse options
-options=$(getopt --name play --options lh:u: --longoptions last,help:,url: -- "$@")
+options=$(getopt --name play --options lhu: --longoptions last,help,url: -- "$@")
 eval set -- "$options"
 
 # Run per options given
@@ -44,7 +44,7 @@ while true; do
             ;;
         -u | --url)
             echo "Playing media in inline url: $2"
-            $PLAYER "$2"
+            # $PLAYER "$2"
             break
             ;;
         -h | --help)
