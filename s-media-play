@@ -22,7 +22,10 @@ fi
 PLAYER=mpv
 
 # Play media found in clipboard url if no argument is given
-# [[ $# -ne 0 ]] && echo 'PLAYING CLIPBOARD URL' && exit # $PLAYER "$CLIPBOARD_URL" && exit 1
+if [[ $# -eq 0 ]]; then
+    $PLAYER "$CLIPBOARD_URL" && exit 1
+    exit 1
+fi
 
 replay_last_media() {
     echo "Replaying last watched media"
