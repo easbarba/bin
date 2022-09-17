@@ -6,4 +6,10 @@ set -euo pipefail
 # Description:
 # Deps: youtube-dl, ffmpeg
 
-mpv "$(s-url)"
+URL="$(s-url)"
+LOG_FOLDER="$HOME/.config/misc"
+
+# LOG VIDEO URL
+echo "$URL" >>"$LOG_FOLDER/play"
+
+[[ -x $(command -v mpv) ]] && mpv "$URL"
