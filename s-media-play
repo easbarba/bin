@@ -11,6 +11,9 @@ LOG_FOLDER="$HOME/.config/misc"
 
 # LOG VIDEO URL
 echo "$URL" >>"$LOG_FOLDER/play"
+# Log last played media url
+LOG_FILE="$HOME/.config/scripts/play"
+echo "$URL" >>"$LOG_FILE"
 # Parse options
 options=$(getopt --name play --options lh:u: --longoptions last,help:,url: -- "$@")
 eval set -- "$options"
