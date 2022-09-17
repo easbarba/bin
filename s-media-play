@@ -6,11 +6,10 @@ set -euo pipefail
 # Description: Play media given in system clipboard, or provided in terminal or replay last media.
 # DEPS=(vlc mpv getopt)
 
-# TODO check for players, and set first player found as default player or exit : for player in
-
 PLAYERS=(mpv vlc)
 CLIPBOARD_URL="$(s-url)"
 
+# TODO properly check for players, and set first player found as default player or exit : for player in
 if [[ ! -x $(command -v mpv) ]] || [[ ! -x $(command -v vlc) ]]; then
     echo "No supported player is available \[ ${PLAYERS[@]} \]"
     exit
