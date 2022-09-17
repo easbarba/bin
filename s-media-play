@@ -6,14 +6,32 @@ set -euo pipefail
 # Description: Play media given in system clipboard, or provided in terminal or replay last media.
 # DEPS=(vlc mpv getopt)
 
-URL="$(s-url)"
-LOG_FOLDER="$HOME/.config/misc"
+# TODO check for players, and set first player found as default player or exit : for player in
 
-# LOG VIDEO URL
-echo "$URL" >>"$LOG_FOLDER/play"
+PLAYERS=(mpv vlc)
+URL="$(s-url)"
+
+if [[ ! -x $(command -v mpv) ]] || [[ ! -x $(command -v vlc) ]]; then
+    echo "No supported player is available \[ ${PLAYERS[@]} \]"
+    exit
+fi
+
+PLAYER=mpv
+
 # Log last played media url
 LOG_FILE="$HOME/.config/scripts/play"
 echo "$URL" >>"$LOG_FILE"
+
+play_last_media() {
+    echo "Replaying last watched media"
+    # local last=$(tail -1 "$LOG_FILE")
+    # PLAYER "$last"
+    exit
+}
+
+# Play media found in clipboard url if no argument is given
+[[ $# -ne 0 ]] && $PLAYER "$URL" && exit 1
+
 # Parse options
 options=$(getopt --name play --options lh:u: --longoptions last,help:,url: -- "$@")
 eval set -- "$options"
