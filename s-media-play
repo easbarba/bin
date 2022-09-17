@@ -47,7 +47,7 @@ while true; do
             ;;
         -u | --url)
             echo "Playing media in inline url: $2"
-            # $PLAYER "$2"
+            $PLAYER "$2"
             break
             ;;
         -h | --help)
