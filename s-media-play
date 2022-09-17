@@ -3,8 +3,8 @@
 # Debug Options
 set -euo pipefail
 
-# Description:
-# Deps: youtube-dl, ffmpeg
+# Description: Play media given in system clipboard, or provided in terminal or replay last media.
+# DEPS=(vlc mpv getopt)
 
 URL="$(s-url)"
 LOG_FOLDER="$HOME/.config/misc"
