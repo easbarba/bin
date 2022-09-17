@@ -1,40 +1,59 @@
 #!/usr/bin/env bash
 
-# info: https://harelang.org/installation
+# HARE LANG INSTALL
+# INFO: https://harelang.org/installation
 
 BUILDS_HOME="$HOME/Builds"
+LOCAL_FOLDER="$HOME/.local"
 
-cd $BUILDS_HOME
+QBE_LOCATION="$BUILDS_HOME/qbe"
+if [[ ! -d $QBE_LOCATION/.git ]]; then
+    git clone git://c9x.me/qbe.git "$QBE_LOCATION"
+else
+    git -C "$QBE_LOCATION" pull
 
-[[ ! -d $BUILDS_HOME/qbe/.git ]] && git clone git://c9x.me/qbe.git $BUILDS_HOME/qbe
-cd qbe
-make
-sudo make install
+    cd "$QBE_LOCATION" || return
+    make
+    make PREFIX="$LOCAL_FOLDER" install
+fi
 
-cd $BUILDS_HOME
+SCDOC_LOCATION="$BUILDS_HOME/scdoc"
+if [[ ! -d $SCDOC_LOCATION/.git ]]; then
+    git clone https://git.sr.ht/~sircmpwn/scdoc "$SCDOC_LOCATION"
+else
+    git -C "$SCDOC_LOCATION" pull
 
-[[ ! -d $BUILDS_HOME/scdoc/.git ]] && git clone https://git.sr.ht/~sircmpwn/scdoc $BUILDS_HOME/scdoc
-cd scdoc
-make
-sudo make install
+    cd scdoc || return
+    make
+    make PREFIX="$LOCAL_FOLDER" install
+fi
 
-cd $BUILDS_HOME
+HAREC_FOLDER="$BUILDS_HOME/harec"
+if [[ ! -d "$HAREC_FOLDER"/.git ]]; then
+    git clone https://git.sr.ht/~sircmpwn/harec "$HAREC_FOLDER"
+else
+    git -C "$HAREC_FOLDER" pull
 
-[[ ! -d $BUILDS_HOME/harec/.git ]] && git clone https://git.sr.ht/~sircmpwn/harec $BUILDS_HOME/harec
+    cd "$HAREC_FOLDER" || return
 
-cd harec
-mkdir build
-cd build
-../configure
-make
-sudo make install
+    mkdir build
+    cd build || return
+    ../configure
+    make
+    make PREFIX="$LOCAL_FOLDER" install
+fi
 
-cd $BUILDS_HOME
+HARE_FOLDER="$BUILDS_HOME/hare"
+if [[ ! -d $HARE_FOLDER/.git ]]; then
+    git clone https://git.sr.ht/~sircmpwn/hare "$HARE_FOLDER"
+else
+    git -C "$HARE_FOLDER" pull
 
-[[ ! -d $BUILDS_HOME/hare/.git ]] && git clone https://git.sr.ht/~sircmpwn/hare $BUILDS_HOME/hare
-cd hare
-cp config.example.mk config.mk
-make
-sudo make install
+    cd "$HARE_FOLDER" || return
+
+    cp config.example.mk config.mk
+    make
+    make PREFIX="$LOCAL_FOLDER" install
+fi
 
 exit
