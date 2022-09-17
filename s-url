@@ -6,4 +6,9 @@ set -euo pipefail
 [[ $XDG_SESSION_TYPE = "x11" ]] && URL=$(xclip -selection clipboard -o)
 [[ $XDG_SESSION_TYPE = "wayland" ]] && URL=$(wl-paste)
 
-printf "%s" "$URL"
+if [[ ! "$URL" =~ http?(s)://* ]]; then
+    echo 'ERROR: Text found in clipboard is not a proper URI'
+    exit 1
+else
+    printf "%s" "$URL"
+fi
