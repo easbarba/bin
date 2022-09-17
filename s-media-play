@@ -9,6 +9,10 @@ set -euo pipefail
 PLAYERS=(mpv vlc)
 CLIPBOARD_URL="$(s-url)"
 
+# Log last required media url
+LOG_FILE="$HOME/.config/scripts/play"
+echo "$CLIPBOARD_URL" >>"$LOG_FILE"
+
 # TODO properly check for players, and set first player found as default player or exit : for player in
 if [[ ! -x $(command -v mpv) ]] || [[ ! -x $(command -v vlc) ]]; then
     echo "No supported player is available \[ ${PLAYERS[@]} \]"
@@ -16,10 +20,6 @@ if [[ ! -x $(command -v mpv) ]] || [[ ! -x $(command -v vlc) ]]; then
 fi
 
 PLAYER=mpv
-
-# Log last played media url
-LOG_FILE="$HOME/.config/scripts/play"
-echo "$CLIPBOARD_URL" >>"$LOG_FILE"
 
 replay_last_media() {
     echo "Replaying last watched media"
