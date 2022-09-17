@@ -14,7 +14,7 @@ FREE=(vorbis mp3)
 EXT="${FREE[0]}"
 URL="$(s-url)"
 AUDIO_FOLDER="$HOME/Music/temp"
-LOG_FOLDER="$HOME/.config/misc"
+LOG_FOLDER="$HOME/.config/scripts"
 
 # CREATE REQUIRED FOLDERS
 [[ ! -d $AUDIO_FOLDER ]] && mkdir "$AUDIO_FOLDER"

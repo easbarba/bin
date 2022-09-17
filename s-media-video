@@ -9,7 +9,7 @@ DEPS=(yt-dlp ffmpeg)
 s-checkdeps "${DEPS[@]}"
 
 VIDEO_FOLDER="$HOME/Videos"
-LOG_FOLDER="$HOME/.config/misc"
+LOG_FOLDER="$HOME/.config/scripts"
 URL="$(s-url)"
 EXT='mp4'
 
