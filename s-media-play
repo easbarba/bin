@@ -11,5 +11,27 @@ LOG_FOLDER="$HOME/.config/misc"
 
 # LOG VIDEO URL
 echo "$URL" >>"$LOG_FOLDER/play"
+# Parse options
+options=$(getopt --name play --options lh:u: --longoptions last,help:,url: -- "$@")
+eval set -- "$options"
+
+# Run per options given
+while true; do
+    case "$1" in
+        -l | --last)
+            play_last_media
+            break
+            ;;
+        -u | --url)
+            echo "Playing media in inline url: $2"
+            $PLAYER "$2"
+            break
+            ;;
+        -h | --help)
+            echo "Usage: play [ -l | --last ] [ -u | --url  URL ] [ -h | --help ]"
+            break
+            ;;
+    esac
+done
 
 [[ -x $(command -v mpv) ]] && mpv "$URL"
