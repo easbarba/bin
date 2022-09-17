@@ -21,10 +21,10 @@ PLAYER=mpv
 LOG_FILE="$HOME/.config/scripts/play"
 echo "$CLIPBOARD_URL" >>"$LOG_FILE"
 
-play_last_media() {
+replay_last_media() {
     echo "Replaying last watched media"
-    # local last=$(tail -1 "$LOG_FILE")
-    # PLAYER "$last"
+    local last=$(tail -1 "$LOG_FILE")
+    PLAYER "$last"
     exit
 }
 
@@ -39,7 +39,7 @@ eval set -- "$options"
 while true; do
     case "$1" in
         -l | --last)
-            play_last_media
+            replay_last_media
             break
             ;;
         -u | --url)
