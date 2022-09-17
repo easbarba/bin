@@ -55,4 +55,4 @@ while true; do
     esac
 done
 
-[[ -x $(command -v mpv) ]] && mpv "$URL"
+exit
