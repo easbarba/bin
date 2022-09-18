@@ -7,6 +7,7 @@ set -euo pipefail
 # DEPS=(vlc mpv getopt)
 
 PLAYERS=(mpv vlc)
+
 CLIPBOARD_URL="$(s-url)"
 
 # Log last required media url
@@ -35,8 +36,11 @@ replay_last_media() {
 }
 
 # Parse options
-options=$(getopt --name play --options lhu: --longoptions last,help,url: -- "$@")
-eval set -- "$options"
+OPTIONS=$(getopt --name play --options lhu: --longoptions last,help,url: -- "$@")
+
+eval set -- "$OPTIONS"
+
+unset OPTIONS
 
 # Run per options given
 while true; do
