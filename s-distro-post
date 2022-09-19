@@ -2,6 +2,8 @@
 
 s-echo "Post Install"
 
+[[ $(grep -rni '.bash_config' "$HOME/.bashrc") ]] && echo '[[ -f $HOME/.bash_config ]] && . "$HOME/.bash_config"' >>"$HOME/.bashrc"
+
 # default folders
 mkdir -pv "$HOME"/{Downloads,Pictures,Documents,Videos,Builds,Projects,.local/bin,.config/scripts}
 
