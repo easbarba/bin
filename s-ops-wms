@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+# Debug Options
+set -euo pipefail
+
+DEPS=(vagrant)
+s-checkdeps "${DEPS[@]}"
+
+vagrant box add debian/bullseye64
