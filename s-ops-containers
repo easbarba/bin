@@ -11,7 +11,7 @@ REGISTRY='docker.io/library/'
 
 stable=(openjdk:17-jdk maven:3-eclipse-temurin-17 ruby:3 node:16 postgres:14 mysql:8 redis:7)
 small=(openjdk:17-jdk-alpine ruby:3-alpine node:16-alpine postgres:14-alpine redis:7-alpine)
-latest=(openjdk:19-jdk 3.8.6-eclipse-temurin-18)
+latest=(openjdk:19-jdk maven:3-eclipse-temurin-18)
 distro=(debian:bullseye ubuntu:22.04 fedora:36)
 
 groups=("${stable[@]}"
