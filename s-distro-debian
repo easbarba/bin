@@ -60,3 +60,6 @@ s-echo "Clean up"
 
 sudo apt remove -y firefox-esr
 sudo apt purge -y "*nvidia*"
+
+# Locales
+sudo dpkg-reconfigure locales
