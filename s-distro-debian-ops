@@ -11,7 +11,7 @@ UPDATE='sudo apt-get update'
 
 if [[ ! -x $(command -v podman) ]]; then
     $INSTALL podman podman-compose
-    
+
     sudo systemctl enable podman.socket
     sudo systemctl start podman.socket
 
@@ -19,10 +19,30 @@ if [[ ! -x $(command -v podman) ]]; then
     echo '%podman ALL=(ALL) NOPASSWD: /usr/bin/podman' | sudo tee -a /etc/sudoers.d/podman
 fi
 
-
 if [[ ! -x $(command -v tcpdump) ]]; then
     $INSTALL net-tools iproute2 telnet dnsutils iwd iw wireless-tools \
         resolvconf dhcpcd5 netcat-traditional tcpdump httpie gnutls-bin
+fi
+
+[[ ! -x $(command -v qemu-img) ]] && $INSTALL qemu qemu-utils qemu-efi qemu-kvm
+
+if [[ ! -x $(command -v virt-manager) ]]; then
+    $INSTALL libvirt-daemon-system libvirt-clients libvirt-daemon-system virtinst bridge-utils virt-manager
+
+    sudo systemctl start libvirtd
+    sudo systemctl enable libvirtd
+
+    sudo usermod -aG libvirt "$USER"
+    sudo usermod -aG kvm "$USER"
+fi
+
+if [[ ! -x $(command -v vagrant) ]]; then
+    if [[ ! -f /etc/apt/sources.list.d/hashicorp.list ]]; then
+        wget -O- https://apt.releases.hashicorp.com/gpg | gpg --dearmor | sudo tee /usr/share/keyrings/hashicorp-archive-keyring.gpg
+        echo "deb [arch=amd64] https://apt.releases.hashicorp.com bullseye main" | sudo tee /etc/apt/sources.list.d/hashicorp.list >/dev/null
+    fi
+
+    $UPDATE && $INSTALL vagrant vagrant-libvirt # terraform nomad
 fi
 
 exit
@@ -94,15 +114,6 @@ fi
 [[ ! -x $(command -v gitlab-runner) ]] && $INSTALL gitlab-runner
 [[ ! -x $(command -v kind) ]] && GO111MODULE=on go install sigs.k8s.io/kind@v0.12.0
 
-if [[ ! -x $(command -v terraform) ]]; then
-    if [[ ! -f /etc/apt/sources.list.d/hashicorp.list ]]; then
-        wget -qO- https://apt.releases.hashicorp.com/gpg | sudo tee /etc/apt/trusted.gpg.d/terraform.asc
-        echo "deb [arch=$(dpkg --print-architecture)] https://apt.releases.hashicorp.com bullseye main" | sudo tee /etc/apt/sources.list.d/hashicorp.list >/dev/null
-    fi
-
-    $UPDATE && $INSTALL vagrant vagrant-libvirt # terraform nomad
-fi
-
 if [[ ! -x $(command -v helm) ]]; then
     wget -qO- https://baltocdn.com/helm/signing.asc | sudo tee /etc/apt/trusted.gpg.d/heml.asc
     sudo apt-get install apt-transport-https --yes
@@ -139,18 +150,7 @@ if [[ ! -x $(command -v jenkins) ]]; then
     $UPDATE && $INSTALL fontconfig openjdk-11-jre jenkins
 fi
 
-[[ ! -x $(command -v qemu-img) ]] && $INSTALL qemu # infra=( qemu qemu-utils qemu-efi qemu-kvm ) # ebtables
 [[ ! -x $(command -v virtualbox) ]] && $INSTALL virtualbox
-
-if [[ ! -x $(command -v virt-manager) ]]; then
-    $INSTALL libvirt-daemon-system libvirt-clients libvirt-daemon-system virtinst bridge-utils virt-manager
-
-    sudo systemctl start libvirtd
-    sudo systemctl enable libvirtd
-
-    sudo usermod -aG libvirt "$USER"
-    sudo usermod -aG kvm "$USER"
-fi
 
 if [[ ! -x $(command -v firewalld) ]]; then
     $INSTALL firewalld
