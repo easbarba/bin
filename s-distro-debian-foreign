@@ -23,3 +23,9 @@ if [[ ! -x $(command -v insomnia) ]]; then
 fi
 
 exit
+
+DEB_GET_LOCATION=$HOME/.local/bin/deb-get
+if [[ -e "$DEB_GET_LOCATION" ]]; then
+	wget -c https://raw.githubusercontent.com/wimpysworld/deb-get/main/deb-get -O "$DEB_GET_LOCATION"
+	chmod +x "$DEB_GET_LOCATION"
+fi
