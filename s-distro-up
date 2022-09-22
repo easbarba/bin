@@ -36,6 +36,7 @@ s-echo "Upgrading $DISTRO system packages."
 # ** FOREIGN
 s-distro-guix
 s-distro-flatpak
+s-distro-misc
 
 # ** DEVELOPMENT
 s-dev-emacs

@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+
+# DEBUG OPTIONS
+set -euo pipefail
+
+DEPS=(deb-get)
+s-checkdeps "${DEPS[@]}"
+
+# APT Distros
+[[ -x $(command -v deb-get) ]] && deb-get upgrade
