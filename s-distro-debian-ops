@@ -45,6 +45,22 @@ if [[ ! -x $(command -v vagrant) ]]; then
     $UPDATE && $INSTALL vagrant vagrant-libvirt # terraform nomad
 fi
 
+if [[ ! -x $(command -v minikube) ]]; then
+    curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube_latest_amd64.deb -P /tmp
+    sudo apt install /tmp/minikube_latest_amd64.deb
+fi
+
+if [[ ! -x $(command -v kubectl) ]]; then
+    if [[ ! -f /etc/apt/sources.list.d/kubernetes.list ]]; then
+        $UPDATE
+        $INSTALL apt-transport-https ca-certificates curl
+        sudo curl -fsSLo /usr/share/keyrings/kubernetes-archive-keyring.gpg https://packages.cloud.google.com/apt/doc/apt-key.gpg
+        echo "deb [signed-by=/usr/share/keyrings/kubernetes-archive-keyring.gpg] https://apt.kubernetes.io/ kubernetes-xenial main" | sudo tee /etc/apt/sources.list.d/kubernetes.list
+    fi
+
+    $UPDATE && $INSTALL kubectl kubelet kubeadm
+fi
+
 exit
 
 if [[ ! -x $(command -v podman-compose) ]]; then
@@ -101,6 +117,10 @@ if [[ ! -x $(command -v eksctl) ]]; then
     sudo mv /tmp/eksctl /usr/local/bin
 fi
 
+if [[ ! -x $(command -v k3s) ]]; then
+    ''
+fi
+
 if [[ ! -x $(command -v gcloud) ]]; then
     if [[ -f /etc/apt/sources.list.d/google-cloud-sdk.list ]]; then
         $INSTALL apt-transport-https ca-certificates gnupg
@@ -121,22 +141,6 @@ if [[ ! -x $(command -v helm) ]]; then
     sudo apt-get update
 
     $INSTALL helm
-fi
-
-if [[ ! -x $(command -v minikube) ]]; then
-    curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube_latest_amd64.deb
-    sudo apt install ./minikube_latest_amd64.deb
-fi
-
-if [[ ! -x $(command -v kubectl) ]]; then
-    if [[ ! -f /etc/apt/sources.list.d/kubernetes.list ]]; then
-        $UPDATE
-        $INSTALL apt-transport-https ca-certificates curl
-        sudo curl -fsSLo /usr/share/keyrings/kubernetes-archive-keyring.gpg https://packages.cloud.google.com/apt/doc/apt-key.gpg
-        echo "deb [signed-by=/usr/share/keyrings/kubernetes-archive-keyring.gpg] https://apt.kubernetes.io/ kubernetes-xenial main" | sudo tee /etc/apt/sources.list.d/kubernetes.list
-    fi
-
-    $UPDATE && $INSTALL kubectl kubelet kubeadm
 fi
 
 if [[ ! -x $(command -v jenkins) ]]; then
