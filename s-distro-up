@@ -27,18 +27,15 @@ while getopts ':b' flag; do
     esac
 done
 
-# * MAIN
-# ** SYSTEM
-s-echo "Upgrading $DISTRO system packages."
-
+# * SYSTEM
 [[ $BECOME != true && -x $(command -v zae) ]] && zae update && zae upgrade
 
-# ** FOREIGN
+# * FOREIGN
 s-distro-guix
 s-distro-flatpak
 s-distro-misc
 
-# ** DEVELOPMENT
+# * DEVELOPMENT
 s-dev-emacs
 s-dev-java
 s-dev-scheme
