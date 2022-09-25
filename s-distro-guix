@@ -1,12 +1,8 @@
 #!/usr/bin/env bash
 
-# ===================================================
-# GUIX
-
-# * Information
 # Site: https://guix.gnu.org/
 
-# * Debug Options
+# * DEBUG OPTIONS
 set -euo pipefail
 
 DEPS=(sudo guix wget bash)
@@ -20,20 +16,14 @@ s-echo "GNU GUIX"
 # INSTALLING
 if [[ ! -x $(command -v guix) ]]; then
 	wget "https://sv.gnu.org/people/viewgpg.php?user_id=127547" -qO - | sudo -i gpg --import -
-
-	installer='https://git.savannah.gnu.org/cgit/guix.git/plain/etc/guix-install.sh'
-	wget -P /tmp "$installer"
+	wget -P /tmp -c 'https://git.savannah.gnu.org/cgit/guix.git/plain/etc/guix-install.sh'
 
 	sudo bash /tmp/guix-install.sh
-
 	sudo -i guix pull
+	guix install glibc-locales 	# Fix GUIX_LOCPATH warning
 fi
 
-# UPDATE
+# UP TO DATE
 guix pull
 guix upgrade
 
-# PACKAGES
-
-# Fix GUIX_LOCPATH warning
-guix install glibc-locales
