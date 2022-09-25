@@ -14,9 +14,8 @@ EMACS_D_HOME="$HOME/.emacs.d"
 
 DOOM_HOME="$HOME/.config/emacs"
 if [[ ! -x "$DOOM_HOME/bin/doom" ]]; then
-    git clone --depth 1 https://github.com/hlissner/doom-emacs "$DOOM_HOME"
+    git clone https://github.com/hlissner/doom-emacs "$DOOM_HOME"
     "$DOOM_HOME/bin/doom" install
 fi
 
-doom sync
-doom upgrade
+doom sync -u
