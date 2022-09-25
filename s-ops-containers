@@ -9,9 +9,8 @@ s-checkdeps "${DEPS[@]}"
 PULL='podman pull'
 REGISTRY='docker.io/library/'
 
-stable=(openjdk:17-jdk maven:3-eclipse-temurin-17 ruby:3 postgres:14 mysql:8 redis:7)
-latest=(openjdk:19-jdk) # maven:3-eclipse-temurin-19
-distro=(debian:bullseye ubuntu:22.04)
+stable=(openjdk:17-jdk maven:3-eclipse-temurin-17 postgres:14)
+distro=(debian:bullseye)
 
 groups=("${stable[@]}"
     "${latest[@]}"
