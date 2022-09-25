@@ -3,8 +3,10 @@
 # Debug Options
 set -euo pipefail
 
+[[ -x $(command -v guix) ]] && guix install clojure clojure-tools
+
 # Install/Prepare Lein
-if [[ -x $HOME/.local/bin/lein ]]; then
+if [[ ! -x $HOME/.local/bin/lein ]]; then
     LEIN_URL="https://raw.githubusercontent.com/technomancy/leiningen/stable/bin/lein"
     wget -c $LEIN_URL -P "$HOME/.local/bin/"
     chmod +x "$HOME/.local/bin/lein"
