@@ -2,16 +2,22 @@
 
 s-echo "Post Install"
 
-[[ $(grep -rni '.bash_config' "$HOME/.bashrc") ]] && echo '[[ -f $HOME/.bash_config ]] && . "$HOME/.bash_config"' >>"$HOME/.bashrc"
+if [[ $(grep -rni '.config/bash/config' "$HOME/.bashrc") ]]; then
+ echo '[[ -f $HOME/.config/bash/config ]] && . "$HOME/.config/bash/config"' >>"$HOME/.bashrc"
+fi
+
+if [[ $(grep -rni '.config/bash/aliases' "$HOME/.bashrc") ]]; then
+ echo '[[ -f $HOME/.config/bash/aliases ]] && . "$HOME/.config/bash/aliases"' >>"$HOME/.bashrc"
+fi
 
 # default folders
 mkdir -pv "$HOME"/{Downloads,Pictures,Documents,Videos,Builds,Projects,.local/bin,.config/scripts}
+
+# silent parallel, for good.
+parallel --citation
 
 # cache all system fonts
 sudo fc-cache -fv
 
 # create or update the manual page index caches
 sudo mandb
-
-# silent parallel, for good.
-parallel --citation
