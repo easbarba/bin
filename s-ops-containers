@@ -9,7 +9,7 @@ s-checkdeps "${DEPS[@]}"
 PULL='podman pull'
 REGISTRY='docker.io/library/'
 
-stable=(openjdk:17-jdk maven:3-eclipse-temurin-17 postgres:14)
+stable=(postgres:14)
 distro=(debian:bullseye)
 
 groups=("${stable[@]}"
