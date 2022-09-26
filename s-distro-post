@@ -2,12 +2,16 @@
 
 s-echo "Post Install"
 
-if [[ $(grep -rni '.config/bash/config' "$HOME/.bashrc") ]]; then
- echo '[[ -f $HOME/.config/bash/config ]] && . "$HOME/.config/bash/config"' >>"$HOME/.bashrc"
+if [[ $(grep -rni '$HOME/.config/bash/config' "$HOME/.bashrc") ]]; then
+    echo '[[ -f $HOME/.config/bash/config ]] && . "$HOME/.config/bash/config"' >>"$HOME/.bashrc"
 fi
 
-if [[ $(grep -rni '.config/bash/aliases' "$HOME/.bashrc") ]]; then
- echo '[[ -f $HOME/.config/bash/aliases ]] && . "$HOME/.config/bash/aliases"' >>"$HOME/.bashrc"
+if [[ $(grep -rni '$HOME/.config/bash/aliases' "$HOME/.bashrc") ]]; then
+    echo '[[ -f $HOME/.config/bash/aliases ]] && . "$HOME/.config/bash/aliases"' >>"$HOME/.bashrc"
+fi
+
+if [[ $(grep -rni '$HOME/.config/env_variables' "$HOME/.profile") ]]; then
+    echo '[[ -x $HOME/.config/env_variables ]] && . "$HOME/.config/env_variables"' >>"$HOME/.profile"
 fi
 
 # default folders
