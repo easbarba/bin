@@ -15,4 +15,4 @@ if [[ ! -x "$DOOM_HOME/bin/doom" ]]; then
     "$DOOM_HOME/bin/doom" install
 fi
 
-doom sync -u
+doom sync # -u
