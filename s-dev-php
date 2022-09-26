@@ -42,4 +42,8 @@ if [[ ! -x $(command -v phpactor) ]]; then
     phpactor --version
 fi
 
+# Global
+composer global require "laravel/installer"
+
+
 exit
