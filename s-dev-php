@@ -24,11 +24,11 @@ if [[ ! -x $(command -v composer) ]]; then
     php composer-setup.php --quiet
     RESULT=$?
     rm composer-setup.php
-    exit $RESULT
+    exit "$RESULT"
 
-    mv /tmp/composer.phar "$HOME/.local/bin/composer"
+    mv /tmp/composer.phar "$LOCAL_BIN/composer"
 
-    composer --version
+    "$LOCAL_BIN/composer" --version
 fi
 
 PHPACTOR_LOCATION="$HOME/Builds/phpactor"
@@ -39,11 +39,18 @@ if [[ ! -x $(command -v phpactor) ]]; then
     composer update && composer install
     ln -s "$PHPACTOR_LOCATION/bin/phpactor" "$LOCAL_BIN/phpactor"
 
-    phpactor --version
+    "$LOCAL_BIN/phpactor" --version
 fi
 
-# Global
-composer global require "laravel/installer"
-# composer require laravel/tinker
+PSYSH_LOCATION="$LOCAL_BIN/psysh"
+if [[ ! -x $PSYSH_LOCATION ]]; then
+    wget https://psysh.org/psysh -P "$LOCAL_BIN"
+    chmod +x "$PSYSH_LOCATION"
+
+    "$PSYSH_LOCATION" --version
+fi
+
+
+[[ ! -x $(command -v laravel) ]] && composer global require "laravel/installer"
 
 exit
