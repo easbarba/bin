@@ -44,6 +44,6 @@ fi
 
 # Global
 composer global require "laravel/installer"
-
+# composer require laravel/tinker
 
 exit
