@@ -7,7 +7,7 @@ DEPS=(npm)
 s-checkdeps "${DEPS[@]}"
 
 ESSENTIAL=(npm)
-TOOLS=(stylelint js-beautify prettier @prettier/plugin-php)
+TOOLS=(stylelint js-beautify prettier)
 LANGS=(typescript)
 
 groups=("${ESSENTIAL[@]}" "${TOOLS[@]}" "${LANGS[@]}")
