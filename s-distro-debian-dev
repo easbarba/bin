@@ -12,8 +12,8 @@ mx=(emacs libgccjit0 libgccjit-12-dev libwebkit2gtk-4.0-dev libjansson-dev libja
 langs_hobby=(libzstd-dev guile-3.0)
 c=(libedit-dev)
 db=(mysql-server mysql-editor postgresql postgresql-client)
-langs_work=(php ruby-full nodejs npm)
-langs_tools=(php-curl php-dom php-bcmath php-mbstring php-zip php-xml php-mysql python3-pip)
+langs_work=(ruby-full nodejs npm)
+langs_tools=(python3-pip)
 editors=(zile vim neovim tidy ripgrep)
 tools=(jq git-email subversion mercurial libpq-dev editorconfig gnome-keyring direnv fd-find shfmt)
 
