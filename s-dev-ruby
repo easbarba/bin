@@ -7,7 +7,7 @@ DEPS=(ruby gem)
 s-checkdeps "${DEPS[@]}"
 
 essential=(bundler rake)
-tools=(reek rufo rubocop solargraph pry taglib-ruby)
+tools=(ruby-lsp reek rufo rubocop pry taglib-ruby) # solargraph
 
 all=("${essential[@]}" "${tools[@]}")
 
