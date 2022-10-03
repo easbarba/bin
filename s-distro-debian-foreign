@@ -24,6 +24,23 @@ fi
 
 exit
 
+if [[ ! -x $(command -v npm) ]]; then
+	KEYRING=/usr/share/keyrings/nodesource.gpg
+	VERSION=node_16.x
+	DISTRO=bullseye
+
+	wget --quiet -O - https://deb.nodesource.com/gpgkey/nodesource.gpg.key | gpg --dearmor | sudo tee "$KEYRING" >/dev/null
+	gpg --no-default-keyring --keyring "$KEYRING" --list-keys
+
+	echo "deb [signed-by=$KEYRING] https://deb.nodesource.com/$VERSION $DISTRO main" | sudo tee /etc/apt/sources.list.d/nodesource.list
+	echo "deb-src [signed-by=$KEYRING] https://deb.nodesource.com/$VERSION $DISTRO main" | sudo tee -a /etc/apt/sources.list.d/nodesource.list
+
+	sudo apt update && sudo apt install -y nodejs npm
+
+	node --version
+	npm --version
+fi
+
 DEB_GET_LOCATION=$HOME/.local/bin/deb-get
 if [[ -e "$DEB_GET_LOCATION" ]]; then
 	wget -c https://raw.githubusercontent.com/wimpysworld/deb-get/main/deb-get -O "$DEB_GET_LOCATION"
