@@ -25,3 +25,11 @@ sudo fc-cache -fv
 
 # create or update the manual page index caches
 sudo mandb
+
+POSTGRES_VERSION=$(psql --version | awk '{print substr($3, 0, 2)}')
+HBA_CONF="/etc/postgresql/$POSTGRES_VERSION/main/pg_hba.conf"
+if ! sudo grep -i "$USER" "$HBA_CONF"; then
+    sudo -u postgres createuser --createdb --createrole --pwprompt "$USER" # permission to create database and set password
+    echo -n "local  all  all  md5" | sudo tee -a "$HBA_CONF"
+    sudo systemctl restart postgresql
+fi
