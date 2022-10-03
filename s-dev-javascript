@@ -17,4 +17,5 @@ for group in "${groups[@]}"; do
 	s-dolist 'npm update --global' "$group"
 done
 
-if [[ -x $(command -v bun) ]] && curl https://bun.sh/install | bash
+[[ -x $(command -v deno) ]] && curl -fsSL https://deno.land/install.sh | bash
+[[ -x $(command -v bun) ]] && curl https://bun.sh/install | bash
