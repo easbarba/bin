@@ -16,3 +16,5 @@ for group in "${groups[@]}"; do
 	s-dolist 'npm install --global' "$group"
 	s-dolist 'npm update --global' "$group"
 done
+
+if [[ -x $(command -v bun) ]] && curl https://bun.sh/install | bash
