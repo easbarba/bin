@@ -6,7 +6,7 @@ set -euo pipefail
 DEPS=(npm)
 s-checkdeps "${DEPS[@]}"
 
-ESSENTIAL=(npm)
+ESSENTIAL=(npm yarn)
 TOOLS=(stylelint js-beautify prettier)
 LANGS=(typescript)
 
