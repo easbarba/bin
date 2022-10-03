@@ -17,6 +17,7 @@ groups=("${ESSENTIAL[@]}" "${TOOLS[@]}" "${LANGS[@]}")
 
 for group in "${groups[@]}"; do
 	s-dolist 'npm install --global' "$group"
-	s-dolist 'npm update --global' "$group"
 done
 
+# Update all packages
+npm update --global
