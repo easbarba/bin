@@ -22,8 +22,6 @@ if [[ ! -x $(command -v insomnia) ]]; then
 	sudo apt-get install insomnia
 fi
 
-exit
-
 if [[ ! -x $(command -v npm) ]]; then
 	KEYRING=/usr/share/keyrings/nodesource.gpg
 	VERSION=node_16.x
@@ -41,8 +39,10 @@ if [[ ! -x $(command -v npm) ]]; then
 	npm --version
 fi
 
-DEB_GET_LOCATION=$HOME/.local/bin/deb-get
-if [[ -e "$DEB_GET_LOCATION" ]]; then
+DEB_GET_LOCATION="$HOME/.local/bin/deb-get"
+if [[ -x "$DEB_GET_LOCATION" ]]; then
 	wget -c https://raw.githubusercontent.com/wimpysworld/deb-get/main/deb-get -O "$DEB_GET_LOCATION"
 	chmod +x "$DEB_GET_LOCATION"
 fi
+
+exit
