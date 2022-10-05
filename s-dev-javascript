@@ -6,12 +6,11 @@ set -euo pipefail
 DEPS=(npm)
 s-checkdeps "${DEPS[@]}"
 
-[[ -x $(command -v deno) ]] && curl -fsSL https://deno.land/install.sh | bash
-[[ -x $(command -v bun) ]] && curl https://bun.sh/install | bash
+[[ ! -x $HOME/.bun/bin/bun ]] && curl https://bun.sh/install | bash
 
 ESSENTIAL=(npm yarn)
-TOOLS=(stylelint js-beautify prettier)
-LANGS=(typescript ts-node typescript-language-server)
+TOOLS=(stylelint js-beautify prettier @nestjs/cli ts-node typescript-language-server )
+LANGS=(typescript)
 
 groups=("${ESSENTIAL[@]}" "${TOOLS[@]}" "${LANGS[@]}")
 
@@ -21,3 +20,5 @@ done
 
 # Update all packages
 npm update --global
+
+[[ ! -x $HOME/.deno/bin/deno ]] && curl -fsSL https://deno.land/install.sh | bash
