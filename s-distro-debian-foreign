@@ -33,7 +33,7 @@ if [[ ! -x $(command -v npm) ]]; then
 	echo "deb [signed-by=$KEYRING] https://deb.nodesource.com/$VERSION $DISTRO main" | sudo tee /etc/apt/sources.list.d/nodesource.list
 	echo "deb-src [signed-by=$KEYRING] https://deb.nodesource.com/$VERSION $DISTRO main" | sudo tee -a /etc/apt/sources.list.d/nodesource.list
 
-	sudo apt update && sudo apt install -y nodejs npm
+	sudo apt update && sudo apt install -y nodejs=16.17.1-deb-1nodesource1 npm
 
 	node --version
 	npm --version
