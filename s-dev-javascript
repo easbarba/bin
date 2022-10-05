@@ -8,11 +8,12 @@ s-checkdeps "${DEPS[@]}"
 
 [[ ! -x $HOME/.bun/bin/bun ]] && curl https://bun.sh/install | bash
 
-ESSENTIAL=(npm yarn)
-TOOLS=(stylelint js-beautify prettier @nestjs/cli ts-node typescript-language-server )
-LANGS=(typescript)
+essential=(npm yarn)
+tools=(stylelint js-beautify prettier ts-node typescript-language-server)
+frameworks=(@angular/cli @nestjs/cli)
+langs=(typescript)
 
-groups=("${ESSENTIAL[@]}" "${TOOLS[@]}" "${LANGS[@]}")
+groups=("${essential[@]}" "${tools[@]}" "${frameworks[@]}" "${langs[@]}")
 
 for group in "${groups[@]}"; do
 	s-dolist 'npm install --global' "$group"
