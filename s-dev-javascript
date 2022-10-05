@@ -11,7 +11,7 @@ s-checkdeps "${DEPS[@]}"
 
 ESSENTIAL=(npm yarn)
 TOOLS=(stylelint js-beautify prettier)
-LANGS=(typescript ts-node)
+LANGS=(typescript ts-node typescript-language-server)
 
 groups=("${ESSENTIAL[@]}" "${TOOLS[@]}" "${LANGS[@]}")
 
