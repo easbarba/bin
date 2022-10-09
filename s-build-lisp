@@ -66,3 +66,5 @@ cd "$CLPM_LOCATION"
 git submodule init
 git submodule update
 sbcl --script scripts/build-release.lisp
+
+exit

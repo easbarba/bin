@@ -3,11 +3,10 @@
 # DEBUG SETTINGS
 set -euo pipefail
 
-# * DEVELOPMENT
 s-dev-emacs
+s-dev-ruby
 s-dev-javascript
 s-dev-scheme
-s-dev-ruby
 s-dev-python
 s-ops-containers
 
@@ -17,3 +16,4 @@ if [[ -x $(command -v qas) ]]; then
     qas --archive bin,lar,annotations # TODO: save to usb-stick
 fi
 
+exit

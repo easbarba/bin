@@ -10,7 +10,7 @@ s-checkdeps "${DEPS[@]}"
 
 essential=(npm yarn)
 tools=(stylelint js-beautify prettier ts-node typescript-language-server)
-frameworks=(@angular/cli @nestjs/cli)
+frameworks=(@nestjs/cli)
 langs=(typescript)
 
 groups=("${essential[@]}" "${tools[@]}" "${frameworks[@]}" "${langs[@]}")
@@ -23,3 +23,5 @@ done
 npm update --global
 
 [[ ! -x $HOME/.deno/bin/deno ]] && curl -fsSL https://deno.land/install.sh | bash
+
+exit

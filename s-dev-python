@@ -25,3 +25,4 @@ if [[ ! -x $(command -v poetry) ]]; then
 else
     poetry self update
 fi
+

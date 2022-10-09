@@ -16,3 +16,5 @@ if [[ ! -x "$DOOM_HOME/bin/doom" ]]; then
 fi
 
 doom sync # -u
+
+exit

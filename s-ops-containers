@@ -9,7 +9,7 @@ s-checkdeps "${DEPS[@]}"
 PULL='podman pull'
 REGISTRY='docker.io/library/'
 
-stable=(node:16-alpine node:18-alpine postgres:14-alpine redis:7-alpine)
+stable=(ruby:3-alpine node:16-alpine postgres:14-alpine redis:7-alpine mongo:6)
 distro=(debian:bullseye)
 
 groups=("${stable[@]}"
@@ -20,4 +20,5 @@ for group in "${groups[@]}"; do
     s-dolist "$PULL" "$group"
 done
 
+exit
 # docker images | grep -v REPOSITORY | awk 'BEGIN{OFS=":"} {print $1,$2}' | xargs -L1 docker pull
