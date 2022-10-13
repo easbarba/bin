@@ -7,12 +7,15 @@ DEPS=(sudo guix wget bash)
 s-checkdeps "${DEPS[@]}"
 COMMAND="guix install"
 
+guix pull
+guix package -u
+
 packages=(nss-certs font-dejavu)
 apps=(haunt)
 langs=(guile guile-readline)
 
-groups=("${packages[@]}" "${apps[@]}" "${langs[@]}")
+all=("${packages[@]}" "${apps[@]}" "${langs[@]}")
 
-for group in "${groups[@]}"; do
-	s-dolist "$COMMAND" "${group[@]}"
+for single in "${all[@]}"; do
+	s-dolist "$COMMAND" "${all[@]}"
 done
