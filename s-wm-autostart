@@ -14,8 +14,8 @@ TOOLS=('blueman-applet'
 APPS=("$LOCAL_BIN/s-run-emacs"
   'mpd'
   's-wm-wall'
-  'zathura'
-  'google-chrome')
+  'okular'
+  'firefox')
 
 WAYLAND=('foot')
 
