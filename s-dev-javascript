@@ -13,10 +13,10 @@ tools=(stylelint js-beautify prettier ts-node typescript-language-server)
 frameworks=(@nestjs/cli)
 langs=(typescript)
 
-groups=("${essential[@]}" "${tools[@]}" "${frameworks[@]}" "${langs[@]}")
+all=("${essential[@]}" "${tools[@]}" "${frameworks[@]}" "${langs[@]}")
 
-for group in "${groups[@]}"; do
-	s-dolist 'npm install --global' "$group"
+for single in "${all[@]}"; do
+	s-dolist 'npm install --global' "$single"
 done
 
 # Update all packages
