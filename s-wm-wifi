@@ -1,36 +1,14 @@
 #!/usr/bin/env bash
 
-DEVICE=$(ip a | awk '/wl+/ { split($0,a,": "); print a[2] }')
-echo "device: $DEVICE found"
+deps=(nmcli iwd sudo curl)
+s-checkdeps "${deps[@]}"
 
-_nmcli() {
-    local deps=(nmcli)
-    s-checkdeps "${deps[@]}"
+if [[ $(pgrep -x NetworkManager) ]]; then
+    state="$(nmcli connection show | awk 'NR==2 {print $4}')"
+    ssid='barbosas5g' # "$(nmcli connection show | awk 'NR==2 {print $1}')"
 
-    # return if not running
-    [[ ! $(pgrep -x NetworkManager) ]] && return
+    [[ $state == '--' ]] && nmcli con up "$ssid" || nmcli con down "$ssid"
+fi
 
-    local state=$(nmcli connection show | awk 'NR==2 {print $4}')
-    local ssid=$(nmcli connection show | awk 'NR==2 {print $1}')
-
-    [[ "$state" == '--' ]] && nmcli con up "$ssid" || nmcli con down "$ssid"
-}
-
-_iwd() {
-    local deps=(iwd sudo curl)
-    s-checkdeps "${deps[@]}"
-
-    # return if not running
-    [[ ! $(pgrep -x iwd) ]] && return
-
-    if [[ ! $(curl -I gnu.org) ]]; then
-        echo 'TURNING OFF WIFI'
-        sudo ifup "$DEVICE"
-    else
-        echo 'TURNING ON WIFI'
-        sudo ifdown "$DEVICE"
-    fi
-}
-
-_nmcli
-_iwd
+# device=$(ip a | awk '/wl+/ { split($0,a,": "); print a[2] }')
+# [[ ! $(pgrep -x iwd) && ! $(curl -I gnu.org) ]] && sudo ifup "$DEVICE" || sudo ifdown "$DEVICE"
