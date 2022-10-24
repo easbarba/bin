@@ -7,17 +7,17 @@ DEPS=(sudo podman)
 s-checkdeps "${DEPS[@]}"
 
 PULL='podman pull'
-REGISTRY='docker.io/library/'
+REGISTRY='docker.io/library'
 
-stable=(ruby:3-alpine node:16-alpine postgres:14-alpine redis:7-alpine mongo:6)
+stable=(ruby:3-alpine node:16-alpine postgres:15-alpine mongo:6)
 distro=(debian:bullseye)
 
-groups=("${stable[@]}"
+all=("${stable[@]}"
     "${latest[@]}"
     "${distro[@]}")
 
-for group in "${groups[@]}"; do
-    s-dolist "$PULL" "$group"
+for image in "${all[@]}"; do
+    s-dolist "$PULL" "$REGISTRY/$image"
 done
 
 exit
