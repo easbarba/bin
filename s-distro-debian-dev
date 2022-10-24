@@ -11,11 +11,11 @@ INSTALL='sudo apt-get install -y'
 mx=(emacs libgccjit0 libgccjit-12-dev libwebkit2gtk-4.0-dev libjansson-dev libjansson4)
 langs_hobby=(libzstd-dev guile-3.0)
 c=(libedit-dev)
-db=(mysql-server mysql-editor postgresql postgresql-client postgresql-contrib libpq-dev)
+db=(postgresql postgresql-client postgresql-contrib libpq-dev)
 langs_work=(ruby-full)
 langs_tools=(python3-pip)
 editors=(zile vim neovim tidy ripgrep)
-tools=(jq git-email subversion mercurial libpq-dev editorconfig gnome-keyring direnv fd-find shfmt)
+tools=(jq git-email subversion mercurial libpq-dev editorconfig gnome-keyring direnv fd-find shfmt meson cmake)
 
 groups=("${mx[@]}"
     "${c[@]}"
