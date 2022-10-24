@@ -15,5 +15,3 @@ if [[ -x $(command -v qas) ]]; then
     qas --grab
     qas --archive bin,lar,annotations # TODO: save to usb-stick
 fi
-
-exit
