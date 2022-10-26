@@ -7,7 +7,7 @@ BECOME=false
 DISTRO="$(awk '/^NAME=/ { split($0,a,"="); print a[2] }' /etc/os-release)"
 
 # * CHECKER
-DEPS=(bash sudo zae qas rsync)
+DEPS=(bash sudo zae rsync)
 s-checkdeps "${DEPS[@]}"
 
 # * OPTIONS
