@@ -9,9 +9,9 @@ s-checkdeps "${DEPS[@]}"
 [[ ! -x $HOME/.bun/bin/bun ]] && curl https://bun.sh/install | bash
 
 essential=(npm yarn)
-tools=(stylelint js-beautify prettier ts-node typescript-language-server)
-frameworks=(@nestjs/cli)
 langs=(typescript)
+tools=(stylelint js-beautify prettier ts-node typescript-language-server)
+frameworks=(@nestjs/cli express-generator)
 
 all=("${essential[@]}" "${tools[@]}" "${frameworks[@]}" "${langs[@]}")
 
@@ -24,4 +24,3 @@ npm update --global
 
 [[ ! -x $HOME/.deno/bin/deno ]] && curl -fsSL https://deno.land/install.sh | bash
 
-exit
