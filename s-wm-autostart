@@ -2,7 +2,7 @@
 
 # Description: auto-start some software executables
 
-DEPS=(bash command nohup pgrep awk)
+DEPS=(bash command nohup pgrep awk nm-applet blueman udiskie mpd firefox okular)
 LOCAL_BIN="$HOME/.local/bin"
 
 # ===================================================
