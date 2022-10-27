@@ -35,5 +35,3 @@ s-distro-guix
 s-distro-flatpak
 s-distro-misc
 
-# * USB-STICK
-rsync -vhazrtP --ignore-existing /da/livros "/media/$USER/MOAR/"
