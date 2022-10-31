@@ -4,11 +4,11 @@
 set -euo pipefail
 
 s-dev-emacs
-s-dev-ruby
 s-dev-javascript
-s-dev-scheme
-s-dev-python
 s-ops-containers
+s-dev-scheme
+s-dev-ruby
+s-dev-python
 
 # * USER
 if [[ -x $(command -v qas) ]]; then

@@ -7,6 +7,7 @@ DEPS=(npm)
 s-checkdeps "${DEPS[@]}"
 
 [[ ! -x $HOME/.bun/bin/bun ]] && curl https://bun.sh/install | bash
+[[ ! -x $HOME/.deno/bin/deno ]] && curl -fsSL https://deno.land/install.sh | bash
 
 essential=(npm yarn)
 langs=(typescript)
@@ -22,5 +23,4 @@ done
 # Update all packages
 npm update --global
 
-[[ ! -x $HOME/.deno/bin/deno ]] && curl -fsSL https://deno.land/install.sh | bash
-
+exit 0
