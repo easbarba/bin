@@ -7,6 +7,7 @@ s-dev-emacs
 s-dev-javascript
 s-ops-containers
 s-dev-scheme
+s-dev-golang
 s-dev-ruby
 s-dev-python
 
@@ -14,4 +15,7 @@ s-dev-python
 if [[ -x $(command -v qas) ]]; then
     qas --grab
     qas --archive bin,lar,annotations # TODO: save to usb-stick
+
+    STICK=/media/$USER/MOAR
+    cp "$HOME/Downloads/archived" "$STICK"
 fi
