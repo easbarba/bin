@@ -12,7 +12,7 @@ s-checkdeps "${DEPS[@]}"
 essential=(npm yarn)
 langs=(typescript)
 tools=(stylelint js-beautify prettier ts-node typescript-language-server)
-frameworks=(@nestjs/cli express-generator)
+frameworks=(@vue/cli@next)
 
 all=("${essential[@]}" "${tools[@]}" "${frameworks[@]}" "${langs[@]}")
 
