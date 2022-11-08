@@ -4,10 +4,10 @@
 set -euo pipefail
 
 s-dev-emacs
+s-dev-golang
 s-dev-javascript
 s-ops-containers
 s-dev-scheme
-s-dev-golang
 s-dev-ruby
 s-dev-python
 
