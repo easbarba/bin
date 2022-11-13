@@ -7,53 +7,37 @@ BUILDS_HOME="$HOME/Builds"
 LOCAL_FOLDER="$HOME/.local"
 
 QBE_LOCATION="$BUILDS_HOME/qbe"
-if [[ ! -d $QBE_LOCATION/.git ]]; then
-    git clone git://c9x.me/qbe.git "$QBE_LOCATION"
-else
-    git -C "$QBE_LOCATION" pull
+[[ ! -d $QBE_LOCATION/.git ]] && git clone git://c9x.me/qbe.git "$QBE_LOCATION" || git -C "$QBE_LOCATION" pull
 
-    cd "$QBE_LOCATION" || return
-    make
-    make PREFIX="$LOCAL_FOLDER" install
-fi
+cd "$QBE_LOCATION"
+make
+make PREFIX="$LOCAL_FOLDER" install
 
 SCDOC_LOCATION="$BUILDS_HOME/scdoc"
-if [[ ! -d $SCDOC_LOCATION/.git ]]; then
-    git clone https://git.sr.ht/~sircmpwn/scdoc "$SCDOC_LOCATION"
-else
-    git -C "$SCDOC_LOCATION" pull
+[[ ! -d $SCDOC_LOCATION/.git ]] && git clone https://git.sr.ht/~sircmpwn/scdoc "$SCDOC_LOCATION" || git -C "$SCDOC_LOCATION" pull
 
-    cd scdoc || return
-    make
-    make PREFIX="$LOCAL_FOLDER" install
-fi
+cd scdoc
+make
+make PREFIX="$LOCAL_FOLDER" install
 
 HAREC_FOLDER="$BUILDS_HOME/harec"
-if [[ ! -d "$HAREC_FOLDER"/.git ]]; then
-    git clone https://git.sr.ht/~sircmpwn/harec "$HAREC_FOLDER"
-else
-    git -C "$HAREC_FOLDER" pull
+[[ ! -d "$HAREC_FOLDER"/.git ]] && git clone https://git.sr.ht/~sircmpwn/harec "$HAREC_FOLDER" || git -C "$HAREC_FOLDER" pull
 
-    cd "$HAREC_FOLDER" || return
+cd "$HAREC_FOLDER"
 
-    mkdir build
-    cd build || return
-    ../configure
-    make
-    make PREFIX="$LOCAL_FOLDER" install
-fi
+mkdir build
+cd build
+../configure
+make
+make PREFIX="$LOCAL_FOLDER" install
 
 HARE_FOLDER="$BUILDS_HOME/hare"
-if [[ ! -d $HARE_FOLDER/.git ]]; then
-    git clone https://git.sr.ht/~sircmpwn/hare "$HARE_FOLDER"
-else
-    git -C "$HARE_FOLDER" pull
+[[ ! -d $HARE_FOLDER/.git ]] && git clone https://git.sr.ht/~sircmpwn/hare "$HARE_FOLDER" || git -C "$HARE_FOLDER" pull
 
-    cd "$HARE_FOLDER" || return
+cd "$HARE_FOLDER"
 
-    cp config.example.mk config.mk
-    make
-    make PREFIX="$LOCAL_FOLDER" install
-fi
+cp config.example.mk config.mk
+make
+make PREFIX="$LOCAL_FOLDER" install
 
 exit
