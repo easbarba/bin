@@ -6,21 +6,32 @@ set -euo pipefail
 DEPS=(curl)
 s-checkdeps "${DEPS[@]}"
 
+# RUST TOOLCHAIN
 [[ ! -f ~/.cargo/env ]] && curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 
-curl -L https://github.com/rust-lang/rust-analyzer/releases/latest/download/rust-analyzer-x86_64-unknown-linux-gnu.gz | gunzip -c - > ~/.local/bin/rust-analyzer
-chmod +x ~/.local/bin/rust-analyzer
-
+# CARGO
 . "$HOME/.cargo/env"
 
-tools=(starship cargo-watch)
+tools=(starship)
+tasks=(cargo-watch cargo-tarpaulin)
 apps=(fd-find ripgrep exa bat procs sd du-dust tokei)
 
-groups=("${tools[@]}" "${apps[@]}")
+groups=("${tools[@]}" "${tasks[@]}" "${apps[@]}")
 
 for group in "${groups[@]}"; do
     s-dolist 'cargo install --locked' "$group"
 done
 
-exit
+# RUSTUP
+tools=(rust-analyzer clippy rustfmt cargo-audit)
 
+groups=("${tools[@]}")
+
+for group in "${groups[@]}"; do
+    s-dolist 'rustup component add' "$group"
+done
+
+# RUST ANALYZER
+ln -sf "$(rustup which --toolchain stable rust-analyzer)" "$HOME/.local/bin/rust-analyzer"
+
+exit
