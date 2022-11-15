@@ -8,11 +8,12 @@ s-checkdeps "${DEPS[@]}"
 
 [[ ! -f ~/.cargo/env ]] && curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 
+curl -L https://github.com/rust-lang/rust-analyzer/releases/latest/download/rust-analyzer-x86_64-unknown-linux-gnu.gz | gunzip -c - > ~/.local/bin/rust-analyzer
+chmod +x ~/.local/bin/rust-analyzer
+
 . "$HOME/.cargo/env"
 
-exit
-
-tools=(starship)
+tools=(starship cargo-watch)
 apps=(fd-find ripgrep exa bat procs sd du-dust tokei)
 
 groups=("${tools[@]}" "${apps[@]}")
@@ -20,3 +21,6 @@ groups=("${tools[@]}" "${apps[@]}")
 for group in "${groups[@]}"; do
     s-dolist 'cargo install --locked' "$group"
 done
+
+exit
+
