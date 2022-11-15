@@ -23,7 +23,7 @@ s-echo "System Packages"
 amd=(firmware-linux-nonfree amd64-microcode firmware-amd-graphics libgl1-mesa-dri libglx-mesa0 mesa-utils libgl1-mesa-glx mesa-vulkan-drivers xserver-xorg-video-all libglx-mesa0:i386 mesa-vulkan-drivers:i386 libgl1-mesa-dri:i386 radeontop)
 cli=(htop elinks libnotify-bin ranger aria2 neofetch)
 debian=(build-essential aptitude apt-file gdebi apt-listbugs apt-listchanges reportbug)
-fonts=(fonts-hack fonts-dejavu fonts-jetbrains-mono ttf-ancient-fonts fonts-nanum ttf-mscorefonts-installer)
+fonts=(fonts-hack fonts-dejavu fonts-jetbrains-mono ttf-ancient-fonts fonts-nanum ttf-mscorefonts-installer cmigemo)
 gnu=(bash gcc make vrms info wget parallel gawk screen parted)
 laptop=(acpi lm-sensors lshw libinput-tools) #acpid tlp vainfo i965-va-driver libvdpau-va-gl1 libiw-dev acpi-call dialog sysstat hddtemp
 kde=(okular kate ktorrent kdenlive elisa kamoso breeze-gtk-theme kde-config-sddm plasma-workspace-wayland)
