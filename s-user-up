@@ -3,3 +3,6 @@
 # * USB-STICK
 rsync -vhazrtP --ignore-existing /da/livros "/media/$USER/MOAR/"
 rsync -vhazrtP --ignore-existing /da/personal "/media/$USER/MOAR/"
+rsync -vhazrtP --ignore-existing /da/work "/media/$USER/MOAR/"
+rsync -vhazrtP --ignore-existing /da/pictures "/media/$USER/MOAR/"
+rsync -vhazrtP --ignore-existing /da/misc "/media/$USER/MOAR/"
