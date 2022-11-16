@@ -2,7 +2,7 @@
 
 # * USB-STICK
 rsync -vhazrtP --ignore-existing /da/livros "/media/$USER/MOAR/"
-rsync -vhazrtP --ignore-existing /da/personal "/media/$USER/MOAR/"
-rsync -vhazrtP --ignore-existing /da/work "/media/$USER/MOAR/"
+rsync -vhazrtP --ignore-existing --exclude={'node_modules','.local','.git'} /da/personal "/media/$USER/MOAR/"
+rsync -vhazrtP --ignore-existing --exclude={'node_modules','.local','.git'} /da/work "/media/$USER/MOAR/"
 rsync -vhazrtP --ignore-existing /da/pictures "/media/$USER/MOAR/"
 rsync -vhazrtP --ignore-existing /da/misc "/media/$USER/MOAR/"
