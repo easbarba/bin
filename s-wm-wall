@@ -6,8 +6,14 @@ WALL="$(find "$FOLDER" -type f | shuf -n 1)"
 cat <<EOF
 Folder: $FOLDER
 Wallpaper: $WALL
-
 EOF
 
-[[ $XDG_SESSION_TYPE = 'wayland' ]] && swaybg -m fit -i "$WALL" && exit
-[[ $XDG_SESSION_TYPE = 'Xorg' ]] && feh --bg-max "$WALL" && exit
+if [[ $XDG_SESSION_TYPE = 'wayland' ]]; then
+    swaybg -m fit -i "$WALL"  &
+    exit
+fi
+
+if [[ $XDG_SESSION_TYPE = 'Xorg' ]]; then
+    feh --bg-max "$WALL" & 
+    exit
+fi
