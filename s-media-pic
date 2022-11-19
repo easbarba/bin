@@ -1,0 +1,44 @@
+#!/usr/bin/env bash
+
+# Debug Options
+set -euo pipefail
+
+# Description: Get given in system clipboard, or provided in terminal or replay last media.
+# DEPS=(wget curl)
+
+# GETTERS
+declare -A WGET
+WGET=([bin]='wget'
+    [options]='-c -P')
+
+declare -A CURL
+CURL=([bin]='curl'
+    [options]='')
+
+# CONFIG
+# GETTERS=("${WGET[@]}" "${CURL[@]}") # merge all arrays
+
+CLIPBOARD_URL="$(s-url)"
+FOLDER=$HOME/Pictures/temp
+
+# CHECKER
+[[ -z $CLIPBOARD_URL ]] && echo 'clipboard has no url, exiting!' && return
+
+# LOG
+# Log last required media url
+LOG_FILE="$HOME/.config/scripts/pic"
+echo "$CLIPBOARD_URL" >>"$LOG_FILE"
+
+# declare -A GETTER
+declare -n GETTER=WGET
+COMMAND="${GETTER[bin]} ${GETTER[options]} $FOLDER $CLIPBOARD_URL"
+
+# RUN
+echo "getter: ${GETTER[bin]}
+url: $CLIPBOARD_URL
+folder: $FOLDER"
+
+echo "command:  $COMMAND"
+
+mkdir -p $FOLDER
+exec $COMMAND
