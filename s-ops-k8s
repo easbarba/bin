@@ -7,6 +7,12 @@ set -euo pipefail
 DEPS=(bash minikube k3s)
 s-checkdeps "${DEPS[@]}"
 
+# PODMAN
+systemctl --user enable --now podman.socket
+XDG_RUNTIME_DIR=${XDG_RUNTIME_DIR:-/run/user/$(id -u)}
+export DOCKER_HOST=unix://$XDG_RUNTIME_DIR/podman/podman.sock
+export DOCKER_SOCK=$XDG_RUNTIME_DIR/podman/podman.sock
+
 # MINIKUBE
 
 minikube config set driver podman
@@ -27,3 +33,6 @@ fi
 
 # Check for Ready node, takes ~30 seconds
 # k3s kubectl get node
+
+# K3D
+wget -q -O - https://raw.githubusercontent.com/k3d-io/k3d/main/install.sh | bash
