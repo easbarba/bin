@@ -21,7 +21,7 @@ fi
 
 if [[ ! -x $(command -v tcpdump) ]]; then
     $INSTALL net-tools iproute2 telnet dnsutils iwd iw wireless-tools \
-        resolvconf dhcpcd5 netcat-traditional tcpdump httpie gnutls-bin
+        resolvconf dhcpcd5 netcat-traditional tcpdump httpie gnutls-bin nmap
 fi
 
 [[ ! -x $(command -v qemu-img) ]] && $INSTALL qemu qemu-utils qemu-efi qemu-kvm
