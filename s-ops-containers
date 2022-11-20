@@ -9,7 +9,7 @@ s-checkdeps "${DEPS[@]}"
 PULL='podman pull'
 REGISTRY='docker.io/library'
 
-stable=(golang:1.19-alpine node:16-alpine postgres:15-alpine mongo:6 alpine:latest)
+stable=(golang:1.19-alpine node:16-alpine postgres:15-alpine mongo:6 rockylinux:8 alpine:latest)
 distro=(debian:bullseye)
 
 all=("${stable[@]}"
