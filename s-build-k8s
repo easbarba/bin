@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+
+# DEBUG SETTINGS
+set -euo pipefail
+
+# * CHECKER
+DEPS=(bash wget curl)
+s-checkdeps "${DEPS[@]}"
+
+[[ ! -x $(command -v k3s) ]] && curl -sfL https://get.k3s.io | sh -
+
+# K3D
+[[ ! -x $(command -v k3d) ]] && wget -q -O - https://raw.githubusercontent.com/k3d-io/k3d/main/install.sh | bash
+
+# OKTETO
+[[ ! -x $(command -v okteto) ]] && curl https://get.okteto.com -sSfL | sh
