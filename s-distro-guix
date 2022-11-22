@@ -20,10 +20,11 @@ if [[ ! -x $(command -v guix) ]]; then
 
 	sudo bash /tmp/guix-install.sh
 	sudo -i guix pull
-	guix install glibc-locales 	# Fix GUIX_LOCPATH warning
+	guix install glibc-locales # Fix GUIX_LOCPATH warning
 fi
+
+sudo -i guix pull
 
 # UP TO DATE
 guix pull
 guix upgrade
-

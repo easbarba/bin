@@ -1,5 +1,20 @@
 #!/usr/bin/env bash
 
+# DEBUG SETTINGS
+set -euo pipefail
+
+# * CHECKER
+DEPS=(rsync qas cp)
+s-checkdeps "${DEPS[@]}"
+
+if [[ -x $(command -v qas) ]]; then
+    qas --grab
+    qas --archive bin,lar,annotations # TODO: save to usb-stick
+
+    STICK=/media/$USER/MOAR
+    cp "$HOME/Downloads/archived" "$STICK"
+fi
+
 # * USB-STICK
 rsync -vhazrtP --ignore-existing /da/livros "/media/$USER/MOAR/"
 rsync -vhazrtP --ignore-existing --exclude={'node_modules','.local','.git'} /da/personal "/media/$USER/MOAR/"

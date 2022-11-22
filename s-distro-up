@@ -3,35 +3,23 @@
 # DEBUG SETTINGS
 set -euo pipefail
 
-BECOME=false
-DISTRO="$(awk '/^NAME=/ { split($0,a,"="); print a[2] }' /etc/os-release)"
-
 # * CHECKER
 DEPS=(bash sudo zae rsync)
 s-checkdeps "${DEPS[@]}"
 
-# * OPTIONS
-print_usage() {
-    printf "Usage:
-    -s      skip become tasks
-"
-}
+DISTRO="$(s-distro-name)"
 
-while getopts ':b' flag; do
-    case "${flag}" in
-        b) BECOME=true ;;
-        *)
-            print_usage
-            exit 1
-            ;;
-    esac
-done
+case "$DISTRO" in
+    "Debian GNU/Linux") s-distro-debian ;;
+    "Fedora GNU/Linux") s-distro-fedora ;;
+    "Ubuntu GNU/Linux") s-distro-ubuntu ;;
+    "Arch GNU/Linux") s-distro-arch ;;
+esac
 
 # * SYSTEM
-[[ $BECOME != true && -x $(command -v zae) ]] && zae update && zae upgrade
+[[ -x $(command -v zae) ]] && zae update && zae upgrade
 
 # * FOREIGN
 s-distro-guix
 s-distro-flatpak
 s-distro-misc
-
