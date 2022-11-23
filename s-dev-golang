@@ -10,10 +10,9 @@ s-echo "Golang Toolings."
 
 COMMAND='go install'
 
-packages=()
 lsp=('github.com/hashicorp/terraform-ls@latest'
-	 'golang.org/x/tools/gopls@latest')
-apps=('github.com/xxxserxxx/gotop/v4/cmd/gotop@latest')
+	'golang.org/x/tools/gopls@latest')
+apps=('github.com/xxxserxxx/gotop/v4/cmd/gotop@latest' 'github.com/antonmedv/llama@latest')
 tools=('github.com/fatih/gomodifytags@latest'
 	'github.com/x-motemen/gore/cmd/gore@latest'
 	'github.com/uudashr/gopkgs/v2/cmd/gopkgs@latest'
@@ -28,7 +27,7 @@ devel=('mvdan.cc/sh/v3/cmd/shfmt@latest'
 	'github.com/x-motemen/gore/cmd/gore@latest'
 	'github.com/erning/gorun@latest')
 
-groups=("${packages[@]}" "${lsp[@]}" "${tools[@]}" "${apps[@]}" "${devel[@]}")
+groups=("${lsp[@]}" "${tools[@]}" "${apps[@]}" "${devel[@]}")
 
 for group in "${groups[@]}"; do
 	s-dolist "$COMMAND" "$group"
