@@ -3,13 +3,17 @@
 deps=(nmcli iwd sudo curl)
 s-checkdeps "${deps[@]}"
 
-INITIAL='barbosas'
-
 if [[ $(pgrep -x NetworkManager) ]]; then
-    state="$(nmcli connection show | grep $INITIAL | awk 'NR==2 {print $4}')"
-    ssid="$INITIAL"5g # "$(nmcli connection show | awk 'NR==2 {print $1}')"
+    # wifi already registered
+    nmcli networking connectivity | grep -q none &&
+        nmcli networking on ||
+        nmcli networking off
 
-    [[ $state == '--' ]] && nmcli con up "$ssid" || nmcli con down "$ssid"
+    # first time
+    # state="$(nmcli connection show | awk '/barbosas5g/ {print $4}')"
+    # ssid="barbosas5g" # "$(nmcli connection show | awk 'NR==2 {print $1}')"
+
+    # [[ $state == '--' ]] && nmcli con up "$ssid" || nmcli con down "$ssid"
 fi
 
 # device=$(ip a | awk '/wl+/ { split($0,a,": "); print a[2] }')
