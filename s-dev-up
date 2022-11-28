@@ -7,3 +7,12 @@ s-dev-emacs
 s-dev-golang
 s-dev-scheme
 s-ops-containers
+
+# Save last state to usb-stick
+if [[ -x $(command -v qas) ]]; then
+    qas --grab
+    qas --archive bin,lar,annotations # TODO: save to usb-stick
+
+    STICK=/media/$USER/MOAR
+    cp "$HOME/Downloads/archived" "$STICK"
+fi
