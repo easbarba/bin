@@ -24,7 +24,7 @@ if [[ ! -x $(command -v tcpdump) ]]; then
         resolvconf dhcpcd5 netcat-traditional tcpdump httpie gnutls-bin nmap
 fi
 
-[[ ! -x $(command -v qemu-img) ]] && $INSTALL qemu qemu-utils qemu-efi qemu-kvm
+[[ ! -x $(command -v qemu-img) ]] && $INSTALL qemu qemu-utils qemu-system-x86 qemu-system-gui qemu-efi qemu-kvm qemu-system
 
 if [[ ! -x $(command -v virt-manager) ]]; then
     $INSTALL libvirt-daemon-system libvirt-clients libvirt-daemon-system virtinst bridge-utils virt-manager
