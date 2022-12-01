@@ -8,6 +8,7 @@ s-checkdeps "${DEPS[@]}"
 
 [[ ! -x $(command -v vagrant) ]] && echo 'Vagrant is not installed!' && return
 
-command='vagrant box add'
 boxes=(debian/bullseye64 ubuntu/focal64)
-s-dolist "$command" "${boxes[@]}"
+
+[[ ! "$(vagrant box list | grep debian)" ]] && s-dolist 'vagrant box add' "${boxes[@]}"
+s-dolist 'vagrant box update' "${boxes[@]}"
