@@ -24,6 +24,13 @@ if [[ ! -x "$LOCAL_BIN/native-image" ]]; then
     ln -sf "$GRAAL_LOCATION/bin/native-image" "$LOCAL_BIN/native-image"
 fi
 
+if [[ ! -x "$LOCAL_BIN/eclipse" ]]; then
+    ECLIPSE_URL='https://eclipse.c3sl.ufpr.br/oomph/epp/2022-06/R/eclipse-inst-jre-linux64.tar.gz'
+    wget -c "$ECLIPSE_URL" -P "$BUILDS"
+    tar -xf "$BUILDS/eclipse-inst-jre-linux64.tar.gz" -C "$BUILDS"
+    ~/Builds/eclipse-installer/eclipse-inst &
+fi
+
 if [[ ! -x "$LOCAL_BIN/spring-tool-suite" ]]; then
     STS_URL='https://download.springsource.com/release/STS4/4.15.3.RELEASE/dist/e4.24/spring-tool-suite-4-4.15.3.RELEASE-e4.24.0-linux.gtk.x86_64.tar.gz'
     wget -c "$STS_URL" -P "$BUILDS"
@@ -36,11 +43,4 @@ if [[ ! -x "$LOCAL_BIN/netbeans" ]]; then
     wget -c "$BEANS_URL" -P "$BUILDS"
     unzip "$BUILDS/netbeans-15-bin.zip" -d "$BUILDS"
     ln -sf "$BUILDS/netbeans/bin/netbeans" "$LOCAL_BIN/netbeans"
-fi
-
-if [[ ! -x "$LOCAL_BIN/eclipse" ]]; then
-    ECLIPSE_URL='https://eclipse.c3sl.ufpr.br/oomph/epp/2022-06/R/eclipse-inst-jre-linux64.tar.gz'
-    wget -c "$ECLIPSE_URL" -P "$BUILDS"
-    tar -xf "$BUILDS/eclipse-inst-jre-linux64.tar.gz" -C "$BUILDS"
-    ~/Builds/eclipse-installer/eclipse-inst &
 fi

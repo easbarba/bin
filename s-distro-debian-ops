@@ -66,7 +66,35 @@ if [[ ! -x $(command -v kubectl) ]]; then
     $UPDATE && $INSTALL kubectl kubelet kubeadm
 fi
 
+if [[ ! -x $(command -v helm) ]]; then
+    wget -qO- https://baltocdn.com/helm/signing.asc | sudo tee /etc/apt/trusted.gpg.d/heml.asc
+    sudo apt-get install apt-transport-https --yes
+    echo "deb https://baltocdn.com/helm/stable/debian/ all main" | sudo tee /etc/apt/sources.list.d/helm.list
+    sudo apt-get update
+
+    $INSTALL helm
+fi
+
 exit
+
+[[ ! -x $(command -v aws) ]] && $INSTALL awscli
+
+if [[ ! -x $(command -v aws-iam-authenticator) ]]; then
+    curl -o aws-iam-authenticator https://amazon-eks.s3.us-west-2.amazonaws.com/1.21.2/2021-07-05/bin/linux/amd64/aws-iam-authenticator -P "$HOME/.local/bin"
+    chmod +x "$HOME/.local/bin/aws-iam-authenticator"
+fi
+
+if [[ ! -x $(command -v gcloud) ]]; then
+    if [[ -f /etc/apt/sources.list.d/google-cloud-sdk.list ]]; then
+        $INSTALL apt-transport-https ca-certificates gnupg
+        echo "deb [signed-by=/usr/share/keyrings/cloud.google.gpg] https://packages.cloud.google.com/apt cloud-sdk main" | sudo tee -a /etc/apt/sources.list.d/google-cloud-sdk.list
+        curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key --keyring /usr/share/keyrings/cloud.google.gpg add -
+    fi
+
+    $UPDATE && $INSTALL google-cloud-sdk
+fi
+
+[[ ! -x $(command -v gitlab-runner) ]] && $INSTALL gitlab-runner
 
 if [[ ! -x $(command -v podman-compose) ]]; then
     python3 -m pip install podman-compose --upgrade
@@ -78,13 +106,6 @@ fi
 if [[ ! -x $(command -v ansible) ]]; then
     $INSTALL ansible
     python3 -m pip install cryptography # faster ansible vault encryption
-fi
-
-[[ ! -x $(command -v aws) ]] && $INSTALL awscli
-
-if [[ ! -x $(command -v aws-iam-authenticator) ]]; then
-    curl -o aws-iam-authenticator https://amazon-eks.s3.us-west-2.amazonaws.com/1.21.2/2021-07-05/bin/linux/amd64/aws-iam-authenticator -P "$HOME/.local/bin"
-    chmod +x "$HOME/.local/bin/aws-iam-authenticator"
 fi
 
 if [[ ! -x $(command -v docker) ]]; then
@@ -126,27 +147,7 @@ if [[ ! -x $(command -v k3s) ]]; then
     ''
 fi
 
-if [[ ! -x $(command -v gcloud) ]]; then
-    if [[ -f /etc/apt/sources.list.d/google-cloud-sdk.list ]]; then
-        $INSTALL apt-transport-https ca-certificates gnupg
-        echo "deb [signed-by=/usr/share/keyrings/cloud.google.gpg] https://packages.cloud.google.com/apt cloud-sdk main" | sudo tee -a /etc/apt/sources.list.d/google-cloud-sdk.list
-        curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key --keyring /usr/share/keyrings/cloud.google.gpg add -
-    fi
-
-    $UPDATE && $INSTALL google-cloud-sdk
-fi
-
-[[ ! -x $(command -v gitlab-runner) ]] && $INSTALL gitlab-runner
 [[ ! -x $(command -v kind) ]] && GO111MODULE=on go install sigs.k8s.io/kind@v0.12.0
-
-if [[ ! -x $(command -v helm) ]]; then
-    wget -qO- https://baltocdn.com/helm/signing.asc | sudo tee /etc/apt/trusted.gpg.d/heml.asc
-    sudo apt-get install apt-transport-https --yes
-    echo "deb https://baltocdn.com/helm/stable/debian/ all main" | sudo tee /etc/apt/sources.list.d/helm-stable-debian.list
-    sudo apt-get update
-
-    $INSTALL helm
-fi
 
 if [[ ! -x $(command -v jenkins) ]]; then
     curl -fsSL https://pkg.jenkins.io/debian-stable/jenkins.io.key | sudo tee \
