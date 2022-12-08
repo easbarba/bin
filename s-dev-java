@@ -11,6 +11,15 @@ LOCAL_BIN="$HOME/.local/bin"
 
 [[ ! -x $HOME/.jbang/bin/jbang ]] && curl -Ls https://sh.jbang.dev | bash -s - app setup
 
+# IDEA
+if [[ ! -x "$LOCAL_BIN/idea" ]]; then
+    URL="https://download.jetbrains.com/idea/ideaIC-2022.3.tar.gz"
+
+    wget -c $URL -P /tmp
+    tar xf /tmp/ideaIC-2022.3.tar.gz -C "$BUILDS"
+    ln -sf "$BUILDS/idea-IC-223.7571.182/bin/idea.sh" "$LOCAL_BIN/idea"
+fi
+
 # GRAAL
 if [[ ! -x "$LOCAL_BIN/native-image" ]]; then
     URL="https://github.com/graalvm/graalvm-ce-builds/releases/download/vm-22.3.0/graalvm-ce-java17-linux-amd64-22.3.0.tar.gz"
