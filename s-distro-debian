@@ -27,7 +27,7 @@ fonts=(fonts-hack fonts-dejavu fonts-jetbrains-mono ttf-ancient-fonts fonts-nanu
 gnu=(bash gcc make vrms info wget parallel gawk screen parted)
 laptop=(acpi lm-sensors lshw libinput-tools) #acpid tlp vainfo i965-va-driver libvdpau-va-gl1 libiw-dev acpi-call dialog sysstat hddtemp
 kde=(okular kate ktorrent kdenlive elisa kamoso breeze-gtk-theme kde-config-sddm plasma-workspace-wayland)
-wayland=(wl-clipboard bemenu foot clipman grim slurp xwayland mako-notifier wofi gammastep sway swaybg swaylock swayidle brightnessctl)
+wayland=(wl-clipboard bemenu foot clipman grimshot xwayland mako-notifier wofi gammastep sway swaybg swaylock swayidle brightnessctl)
 wm=(blueman udiskie)
 # wlroots=(libdrm-dev libseat-dev glslang-tools libxcb-composite0-dev  libavutil-dev libavcodec-dev libavformat-dev libgbm-dev)
 # wf-shell(libglm-dev libwf-config-dev wayfire-dev libpulse-dev libinotifytools0-dev libgtk-layer-shell-dev)
