@@ -13,8 +13,6 @@ TOOLS=('blueman-applet'
 
 APPS=("$LOCAL_BIN/s-run-emacs"
   'mpd'
-  's-wm-wall'
-  'okular'
   'insomnia'
   'firefox')
 
