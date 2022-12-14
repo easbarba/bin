@@ -17,7 +17,7 @@ UPDATE="flatpak update -y"
 
 # PACKAGES
 
-USER=(com.wps.Office io.github.NhekoReborn.Nheko)
+USER=(io.github.NhekoReborn.Nheko)
 DEVEL=(com.discordapp.Discord com.microsoft.Teams com.slack.Slack us.zoom.Zoom com.skype.Client)
 
 for package in "${USER[@]}"; do
