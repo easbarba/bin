@@ -8,7 +8,6 @@ import (
 	"os"
 	"os/exec"
 	"path/filepath"
-	"strings"
 	"time"
 )
 
@@ -21,30 +20,32 @@ type shotter struct {
 }
 
 func main() {
-	full, partial := parse()
-	cmd_full, cmd_partial := chooser()
-	if *full == true {
-		system(cmd_full)
+	cfull, cpartial := cli_parse()
+	a_full, a_partial := action_picker()
+
+	if *cfull == true {
+		system(a_full[0], a_full[:1]...)
 	}
 
-	if *partial == true {
-		system(cmd_partial)
+	if *cpartial == true {
+		system(a_partial[0], a_partial[:1]...)
 	}
 
 }
 
-func chooser() (string, string) {
-	shotter_full := []string{grim().exec, grim().common, grim().full, grim().name}
-	shotter_partial := []string{grim().exec, grim().common, grim().partial, grim().name}
+func action_picker() ([]string, []string) {
+	full := []string{grim().exec, grim().common, grim().full, grim().name}
+	partial := []string{grim().exec, grim().common, grim().partial, grim().name}
 
-	return strings.Join(shotter_full, " "), strings.Join(shotter_partial, " ")
+	return full, partial
 }
 
 func shot_location() string {
 	home, err := os.UserHomeDir()
 
 	if err != nil {
-		panic(err)
+		fmt.Fprintln(os.Stderr, err.Error())
+		os.Exit(1)
 	}
 
 	screen_folder := filepath.Join(home, "Pictures", "screenshots")
@@ -53,7 +54,8 @@ func shot_location() string {
 		err = os.Mkdir(screen_folder, 0755)
 
 		if err != nil {
-			panic(err)
+			fmt.Fprintln(os.Stderr, err.Error())
+			os.Exit(1)
 		}
 	}
 
@@ -72,20 +74,26 @@ func grim() shotter {
 	}
 }
 
-func system(cmd string) {
-	cm := exec.Command("sh", "-c", cmd) // TODO
-	stdout, err := cm.Output()
+func system(cmd string, args ...string) {
+	cm := exec.Command(cmd, args...)
 
+	err := cm.Run()
 	if err != nil {
-		fmt.Println(err.Error())
-		return
+		fmt.Fprintln(os.Stderr, err.Error())
+		os.Exit(1)
+	}
+
+	stdout, err := cm.Output()
+	if err != nil {
+		fmt.Fprintln(os.Stderr, err.Error())
+		os.Exit(1)
 	}
 
 	fmt.Println(string(stdout))
 }
 
 // command line arguments parser
-func parse() (*bool, *bool) {
+func cli_parse() (*bool, *bool) {
 	full := flag.Bool("full", false, "full screen shot")
 	partial := flag.Bool("partial", false, "partial screen shot")
 

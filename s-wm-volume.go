@@ -11,14 +11,14 @@ import (
 
 type manager struct {
 	exec   string
-	toggle string
-	up     string
-	down   string
+	toggle []string
+	up     []string
+	down   []string
 }
 
 func main() {
-	up, down, toggle := parse()
-	manager := chooser()
+	up, down, toggle := cli_parse()
+	manager := picker()
 
 	if *up == true {
 		system(manager.exec, manager.up)
@@ -33,44 +33,52 @@ func main() {
 	}
 }
 
-func system(cmd string, action string) {
-	cm := exec.Command("sh", "-c", cmd+" "+action) // TODO
-	stdout, err := cm.Output()
+func system(cmd string, action []string) {
+	cm := exec.Command(cmd, action...)
 
+	err := cm.Run()
 	if err != nil {
-		fmt.Println(err.Error())
-		return
+		fmt.Fprintln(os.Stderr, err.Error())
+		os.Exit(1)
+	}
+
+	stdout, err := cm.Output()
+	if err != nil {
+		fmt.Fprintln(os.Stderr, err.Error())
+		os.Exit(1)
 	}
 
 	fmt.Println(string(stdout))
+
 }
 
-func chooser() manager {
+func picker() manager {
 	manager := pactl()
 
 	if _, err := os.Stat(manager.exec); err != nil {
-		fmt.Print(err)
+		fmt.Fprintln(os.Stderr, err.Error())
+		os.Exit(1)
 	}
 
 	return manager
 }
 
 func pactl() manager {
-	step := 3
-	id := "@DEFAULT_SINK@"
+	step := 2
+	id := fmt.Sprintf("%s", "@DEFAULT_SINK@")
 
 	result := manager{
 		exec:   "/usr/bin/pactl",
-		toggle: fmt.Sprintf("set-sink-mute %s toggle", id),
-		up:     fmt.Sprintf("set-sink-volume %s +%d%%", id, step),
-		down:   fmt.Sprintf("set-sink-volume %s -%d%%", id, step),
+		toggle: []string{"set-sink-mute", id, "toggle"},
+		up:     []string{"set-sink-volume", id, fmt.Sprintf("+%d%%", step)},
+		down:   []string{"set-sink-volume", id, fmt.Sprintf("-%d%%", step)},
 	}
 
 	return result
 }
 
 // command line arguments parser
-func parse() (*bool, *bool, *bool) {
+func cli_parse() (*bool, *bool, *bool) {
 	up := flag.Bool("up", false, "increase volume")
 	down := flag.Bool("down", false, "Decrease volume")
 	toggle := flag.Bool("toggle", false, "Toggle volume")

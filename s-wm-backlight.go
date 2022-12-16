@@ -11,20 +11,20 @@ import (
 
 type brighter struct {
 	exec string
-	up   string
-	down string
+	up   []string
+	down []string
 }
 
 func main() {
-	up, down := parse()
+	up, down := cli_parse()
 	brighter := brightnessctl()
 
 	if *up == true {
-		print(brighter.exec + " " + brighter.up)
+		system(brighter.exec, brighter.up...)
 	}
 
 	if *down == true {
-		system(brighter.exec + " " + brighter.down)
+		system(brighter.exec, brighter.down...)
 	}
 }
 
@@ -33,25 +33,31 @@ func brightnessctl() brighter {
 
 	return brighter{
 		exec: "brightnessctl",
-		up:   fmt.Sprintf("set %d%%+", step),
-		down: fmt.Sprintf("set %d%%-", step),
+		up:   []string{"set", fmt.Sprintf("%d%%+", step)},
+		down: []string{"set", fmt.Sprintf("%d%%-", step)},
 	}
 }
 
-func system(cmd string) {
-	cm := exec.Command("sh", "-c", cmd) // TODO
-	stdout, err := cm.Output()
+func system(cmd string, args ...string) {
+	cm := exec.Command(cmd, args...)
 
+	err := cm.Run()
 	if err != nil {
-		fmt.Println(err.Error())
-		return
+		fmt.Fprintln(os.Stderr, err.Error())
+		os.Exit(1)
+	}
+
+	stdout, err := cm.Output()
+	if err != nil {
+		fmt.Fprintln(os.Stderr, err.Error())
+		os.Exit(1)
 	}
 
 	fmt.Println(string(stdout))
 }
 
 // command line arguments parser
-func parse() (*bool, *bool) {
+func cli_parse() (*bool, *bool) {
 	up := flag.Bool("up", false, "turn backlight up")
 	down := flag.Bool("down", false, "turn backlight down")
 
