@@ -17,9 +17,3 @@ groups=("${tools[@]}" "${libs[@]}" "${apps[@]}")
 for group in "${groups[@]}"; do
     s-dolist "$COMMAND" "${group[@]}"
 done
-
-# if [[ ! -x $(command -v poetry) ]]; then
-#     curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | python3 -
-# else
-#     poetry self update
-# fi

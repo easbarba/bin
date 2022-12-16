@@ -6,9 +6,6 @@ set -euo pipefail
 DEPS=(curl)
 s-checkdeps "${DEPS[@]}"
 
-# RUST TOOLCHAIN
-[[ ! -f ~/.cargo/env ]] && curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
-
 # CARGO
 . "$HOME/.cargo/env"
 

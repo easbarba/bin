@@ -5,6 +5,7 @@ set -euo pipefail
 
 s-dev-emacs
 s-dev-golang
+s-dev-java
 s-dev-ruby
 s-dev-scheme
 s-ops-containers
