@@ -37,7 +37,6 @@ if [[ ! -x "$LOCAL_BIN/eclipse" ]]; then
     ECLIPSE_URL='https://eclipse.c3sl.ufpr.br/oomph/epp/2022-06/R/eclipse-inst-jre-linux64.tar.gz'
     wget -c "$ECLIPSE_URL" -P "$BUILDS"
     tar -xf "$BUILDS/eclipse-inst-jre-linux64.tar.gz" -C "$BUILDS"
-    ~/Builds/eclipse-installer/eclipse-inst &
 fi
 
 if [[ ! -x "$LOCAL_BIN/spring-tool-suite" ]]; then
