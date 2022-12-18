@@ -3,11 +3,9 @@
 # DEBUG SETTINGS
 set -euo pipefail
 
-s-dev-emacs
-s-dev-golang
-s-dev-java
-s-dev-ruby
-s-dev-scheme
+s-base-emacs
+s-pack-golang
+s-pack-scheme
 s-ops-containers
 
 # Save last state to usb-stick

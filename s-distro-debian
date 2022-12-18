@@ -35,13 +35,15 @@ user=(firefox libreoffice gimp xdg-utils imagemagick aspell aspell-pt-br calibre
 system=(git ssh curl unzip tmux zip p7zip p7zip-full recutils at usbutils lsof atool time entr tree bc strace ltrace cpio lhasa lzop rsync pv texinfo autoconf automake socat)
 shell=(bash-completion shellcheck fish)
 sound=(pipewire pipewire-pulse wireplumber pulseaudio-utils)
-media=(ffmpeg mpv libtag1-dev vorbis-tools gstreamer1.0-plugins-bad gstreamer1.0-plugins-base gstreamer1.0-plugins-good gstreamer1.0-plugins-ugly libavcodec58)
+media=(ffmpeg mpv vorbis-tools gstreamer1.0-plugins-bad gstreamer1.0-plugins-base gstreamer1.0-plugins-good gstreamer1.0-plugins-ugly libavcodec58)
+libs=(libtag1-dev libtagc0-dev)
 
 all=("${debian[@]}"
 	"${system[@]}"
 	"${gnu[@]}"
 	"${shell[@]}"
 	"${media[@]}"
+	"${libs[@]}"
 	"${sound[@]}"
 	"${user[@]}"
 	"${wm[@]}"
