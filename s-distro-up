@@ -17,7 +17,9 @@ case "$DISTRO" in
 esac
 
 # * SYSTEM
-[[ -x $(command -v zae) ]] && zae update && zae upgrade
+# [[ -x $(command -v zae) ]] && zae update && zae upgrade # FIX
+[[ -f /usr/bin/apt ]] && sudo apt update && sudo apt upgrade && sudo apt autoremove
+[[ -f /usr/bin/dnf ]] && sudo dnf update && sudo dnf upgrade
 
 # * FOREIGN
 s-distro-guix

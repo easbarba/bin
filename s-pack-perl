@@ -18,16 +18,21 @@ fi
 
 # CPNAM
 # ----------------------------------------------
-[[ ! -f $HOME/perl5/bin/cpanm ]] && cpan App::cpanminus && cpanm --version
+if [[ ! -f $HOME/perl5/bin/cpanm ]]; then
+    cpan App::cpanminus && cpanm --version
+else
+    cpanm --self-upgrade
+fi
 
 # MODULES
 # ----------------------------------------------
+essential=(Term::ReadLine::Perl)
 tools=(Perl::LanguageServer)
 libs=(Audio::TagLib)
 
-all=("${tools[@]}" "${libs[@]}")
+all=("${essential[@]}" "${tools[@]}" "${libs[@]}")
 
 for pack in "${all[@]}"; do
     s-echo "$pack"
-    cpanm --self-upgrade "$pack"
+    cpanm "$pack"
 done
