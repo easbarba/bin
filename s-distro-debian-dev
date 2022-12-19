@@ -8,13 +8,13 @@ s-checkdeps "${DEPS[@]}"
 
 INSTALL='sudo apt-get install -y'
 
-mx=(emacs libgccjit0 libgccjit-12-dev libwebkit2gtk-4.0-dev libjansson-dev libjansson4)
-langs_hobby=(libzstd-dev guile-3.0)
-db=(postgresql postgresql-client postgresql-contrib libpq-dev)
-langs_work=(ruby-full openjdk-17-jre openjdk-17-jdk)
+langs_hobby=(perl perl-doc libzstd-dev guile-3.0)
+langs_work=(openjdk-17-jre openjdk-17-jdk ruby-full)
 langs_tools=(clang-format maven ant python3-pip)
-editors=(zile vim neovim tidy ripgrep)
+db=(postgresql postgresql-client postgresql-contrib libpq-dev)
+mx=(emacs libgccjit0 libgccjit-12-dev libwebkit2gtk-4.0-dev libjansson-dev libjansson4)
 tools=(jq git-email subversion mercurial libpq-dev editorconfig gnome-keyring direnv fd-find shfmt meson cmake)
+editors=(zile vim neovim tidy ripgrep)
 
 groups=("${mx[@]}"
     "${langs_hobby[@]}"
