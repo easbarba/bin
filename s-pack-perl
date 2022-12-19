@@ -6,15 +6,28 @@ set -euo pipefail
 DEPS=(perl cpan)
 s-checkdeps "${DEPS[@]}"
 
-# automate CPAN initial configuration
-(
-    echo y
-    echo o conf prerequisites_policy follow
-    echo o conf commit
-) | cpan
+# Automate CPAN initial configuration
+# ----------------------------------------------
+if [[ ! -f $HOME/.cpan/CPAN/MyConfig.pm ]]; then
+    (
+        echo y
+        echo o conf prerequisites_policy follow
+        echo o conf commit
+    ) | cpan
+fi
 
 # CPNAM
-cpan App::cpanminus
+# ----------------------------------------------
+[[ ! -f $HOME/perl5/bin/cpanm ]] && cpan App::cpanminus && cpanm --version
 
-# Modules
-cpanm --self-upgrade Audio::TagLib
+# MODULES
+# ----------------------------------------------
+tools=(Perl::LanguageServer)
+libs=(Audio::TagLib)
+
+all=("${tools[@]}" "${libs[@]}")
+
+for pack in "${all[@]}"; do
+    s-echo "$pack"
+    cpanm --self-upgrade "$pack"
+done
