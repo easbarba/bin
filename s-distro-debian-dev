@@ -28,4 +28,9 @@ for group in "${groups[@]}"; do
     s-dolist "$INSTALL" "$group"
 done
 
+if [[ ! $(command -v dbeaver) ]]; then
+    [[ ! -f /tmp/dbeaver-ce_latest_amd64.deb ]] && wget -c "https://dbeaver.io/files/dbeaver-ce_latest_amd64.deb" -P /tmp
+    sudo apt install -y /tmp/dbeaver-ce_latest_amd64.deb
+fi
+
 exit
