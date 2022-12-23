@@ -8,7 +8,7 @@ s-checkdeps "${DEPS[@]}"
 
 INSTALL='sudo apt-get install -y'
 
-langs_hobby=(perl perl-doc libzstd-dev guile-3.0)
+langs_hobby=(libzstd-dev guile-3.0)
 langs_work=(openjdk-17-jre openjdk-17-jdk ruby-full)
 langs_tools=(clang-format maven ant python3-pip)
 db=(postgresql postgresql-client postgresql-contrib libpq-dev)
