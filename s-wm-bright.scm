@@ -29,28 +29,30 @@
 ;; ACTIONS
 ;; -----------------------------------------------------------------------
 
-(define step 2)
+(define step 3)
 
-(define pactl-exec "/usr/bin/pactl")
-(define pactl-id "@DEFAULT_SINK@")
+(define brightnessctl-exec "/usr/bin/brightnessctl")
 
-(define (up) (system*  pactl-exec "set-sink-volume" pactl-id (format #f "+~a%" step)))
-(define (down) (system* pactl-exec "set-sink-volume" pactl-id (format #f "-~a%" step)))
-(define (toggle) (system* pactl-exec "set-sink-mute" pactl-id "toggle"))
+(define (up)
+  (system*  brightnessctl-exec "set" (format #f "~a%+" step)))
+(define (down)
+  (system* brightnessctl-exec "set" (format #f "~a%-" step)))
+(define (value options)
+  (system* brightnessctl-exec "set" (cdr (assv 'value options))))
 
 ;; CLI PARSING
 ;; -----------------------------------------------------------------------
 
 (define (cli-usage-banner)
 
-  (display "volume [options]
-  -u, --up              increase volume
-  -d, --down            decrease volume
-  -t, --toggle          toggle volume"))
+  (display "bright [options]
+  -u, --up              turn backlight up
+  -d, --down            turn backlight down
+  -v, --value           set backlight to value"))
 
-(define cli-option-list '((up       (single-char #\u) (value #f))
-                          (down     (single-char #\d) (value #f))
-                          (toggle   (single-char #\t) (value #f))))
+(define cli-option-list '((up     (single-char #\u) (value #f))
+                          (down   (single-char #\d) (value #f))
+                          (value  (single-char #\v) (value #t))))
 
 (define (cli-parser args)
   (let* ((option-spec cli-option-list)
@@ -61,7 +63,7 @@
   (let ((option-wanted (lambda (option) (option-ref options option #f))))
     (cond ((option-wanted 'up)        (up))
           ((option-wanted 'down)      (down))
-          ((option-wanted 'toggle)    (toggle))
+          ((option-wanted 'value)     (value options))
           (else                       (cli-usage-banner)))))
 
 ;; MAIN
