@@ -4,6 +4,5 @@
 set -euo pipefail
 
 s-base-emacs
-s-pack-golang
 s-pack-scheme
 s-ops-containers
