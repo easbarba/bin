@@ -12,7 +12,7 @@ guix package -u
 
 packages=(nss-certs font-dejavu)
 apps=(haunt)
-langs=(guile guile-readline)
+langs=(guile guile-readline sbcl)
 
 all=("${packages[@]}" "${apps[@]}" "${langs[@]}")
 
