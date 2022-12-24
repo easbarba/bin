@@ -11,7 +11,7 @@ guix pull
 guix package -u
 
 packages=(nss-certs font-dejavu)
-apps=(haunt)
+apps=(haunt guile-hall akku)
 langs=(guile guile-readline sbcl)
 
 all=("${packages[@]}" "${apps[@]}" "${langs[@]}")
