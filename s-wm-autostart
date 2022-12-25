@@ -16,7 +16,7 @@ APPS=("$LOCAL_BIN/s-run-emacs"
   'insomnia'
   'firefox')
 
-WAYLAND=('alacritty')
+WAYLAND=('foot' 'yambar')
 
 # ===================================================
 # * HELPERS
