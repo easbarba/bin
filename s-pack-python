@@ -10,7 +10,7 @@ COMMAND="python3 -m pip install --upgrade"
 
 tools=(black pipenv pyflakes pytest isort nose pyperclip)
 libs=(beautifulsoup4 interval)
-apps=(cryptography)
+apps=(cryptography conan)
 
 groups=("${tools[@]}" "${libs[@]}" "${apps[@]}")
 
