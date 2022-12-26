@@ -6,6 +6,10 @@ set -euo pipefail
 DEPS=(cmake)
 s-checkdeps "${DEPS[@]}"
 
+# [[ -x $(command -v conan) ]] && conan
+# conan profile new default --detect
+# conan profile update settings.compiler.libcxx=libstdc++11 default
+
 BUILDS=$HOME/Builds
 
 [[ ! -d $BUILDS/libqgit2/.git ]] && git clone https://invent.kde.org/libraries/libqgit2 "$BUILDS/libqgit2"
@@ -17,4 +21,4 @@ sudo make install
 # -- Installing: /usr/local/lib/libqgit2.a
 # -- Installing: /usr/local/include/qgit2/qgitblob.h
 
-cd $BUILDS
+cd "$BUILDS"
