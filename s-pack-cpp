@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+
+# Debug Options
+set -euo pipefail
+
+DEPS=(cmake)
+s-checkdeps "${DEPS[@]}"
+
+BUILDS=$HOME/Builds
+
+[[ ! -d $BUILDS/libqgit2/.git ]] && git clone https://invent.kde.org/libraries/libqgit2 "$BUILDS/libqgit2"
+cd "$BUILDS/libqgit2"
+cmake .
+make
+sudo make install
+
+# -- Installing: /usr/local/lib/libqgit2.a
+# -- Installing: /usr/local/include/qgit2/qgitblob.h
+
+cd $BUILDS
