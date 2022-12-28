@@ -12,9 +12,10 @@ guix package -u
 
 packages=(nss-certs font-dejavu)
 apps=(haunt guile-hall akku)
-langs=(guile guile-readline sbcl)
+langs=(guile guile-readline)
+libs=(guile-git guile-json)
 
-all=("${packages[@]}" "${apps[@]}" "${langs[@]}")
+all=("${packages[@]}" "${apps[@]}" "${langs[@]}" "${libs[@]}")
 
 for single in "${all[@]}"; do
 	s-dolist "$COMMAND" "${all[@]}"
