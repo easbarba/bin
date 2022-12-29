@@ -7,15 +7,16 @@ DEPS=(emacs git doom)
 s-checkdeps "${DEPS[@]}"
 
 EMACS_D_HOME="$HOME/.emacs.d"
+DOOM_HOME="$HOME/.config/emacs"
+
 [[ -d $EMACS_D_HOME ]] && rm -rf "$EMACS_D_HOME"
 
-DOOM_HOME="$HOME/.config/emacs"
 if [[ ! -x "$DOOM_HOME/bin/doom" ]]; then
     git clone https://github.com/hlissner/doom-emacs "$DOOM_HOME"
     "$DOOM_HOME/bin/doom" install
 fi
 
 # Update
-doom sync -u
+"$DOOM_HOME/bin/doom" sync -u
 
 exit
