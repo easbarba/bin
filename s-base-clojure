@@ -5,9 +5,22 @@ set -euo pipefail
 
 BIN=$HOME/.local/bin
 
+# CLOJURE CLOJURE-TOOLS
 [[ -x $(command -v guix) ]] && guix install clojure clojure-tools
 
-# Install/Prepare Lein
+# CLOJURE-LSP
+if [[ ! -x $BIN/clojure-lsp ]]; then
+    URL="https://raw.githubusercontent.com/clojure-lsp/clojure-lsp/master/install"
+    INSTALLER_PATH="/tmp/clojure-lsp-install"
+
+    wget -c $URL -O "$INSTALLER_PATH"
+    sed -i 's+/usr/local/bin+$HOME/.local/bin+g' "$INSTALLER_PATH"
+    bash "$INSTALLER_PATH"
+
+    [[ -x $BIN/clojure-lsp ]] && "$BIN/clojure-lsp" --version && rm "$INSTALLER_PATH"
+fi
+
+# BABASHKA
 if [[ ! -x $BIN/bb ]]; then
     URL="https://raw.githubusercontent.com/babashka/babashka/master/install"
     INSTALL_PATH="/tmp/install"
@@ -15,9 +28,10 @@ if [[ ! -x $BIN/bb ]]; then
     wget -c $URL -P /tmp
     sed -i 's+/usr/local/bin+$HOME/.local/bin+g' "$INSTALL_PATH"
     bash "$INSTALL_PATH"
+    rm "$INSTALL_PATH"
 fi
 
-# Install/Prepare Lein
+# LEIN
 if [[ ! -x $BIN/lein ]]; then
     URL="https://raw.githubusercontent.com/technomancy/leiningen/stable/bin/lein"
     wget -c $URL -P "$BIN"
