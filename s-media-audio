@@ -46,5 +46,5 @@ echo "$INFO"
 echo $URL >>"$LOG_FOLDER/audio"
 
 # RUN
-[[ -x $(command -v yt-dlp) ]] && ${YTDL[bin]} ${YTDL[format]} $EXT ${YTDL[title]} $URL && exit
+[[ -x $(command -v yt-dlp) ]] && ${YTDL[bin]} --restrict-filenames ${YTDL[format]} $EXT ${YTDL[title]} $URL && exit
 [[ -x $(command -v youtube-dl) ]] && ${YOUTUBEDL[bin]} ${YOUTUBEDL[audio]} "$EXT" ${YOUTUBEDL[title]} "$URL" && exit

@@ -30,4 +30,4 @@ YTDL=([bin]='yt-dlp'
 echo $URL >>"$LOG_FOLDER/videos"
 
 # RUN
-[[ -x $(command -v yt-dlp) ]] && ${YTDL[bin]} ${YTDL[format]} ${YTDL[title]} $URL && exit
+[[ -x $(command -v yt-dlp) ]] && ${YTDL[bin]} --restrict-filenames ${YTDL[format]} ${YTDL[title]} $URL && exit
