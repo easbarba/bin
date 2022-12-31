@@ -19,6 +19,28 @@ if [[ ! -x $(command -v podman) ]]; then
     echo '%podman ALL=(ALL) NOPASSWD: /usr/bin/podman' | sudo tee -a /etc/sudoers.d/podman
 fi
 
+if [[ ! -x $(command -v kubectl) ]]; then
+    if [[ ! -f /etc/apt/sources.list.d/kubernetes.list ]]; then
+        $UPDATE
+        $INSTALL apt-transport-https ca-certificates curl
+        sudo curl -fsSLo /usr/share/keyrings/kubernetes-archive-keyring.gpg https://packages.cloud.google.com/apt/doc/apt-key.gpg
+        echo "deb [signed-by=/usr/share/keyrings/kubernetes-archive-keyring.gpg] https://apt.kubernetes.io/ kubernetes-xenial main" | sudo tee /etc/apt/sources.list.d/kubernetes.list
+    fi
+
+    $UPDATE && $INSTALL kubectl kubelet kubeadm
+fi
+
+if [[ ! -x $(command -v helm) ]]; then
+    wget -qO- https://baltocdn.com/helm/signing.asc | sudo tee /etc/apt/trusted.gpg.d/heml.asc
+    sudo apt-get install apt-transport-https --yes
+    echo "deb https://baltocdn.com/helm/stable/debian/ all main" | sudo tee /etc/apt/sources.list.d/helm.list
+    sudo apt-get update
+
+    $INSTALL helm
+fi
+
+exit
+
 if [[ ! -x $(command -v tcpdump) ]]; then
     $INSTALL net-tools iproute2 telnet dnsutils iwd iw wireless-tools \
         resolvconf dhcpcd5 netcat-traditional tcpdump httpie gnutls-bin nmap
@@ -54,28 +76,6 @@ if [[ ! -x $(command -v minikube) ]]; then
     curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube_latest_amd64.deb -P /tmp
     sudo apt install /tmp/minikube_latest_amd64.deb
 fi
-
-if [[ ! -x $(command -v kubectl) ]]; then
-    if [[ ! -f /etc/apt/sources.list.d/kubernetes.list ]]; then
-        $UPDATE
-        $INSTALL apt-transport-https ca-certificates curl
-        sudo curl -fsSLo /usr/share/keyrings/kubernetes-archive-keyring.gpg https://packages.cloud.google.com/apt/doc/apt-key.gpg
-        echo "deb [signed-by=/usr/share/keyrings/kubernetes-archive-keyring.gpg] https://apt.kubernetes.io/ kubernetes-xenial main" | sudo tee /etc/apt/sources.list.d/kubernetes.list
-    fi
-
-    $UPDATE && $INSTALL kubectl kubelet kubeadm
-fi
-
-if [[ ! -x $(command -v helm) ]]; then
-    wget -qO- https://baltocdn.com/helm/signing.asc | sudo tee /etc/apt/trusted.gpg.d/heml.asc
-    sudo apt-get install apt-transport-https --yes
-    echo "deb https://baltocdn.com/helm/stable/debian/ all main" | sudo tee /etc/apt/sources.list.d/helm.list
-    sudo apt-get update
-
-    $INSTALL helm
-fi
-
-exit
 
 [[ ! -x $(command -v aws) ]] && $INSTALL awscli
 
