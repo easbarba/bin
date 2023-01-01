@@ -12,6 +12,7 @@ lisp=(guile-3.0 chicken-bin libzstd-dev)
 php=(php php-common)
 php_libs=(php-curl php-xml php-json php-mbstring php-zip php-xsl php-pgsql)
 pg=(postgresql postgresql-client postgresql-contrib libpq-dev)
+langs_tools=(python3-pip)
 mx=(emacs libgccjit0 libgccjit-12-dev libwebkit2gtk-4.0-dev libjansson-dev libjansson4)
 tools=(jq git-email subversion mercurial libpq-dev editorconfig gnome-keyring direnv fd-find shfmt meson cmake)
 editors=(zile vim neovim tidy ripgrep)
@@ -20,6 +21,7 @@ groups=("${mx[@]}"
     "${lisp[@]}"
     "${php[@]}"
     "${php_libs[@]}"
+    "${langs_tools[@]}"
     "${editors[@]}"
     "${pg[@]}"
     "${tools[@]}")
