@@ -8,7 +8,7 @@ s-checkdeps "${DEPS[@]}"
 
 s-echo "Golang Toolings."
 
-COMMAND='go install'
+COMMAND='go install -v'
 
 lsp=('github.com/hashicorp/terraform-ls@latest'
 	'golang.org/x/tools/gopls@latest')
