@@ -10,8 +10,7 @@ s-echo "Golang Toolings."
 
 COMMAND='go install -v'
 
-lsp=('github.com/hashicorp/terraform-ls@latest'
-	'golang.org/x/tools/gopls@latest')
+lsp=('github.com/hashicorp/terraform-ls@latest' 'golang.org/x/tools/gopls@latest')
 apps=('github.com/xxxserxxx/gotop/v4/cmd/gotop@latest' 'github.com/antonmedv/llama@latest')
 tools=('github.com/fatih/gomodifytags@latest'
 	'github.com/x-motemen/gore/cmd/gore@latest'
