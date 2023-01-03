@@ -18,5 +18,6 @@ fi
 
 # Update
 "$DOOM_HOME/bin/doom" sync -u
+"$DOOM_HOME/bin/doom" purge
 
 exit
