@@ -79,11 +79,6 @@ fi
 
 [[ ! -x $(command -v aws) ]] && $INSTALL awscli
 
-if [[ ! -x $(command -v aws-iam-authenticator) ]]; then
-    curl -o aws-iam-authenticator https://amazon-eks.s3.us-west-2.amazonaws.com/1.21.2/2021-07-05/bin/linux/amd64/aws-iam-authenticator -P "$HOME/.local/bin"
-    chmod +x "$HOME/.local/bin/aws-iam-authenticator"
-fi
-
 if [[ ! -x $(command -v gcloud) ]]; then
     if [[ -f /etc/apt/sources.list.d/google-cloud-sdk.list ]]; then
         $INSTALL apt-transport-https ca-certificates gnupg
@@ -95,13 +90,6 @@ if [[ ! -x $(command -v gcloud) ]]; then
 fi
 
 [[ ! -x $(command -v gitlab-runner) ]] && $INSTALL gitlab-runner
-
-if [[ ! -x $(command -v podman-compose) ]]; then
-    python3 -m pip install podman-compose --upgrade
-
-    # Docker Compose will use the correct socket.
-    export DOCKER_HOST=///run/user/$UID/podman/podman.sock
-fi
 
 if [[ ! -x $(command -v ansible) ]]; then
     $INSTALL ansible
@@ -138,17 +126,6 @@ if [[ ! -x $(command -v docker) ]]; then
     newgrp docker
 fi
 
-if [[ ! -x $(command -v eksctl) ]]; then
-    curl --silent --location "https://github.com/weaveworks/eksctl/releases/latest/download/eksctl_$(uname -s)_amd64.tar.gz" | tar xz -C /tmp
-    sudo mv /tmp/eksctl /usr/local/bin
-fi
-
-if [[ ! -x $(command -v k3s) ]]; then
-    ''
-fi
-
-[[ ! -x $(command -v kind) ]] && GO111MODULE=on go install sigs.k8s.io/kind@v0.12.0
-
 if [[ ! -x $(command -v jenkins) ]]; then
     curl -fsSL https://pkg.jenkins.io/debian-stable/jenkins.io.key | sudo tee \
         /usr/share/keyrings/jenkins-keyring.asc >/dev/null
@@ -160,11 +137,11 @@ if [[ ! -x $(command -v jenkins) ]]; then
     $UPDATE && $INSTALL fontconfig openjdk-11-jre jenkins
 fi
 
-[[ ! -x $(command -v virtualbox) ]] && $INSTALL virtualbox
-
 if [[ ! -x $(command -v firewalld) ]]; then
     $INSTALL firewalld
 
     sudo systemctl enable firewalld
     sudo systemctl start firewalld
 fi
+
+[[ ! -x $(command -v virtualbox) ]] && $INSTALL virtualbox
