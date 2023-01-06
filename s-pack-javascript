@@ -7,14 +7,15 @@ DEPS=(npm)
 s-checkdeps "${DEPS[@]}"
 
 [[ ! -x $HOME/.bun/bin/bun ]] && curl https://bun.sh/install | bash
-[[ ! -x $HOME/.deno/bin/deno ]] && curl -fsSL https://deno.land/install.sh | bash
 
-essential=(npm yarn)
-langs=(typescript)
-tools=(stylelint js-beautify prettier ts-node typescript-language-server)
-frameworks=(@vue/cli@next)
+essential=(npm) # yarn
+tools=(stylelint js-beautify prettier)
+node=()
+ts=(typescript)
+ts_tools=(ts-node typescript-language-server)
+vue=(@vue/cli@next)
 
-all=("${essential[@]}" "${tools[@]}" "${frameworks[@]}" "${langs[@]}")
+all=("${essential[@]}" "${tools[@]}")
 
 for single in "${all[@]}"; do
 	s-dolist 'npm install --global' "$single"
@@ -24,3 +25,5 @@ done
 npm update --global
 
 exit 0
+
+# [[ ! -x $HOME/.deno/bin/deno ]] && curl -fsSL https://deno.land/install.sh | bash
