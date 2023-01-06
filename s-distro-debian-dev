@@ -10,6 +10,7 @@ INSTALL='sudo apt-get install -y'
 
 lisp=(guile-3.0 chicken-bin libzstd-dev)
 go=(golang golang-golang-x-tools)
+js=(nodejs npm)
 pg=(postgresql postgresql-client postgresql-contrib libpq-dev)
 langs_tools=(python3-pip)
 mx=(emacs libgccjit0 libgccjit-12-dev libwebkit2gtk-4.0-dev libjansson-dev libjansson4)
@@ -18,6 +19,7 @@ editors=(zile vim neovim tidy ripgrep)
 
 groups=("${mx[@]}"
     "${go[@]}"
+    "${js[@]}"
     "${lisp[@]}"
     "${langs_tools[@]}"
     "${editors[@]}"
