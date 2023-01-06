@@ -10,12 +10,12 @@ s-checkdeps "${DEPS[@]}"
 
 essential=(npm) # yarn
 tools=(stylelint js-beautify prettier)
-node=()
+node=(nodemon)
 ts=(typescript)
 ts_tools=(ts-node typescript-language-server)
 vue=(@vue/cli@next)
 
-all=("${essential[@]}" "${tools[@]}")
+all=("${essential[@]}" "${tools[@]}" "${node[@]}")
 
 for single in "${all[@]}"; do
 	s-dolist 'npm install --global' "$single"
