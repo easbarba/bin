@@ -4,5 +4,8 @@
 set -euo pipefail
 
 s-base-emacs
-s-pack-scheme
 s-ops-containers
+s-pack-scheme
+s-pack-ruby
+s-pack-golang
+s-pack-javascript
