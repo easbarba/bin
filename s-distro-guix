@@ -23,8 +23,7 @@ if [[ ! -x $(command -v guix) ]]; then
 	guix install glibc-locales # Fix GUIX_LOCPATH warning
 fi
 
-sudo -i guix pull
-
 # UP TO DATE
+sudo -i guix pull
 guix pull
 guix upgrade
