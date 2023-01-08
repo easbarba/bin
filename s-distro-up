@@ -4,20 +4,10 @@
 set -euo pipefail
 
 # * CHECKER
-DEPS=(bash sudo zae rsync)
+DEPS=(bash sudo apt dnf)
 s-checkdeps "${DEPS[@]}"
 
-DISTRO="$(s-distro-name)"
-
-case "$DISTRO" in
-    "Debian GNU/Linux") s-distro-debian ;;
-    "Fedora GNU/Linux") s-distro-fedora ;;
-    "Ubuntu GNU/Linux") s-distro-ubuntu ;;
-    "Arch GNU/Linux") s-distro-arch ;;
-esac
-
 # * SYSTEM
-# [[ -x $(command -v zae) ]] && zae update && zae upgrade # FIX
 [[ -f /usr/bin/apt ]] && sudo apt update && sudo apt upgrade && sudo apt autoremove
 [[ -f /usr/bin/dnf ]] && sudo dnf update && sudo dnf upgrade
 
