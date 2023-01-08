@@ -9,10 +9,10 @@ s-checkdeps "${DEPS[@]}"
 RUNNER='podman pull'
 REGISTRY='docker.io/library'
 
-langs=(golang:1.19-alpine node:18-alpine openjdk:17-jdk maven:3-eclipse-temurin-17 ruby:3-alpine)
-db=(postgres:15-alpine mongo:6)
+langs=(golang:1.19-alpine node:18-alpine maven:3-eclipse-temurin-17-alpine ruby:3-alpine)
+db=(postgres:15-alpine)
 latest=(alpine:latest busybox:latest)
-distro=(debian:bullseye rockylinux:8)
+distro=(debian:unstable-slim)
 
 all=("${langs[@]}" "${db[@]}" "${latest[@]}" "${distro[@]}")
 
