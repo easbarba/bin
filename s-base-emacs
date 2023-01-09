@@ -20,5 +20,6 @@ fi
 "$DOOM_HOME/bin/doom" upgrade
 "$DOOM_HOME/bin/doom" purge
 "$DOOM_HOME/bin/doom" sync
+"$DOOM_HOME/bin/doom" doctor
 
 exit
