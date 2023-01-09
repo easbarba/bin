@@ -13,6 +13,7 @@ COMMAND='go install -v'
 lsp=('github.com/hashicorp/terraform-ls@latest' 'golang.org/x/tools/gopls@latest')
 apps=('github.com/xxxserxxx/gotop/v4/cmd/gotop@latest' 'github.com/antonmedv/llama@latest')
 tools=('github.com/fatih/gomodifytags@latest'
+	'https://github.com/rogpeppe/godef'
 	'github.com/x-motemen/gore/cmd/gore@latest'
 	'github.com/uudashr/gopkgs/v2/cmd/gopkgs@latest'
 	'github.com/ramya-rao-a/go-outline@latest'
