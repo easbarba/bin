@@ -8,10 +8,8 @@ s-checkdeps "${DEPS[@]}"
 
 INSTALL='sudo apt-get install -y'
 
-lisp=(guile-3.0 chicken-bin libzstd-dev)
+lisp=(guile-3.0 libzstd-dev)
 go=(golang golang-golang-x-tools)
-java=(openjdk-17-jre openjdk-17-jdk)
-java_tools=(clang-format maven ant)
 ruby=(ruby-full)
 js=(nodejs npm)
 pg=(postgresql postgresql-client postgresql-contrib libpq-dev)
@@ -23,8 +21,8 @@ editors=(zile vim neovim tidy ripgrep)
 groups=("${mx[@]}"
     "${go[@]}"
     "${ruby[@]}"
-    "${java[@]}"
-    "${java_tools[@]}"
+    "${php[@]}"
+    "${php_libs[@]}"
     "${js[@]}"
     "${lisp[@]}"
     "${langs_tools[@]}"
