@@ -13,7 +13,7 @@ tools=(stylelint js-beautify prettier)
 node=(nodemon)
 ts=(typescript)
 ts_tools=(ts-node typescript-language-server)
-vue=(@vue/cli@next)
+vue=(@vue/cli@next @volar/vue-language-server)
 
 all=("${essential[@]}" "${tools[@]}" "${node[@]}")
 
