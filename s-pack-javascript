@@ -15,7 +15,7 @@ ts=(typescript)
 ts_tools=(ts-node typescript-language-server)
 vue=(@vue/cli@next @volar/vue-language-server)
 
-all=("${essential[@]}" "${tools[@]}" "${node[@]}")
+all=("${essential[@]}" "${tools[@]}" "${node[@]}" "${ts[@]}")
 
 for single in "${all[@]}"; do
 	s-dolist 'npm install --global' "$single"
