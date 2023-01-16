@@ -2,21 +2,21 @@
 
 s-echo "Post Install"
 
-if [[ $(grep -rni '$HOME/.config/bash/config' "$HOME/.bashrc") ]]; then
-    echo '[[ -f $HOME/.config/bash/config ]] && . "$HOME/.config/bash/config"' >>"$HOME/.bashrc"
-fi
+paste() {
+    file=$1
+    to=$2
 
-if [[ $(grep -rni '$HOME/.config/bash/aliases' "$HOME/.bashrc") ]]; then
-    echo '[[ -f $HOME/.config/bash/aliases ]] && . "$HOME/.config/bash/aliases"' >>"$HOME/.bashrc"
-fi
+    [[ ! -f $to ]] && return
 
-if [[ $(grep -rni '$HOME/.config/env_variables' "$HOME/.profile") ]]; then
-    echo '[[ -x $HOME/.config/env_variables ]] && . "$HOME/.config/env_variables"' >>"$HOME/.profile"
-fi
+    if [[ ! $(grep -rni "$file" "$to") ]]; then
+        echo "[[ -f $file ]] && source $file" >>$to
+    fi
+}
 
-if [[ $(grep -rni '$HOME/.config/bash/profile.sh' "$HOME/.bash_profile") ]]; then
-    echo '[[ ! -f $HOME/.config/bash/profile.sh ]] && bash "$HOME/.config/bash/profile.sh"' >>"$HOME/.bash_profile"
-fi
+paste '$HOME/.config/bash/config.sh' "$HOME/.bashrc"
+paste '$HOME/.config/bash/aliases.sh' "$HOME/.bashrc"
+paste '$HOME/.config/env_variables' "$HOME/.profile"
+paste '$HOME/.config/bash/profile.sh' "$HOME/.bash_profile"
 
 # default folders
 mkdir -pv "$HOME"/{Downloads,Pictures,Documents,Videos,Builds,Projects,.local/bin,.config/scripts}
@@ -30,10 +30,12 @@ sudo fc-cache -fv
 # create or update the manual page index caches
 sudo mandb
 
-POSTGRES_VERSION=$(psql --version | awk '{print substr($3, 0, 2)}')
-HBA_CONF="/etc/postgresql/$POSTGRES_VERSION/main/pg_hba.conf"
-if ! sudo grep -i "$USER" "$HBA_CONF"; then
-    sudo -u postgres createuser --createdb --createrole --pwprompt "$USER" # permission to create database and set password
-    echo -n "local  all  all  md5" | sudo tee -a "$HBA_CONF"
-    sudo systemctl restart postgresql
+if [[ -x $(command -v psql) ]]; then
+    POSTGRES_VERSION=$(psql --version | awk '{print substr($3, 0, 2)}')
+    HBA_CONF="/etc/postgresql/$POSTGRES_VERSION/main/pg_hba.conf"
+    if ! sudo grep -i "$USER" "$HBA_CONF"; then
+        sudo -u postgres createuser --createdb --createrole --pwprompt "$USER" # permission to create database and set password
+        echo -n "local  all  all  md5" | sudo tee -a "$HBA_CONF"
+        sudo systemctl restart postgresql
+    fi
 fi
