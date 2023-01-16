@@ -85,7 +85,7 @@ gsettings set org.gnome.desktop.wm.preferences auto-raise 'true'
 gsettings set org.gnome.desktop.wm.preferences focus-new-windows 'smart'
 
 # EXTENSIONS
-gsettings set org.gnome.shell.extensions.auto-move-windows application-list "['org.gnome.Evince.desktop:3', 'libreoffice-startcenter.desktop:3', 'libreoffice-writer.desktop:3', 'org.gnome.Terminal.desktop:4', 'firefox.desktop:5', 'vlc.desktop:6', 'transmission-gtk.desktop:6', 'google-chrome.desktop:5', 'mpv.desktop:6', 'org.gnome.Music.desktop:6', 'insomnia.desktop:4']"
+gsettings set org.gnome.shell.extensions.auto-move-windows application-list "['org.gnome.Evince.desktop:2', 'libreoffice-startcenter.desktop:2', 'libreoffice-writer.desktop:2', 'org.gnome.Terminal.desktop:4', 'firefox.desktop:5', 'vlc.desktop:6', 'transmission-gtk.desktop:6', 'google-chrome.desktop:5', 'mpv.desktop:6', 'org.gnome.Music.desktop:6']"
 
 # APPS
 gsettings set org.gnome.Evince.Default fullscreen 'true'
