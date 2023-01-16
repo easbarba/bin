@@ -10,8 +10,6 @@ INSTALL='sudo apt-get install -y'
 
 lisp=(guile-3.0 guile-*-doc libzstd-dev)
 go=(golang golang-golang-x-tools)
-php=(php php-common)
-php_libs=(php-curl php-xml php-json php-mbstring php-zip php-*-xsl php-pgsql)
 ruby=(ruby-full)
 js=(nodejs npm)
 pg=(postgresql postgresql-client postgresql-contrib libpq-dev)
@@ -23,8 +21,6 @@ editors=(zile vim neovim tidy ripgrep)
 groups=("${mx[@]}"
     "${go[@]}"
     "${ruby[@]}"
-    "${php[@]}"
-    "${php_libs[@]}"
     "${js[@]}"
     "${lisp[@]}"
     "${langs_tools[@]}"
