@@ -39,3 +39,6 @@ if [[ -x $(command -v psql) ]]; then
         sudo systemctl restart postgresql
     fi
 fi
+
+# HELPERS
+# --------------------------------------------------
