@@ -8,4 +8,6 @@ s-checkdeps "${DEPS[@]}"
 
 TO=$HOME/.local/flutter
 
-git clone https://github.com/flutter/flutter --branch stable --single-branch "$TO"
+[[ ! -d $TO/.git ]] && git clone https://github.com/flutter/flutter --branch stable --single-branch "$TO"
+
+git -C "$TO" pull
