@@ -1,0 +1,36 @@
+#!/usr/bin/env bash
+
+# DEBUG OPTIONS
+set -euo pipefail
+
+DEPS=(git swift)
+s-checkdeps "${DEPS[@]}"
+
+LOCAL="$HOME/.local"
+
+if [[ ! -d "$LOCAL/swift" ]]; then
+    url='https://download.swift.org/swift-5.7.3-release/ubuntu2204/swift-5.7.3-RELEASE/swift-5.7.3-RELEASE-ubuntu22.04.tar.gz'
+    wget -c $url -P /tmp
+
+    tar -xvzf /tmp/swift-*-RELEASE-ubuntu*.tar.gz -C "$LOCAL"
+    mv "$LOCAL"/swift-*-RELEASE-* "$LOCAL/swift"
+fi
+
+if [[ ! -f "$LOCAL/bin/swift" ]]; then
+    ln -sf "$LOCAL/swift/usr/bin/swift" "$HOME/.local/bin/swift"
+    "$LOCAL/bin/swift" --version
+fi
+
+SF_FOLDER="$HOME/Builds/swift-format"
+if [[ ! -x $(command -v swift-format) ]]; then
+    version=0.50700.1
+
+    git clone https://github.com/apple/swift-format.git "$SF_FOLDER"
+    cd "$SF_FOLDER"
+    git checkout "tags/$version"
+
+    swift build -c release
+    cp "$SF_FOLDER/.build/release/swift-format" "$LOCAL/bin"
+fi
+
+git -C "$SF_FOLDER" pull
