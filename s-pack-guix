@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+
+# * Debug Options
+set -euo pipefail
+
+DEPS=(sudo guix bash)
+s-checkdeps "${DEPS[@]}"
+
+COMMAND="guix install"
+
+guix pull
+guix package -u
+
+editors=(neovim)
+
+all=("${editors[@]}")
+
+for single in "${all[@]}"; do
+	s-dolist "$COMMAND" "$single"
+done
