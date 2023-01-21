@@ -10,7 +10,8 @@ INSTALL='sudo apt-get install -y'
 
 lisp=(guile-3.0 guile-*-doc libzstd-dev)
 go=(golang golang-golang-x-tools)
-flutter=(clang)
+php=(php php-common)
+php_libs=(php-curl php-xml php-json php-mbstring php-zip php-*-xsl php-pgsql)
 pg=(postgresql postgresql-client postgresql-contrib libpq-dev)
 langs=(ruby-full)
 langs_tools=(python3-pip)
@@ -21,7 +22,8 @@ editors=(zile vim neovim tidy ripgrep)
 groups=("${mx[@]}"
     "${go[@]}"
     "${langs[@]}"
-    "${flutter[@]}"
+    "${php[@]}"
+    "${php_libs[@]}"
     "${lisp[@]}"
     "${langs_tools[@]}"
     "${editors[@]}"
@@ -38,16 +40,6 @@ if [[ ! $(command -v insomnia) ]]; then
 
     sudo apt-get update
     sudo apt-get install -y insomnia
-fi
-
-if [[ ! $(command -v dart) ]]; then
-    sudo apt-get update
-    sudo apt-get install -y apt-transport-https
-    wget -qO- https://dl-ssl.google.com/linux/linux_signing_key.pub | sudo gpg --dearmor -o /usr/share/keyrings/dart.gpg
-    echo 'deb [signed-by=/usr/share/keyrings/dart.gpg arch=amd64] https://storage.googleapis.com/download.dartlang.org/linux/debian stable main' | sudo tee /etc/apt/sources.list.d/dart_stable.list
-
-    sudo apt-get update
-    sudo apt-get install -y dart
 fi
 
 if [[ ! $(command -v dbeaver) ]]; then
