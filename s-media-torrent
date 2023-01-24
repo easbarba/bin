@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+
+# Debug Options
+set -euo pipefail
+
+# Description: Get video
+
+DEPS=(aria2c)
+s-checkdeps "${DEPS[@]}"
+
+DOWN_FOLDER="$HOME/Downloads"
+URL="$(s-url)"
+
+aria2c "$URL" -d "$DOWN_FOLDER"
