@@ -50,7 +50,4 @@ if [[ ! -x $PSYSH_LOCATION ]]; then
     "$PSYSH_LOCATION" --version
 fi
 
-
-[[ ! -x $(command -v laravel) ]] && composer global require "laravel/installer"
-
 exit
