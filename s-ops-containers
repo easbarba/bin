@@ -9,7 +9,7 @@ s-checkdeps "${DEPS[@]}"
 RUNNER='podman pull'
 REGISTRY='docker.io/library'
 
-langs=(golang:1.19-alpine dart:stable)
+langs=(golang:1.19-alpine)
 db=(postgres:15-alpine)
 latest=(alpine:latest busybox:latest)
 distro=(debian:unstable-slim)
