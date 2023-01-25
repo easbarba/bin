@@ -7,12 +7,12 @@ DEPS=(sudo guix bash)
 s-checkdeps "${DEPS[@]}"
 
 frame=("laravel/installer")
-tools=("phpunit/phpunit" "phing/phing" "friendsofphp/php-cs-fixer" "phpdocumentor/phpdocumentor" "squizlabs/php_codesniffer=*")
+tools=("phpunit/phpunit" "phing/phing" "friendsofphp/php-cs-fixer" "squizlabs/php_codesniffer=*") # "phpdocumentor/phpdocumentor"
 
 all=("${frame[@]}" "${tools[@]}")
 for each in "${all[@]}"; do
     s-echo "-> $each"
-    [[ ! -x $(command -v "$each") ]] && composer global require --no-interaction "$each"
+    composer global require --no-interaction "$each"
 done
 
 # UPDATE ALL
