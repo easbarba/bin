@@ -42,12 +42,4 @@ if [[ ! -x $(command -v phpactor) ]]; then
     "$LOCAL_BIN/phpactor" --version
 fi
 
-PSYSH_LOCATION="$LOCAL_BIN/psysh"
-if [[ ! -x $PSYSH_LOCATION ]]; then
-    wget https://psysh.org/psysh -P "$LOCAL_BIN"
-    chmod +x "$PSYSH_LOCATION"
-
-    "$PSYSH_LOCATION" --version
-fi
-
 exit
