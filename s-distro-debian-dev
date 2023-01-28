@@ -9,7 +9,6 @@ s-checkdeps "${DEPS[@]}"
 INSTALL='sudo apt-get install -y'
 
 lisp=(guile-3.0 guile-*-doc libzstd-dev)
-go=(golang golang-golang-x-tools)
 php=(php php-common)
 php_libs=(php-curl php-xml php-json php-mbstring php-zip php-*-xsl php-pgsql)
 pg=(postgresql postgresql-client postgresql-contrib libpq-dev)
@@ -20,7 +19,6 @@ tools=(jq git-email subversion mercurial libpq-dev editorconfig direnv fd-find s
 editors=(zile vim neovim tidy ripgrep)
 
 groups=("${mx[@]}"
-    "${go[@]}"
     "${langs[@]}"
     "${php[@]}"
     "${php_libs[@]}"
