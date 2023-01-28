@@ -6,5 +6,4 @@ set -euo pipefail
 s-base-emacs
 s-ops-containers
 s-pack-scheme
-s-pack-golang
-s-base-dart
+s-pack-php
