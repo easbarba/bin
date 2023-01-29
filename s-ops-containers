@@ -9,7 +9,7 @@ s-checkdeps "${DEPS[@]}"
 RUNNER='podman pull'
 REGISTRY='docker.io/library'
 
-langs=(php:8-alpine)
+langs=(php:8-alpine composer:lts)
 db=(postgres:15-alpine)
 latest=(alpine:latest busybox:latest)
 distro=(debian:unstable-slim)
