@@ -4,6 +4,6 @@
 set -euo pipefail
 
 s-base-emacs
+s-pack-php
 s-ops-containers
 s-pack-scheme
-s-pack-php
