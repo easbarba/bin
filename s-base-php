@@ -42,4 +42,8 @@ if [[ ! -x $(command -v phpactor) ]]; then
     "$LOCAL_BIN/phpactor" --version
 fi
 
+if [[ ! -f $HOME/.symfony5/bin/symfony ]]; then
+    wget https://get.symfony.com/cli/installer -O - | bash
+fi
+
 exit
