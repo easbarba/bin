@@ -1,45 +1,61 @@
 #!/usr/bin/env bash
+#
+# Bin is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# Bin is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with Bin. If not, see <https://www.gnu.org/licenses/>.
+#
 
 # Debug Options
 set -eu
 
 shopt -s extglob
 
-extract()
-{
-    local c e i
+extract() {
+	local c e i
 
-    (($#)) || return
+	(($#)) || return
 
-    for i; do
-	c=''
-	e=1
+	for i; do
+		c=''
+		e=1
 
-	if [[ ! -r $i ]]; then
-	    echo "$0: file is unreadable: \`$i'" >&2
-	    continue
-	fi
+		if [[ ! -r $i ]]; then
+			echo "$0: file is unreadable: \`$i'" >&2
+			continue
+		fi
 
-	case $i in
-	    *.t@(gz|lz|xz|b@(2|z?(2))|a@(z|r?(.@(Z|bz?(2)|gz|lzma|xz)))))
-		   c=(tar xvf);;
-	    *.7z)  c=(7z x);;
-	    *.Z)   c=(uncompress);;
-	    *.bz2) c=(bunzip2);;
-	    *.exe) c=(cabextract);;
-	    *.gz)  c=(gunzip);;
-	    *.rar) c=(unrar x);;
-	    *.xz)  c=(unxz);;
-	    *.zip) c=(unzip);;
-	    *.zst) c=(unzstd);;
-	    *)     echo "$0: unrecognized file extension: \`$i'" >&2
-		   continue;;
-	esac
+		case $i in
+			*.t@(gz|lz|xz|b@(2|z?(2))|a@(z|r?(.@(Z|bz?(2)|gz|lzma|xz)))))
+				c=(tar xvf)
+				;;
+			*.7z) c=(7z x) ;;
+			*.Z) c=(uncompress) ;;
+			*.bz2) c=(bunzip2) ;;
+			*.exe) c=(cabextract) ;;
+			*.gz) c=(gunzip) ;;
+			*.rar) c=(unrar x) ;;
+			*.xz) c=(unxz) ;;
+			*.zip) c=(unzip) ;;
+			*.zst) c=(unzstd) ;;
+			*)
+				echo "$0: unrecognized file extension: \`$i'" >&2
+				continue
+				;;
+		esac
 
-	command "${c[@]}" "$i"
-	((e = e || $?))
-    done
-    return "$e"
+		command "${c[@]}" "$i"
+		((e = e || $?))
+	done
+	return "$e"
 }
 
 extract "$@"

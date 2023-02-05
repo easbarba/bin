@@ -1,4 +1,18 @@
 #!/usr/bin/env bash
+#
+# Bin is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# Bin is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with Bin. If not, see <https://www.gnu.org/licenses/>.
+#
 
 # DEBUG OPTIONS
 set -euo pipefail
@@ -72,7 +86,7 @@ amd=(firmware-linux-nonfree amd64-microcode firmware-amd-graphics
 	libgl1-mesa-dri:i386 radeontop)
 
 groups=("${essentials[@]}"
-#	"${debian[@]}"
+	#	"${debian[@]}"
 	"${system[@]}"
 	"${gnu[@]}"
 	"${shell[@]}"
@@ -86,7 +100,7 @@ groups=("${essentials[@]}"
 	"${gtk[@]}"
 	"${cli[@]}"
 	"${laptop[@]}"
-#	"${amd[@]}"
+	#	"${amd[@]}"
 	"${fonts[@]}")
 
 for group in "${groups[@]}"; do
@@ -110,4 +124,3 @@ s-echo "Debian Services"
 sudo systemctl enable fstrim.timer
 
 exit
-

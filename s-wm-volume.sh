@@ -1,4 +1,18 @@
 #!/usr/bin/env bash
+#
+# Bin is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# Bin is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with Bin. If not, see <https://www.gnu.org/licenses/>.
+#
 
 # Debug Options
 set -euo pipefail
@@ -9,11 +23,13 @@ STATE="$1"
 # TRANSLATE HUMAN-FRIENDLY STATE TO VOLUME MANAGERS COMMAND
 case $STATE in
     up)
-        STATE='+';;
-    down)
-        STATE='-';;
-    toggle)
+        STATE='+'
         ;;
+    down)
+        STATE='-'
+        ;;
+    toggle) ;;
+
 esac
 
 usage() {
@@ -31,10 +47,12 @@ Usage:
 _pactl() {
     case $STATE in
         toggle)
-            pactl set-sink-mute @DEFAULT_SINK@ toggle;;
-        +|-)
-            pactl set-sink-volume @DEFAULT_SINK@ "$STATE$STEP%";;
-        *) exit 1;;
+            pactl set-sink-mute @DEFAULT_SINK@ toggle
+            ;;
+        + | -)
+            pactl set-sink-volume @DEFAULT_SINK@ "$STATE$STEP%"
+            ;;
+        *) exit 1 ;;
     esac
 }
 
@@ -42,4 +60,3 @@ _pactl() {
 [[ $# -eq 0 ]] && usage
 
 [[ -x $(command -v pactl) ]] && _pactl
-
