@@ -18,7 +18,9 @@ declare(strict_types=1);
 * along with Bin. If not, see <https://www.gnu.org/licenses/>.
 */
 
-$to = getenv('HOME') . DIRECTORY_SEPARATOR . "Downloads" . DIRECTORY_SEPARATOR . "One Punch Man";
+$homeDown = getenv('HOME') . DIRECTORY_SEPARATOR . "Downloads" . DIRECTORY_SEPARATOR . "One Punch Man";
+$to = $argv[1] ?? $homeDown;
+if(!file_exists($to)) mkdir($to);
 
 // API
 
@@ -33,7 +35,7 @@ $response=json_decode($response_json, true);
 // GRABBING VOLUMES
 $chapters = $response['chapters'];
 foreach ($chapters as $chapter) {
-    $title = "'{$chapter["title"]}'";
+    $title = "{$chapter["title"]}";
     $fld = $to . DIRECTORY_SEPARATOR . $title;
 
     if(!file_exists($fld) && !is_dir($fld)) {
