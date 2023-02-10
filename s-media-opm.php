@@ -44,11 +44,16 @@ foreach ($chapters as $chapter) {
     }
 
     $pics = $chapter['groups']["/r/OnePunchMan"];
-    foreach ($pics as $pic) {
-        $img =  $fld . DIRECTORY_SEPARATOR . basename($pic);
-        if(!file_exists($img)) {
-            echo "\nGetting pic: {$img}";
-            file_put_contents($img, file_get_contents($pic));
+
+    // Check if folder has at least one pic so to avoid API pics naming change.
+    if((count(scandir($fld)) <= 2)) {
+        // echo $title, " api: ", count($pics), " folder: ", (count(scandir($fld)) - 2), "\n";
+        foreach ($pics as $pic) {
+            $img =  $fld . DIRECTORY_SEPARATOR . basename($pic);
+            if(!file_exists($img)) {
+                echo "\nGetting pic: {$img}";
+                file_put_contents($img, file_get_contents($pic));
+            }
         }
     }
 }
