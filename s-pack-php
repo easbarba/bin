@@ -22,7 +22,7 @@ s-checkdeps "${DEPS[@]}"
 
 frame=("laravel/installer")
 tools=("psy/psysh" "phpunit/phpunit" "phing/phing" "friendsofphp/php-cs-fixer"
-    "squizlabs/php_codesniffer=*" "clue/phar-composer") # "phpdocumentor/phpdocumentor"
+    "squizlabs/php_codesniffer=*" "clue/phar-composer" "zircote/swagger-php") # "phpdocumentor/phpdocumentor"
 
 all=("${frame[@]}" "${tools[@]}")
 for each in "${all[@]}"; do
