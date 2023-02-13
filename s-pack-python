@@ -20,14 +20,13 @@ set -euo pipefail
 DEPS=(python bash)
 s-checkdeps "${DEPS[@]}"
 
-COMMAND="python3 -m pip install --upgrade"
-
 tools=(black pipenv pyflakes pytest isort nose pyperclip)
 libs=(beautifulsoup4 interval)
 apps=(cryptography conan)
 
 groups=("${tools[@]}" "${libs[@]}" "${apps[@]}")
 
+COMMAND="python3 -m pip install --upgrade --user --break-system-packages"
 for group in "${groups[@]}"; do
     s-dolist "$COMMAND" "${group[@]}"
 done
