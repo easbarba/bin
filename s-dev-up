@@ -17,8 +17,10 @@
 # DEBUG SETTINGS
 set -euo pipefail
 
-s-base-emacs
 s-pack-php
+s-pack-javascript
+s-pack-ruby
 s-ops-containers
 s-pack-scheme
 s-pack-python
+s-base-emacs
