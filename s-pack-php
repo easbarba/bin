@@ -20,11 +20,12 @@ set -euo pipefail
 DEPS=(sudo guix bash)
 s-checkdeps "${DEPS[@]}"
 
-frame=("laravel/installer")
-tools=("psy/psysh" "phpunit/phpunit" "phing/phing" "friendsofphp/php-cs-fixer"
+frameworks=("laravel/installer")
+tools=("guzzlehttp/guzzle" "phpunit/phpunit" "phing/phing" "friendsofphp/php-cs-fixer"
     "squizlabs/php_codesniffer=*" "clue/phar-composer" "zircote/swagger-php") # "phpdocumentor/phpdocumentor"
+apps=("psy/psysh")
 
-all=("${frame[@]}" "${tools[@]}")
+all=("${frameworks[@]}" "${tools[@]}" "${apps[@]}")
 for each in "${all[@]}"; do
     s-echo "-> $each"
     composer global require --no-interaction "$each"
