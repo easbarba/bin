@@ -18,38 +18,53 @@ declare(strict_types=1);
 * along with Bin. If not, see <https://www.gnu.org/licenses/>.
 */
 
-$homeDown = getenv('HOME') . DIRECTORY_SEPARATOR . "Downloads" . DIRECTORY_SEPARATOR . "One Punch Man";
-$to = $argv[1] ?? $homeDown;
-if(!file_exists($to)) mkdir($to);
+$home = getenv('HOME');
+$homeDown = $home . "/Downloads/One Punch Man";
+$to = $homeDown;
+
+// if no directory has been set, use default.
+if(!empty($argv[1])) {
+    $to = $argv[1];
+
+    if(!file_exists($to)) {
+        mkdir($to);
+    }
+}
 
 // API
+function all(string $homedir): array
+{
+    require($homedir . '/.config/composer/vendor/autoload.php');
 
-$url = 'https://gist.githubusercontent.com/funkyhippo/1d40bd5dae11e03a6af20e5a9a030d81/raw/?';
-$ch = curl_init($url);
-curl_setopt($ch, CURLOPT_HTTPGET, true);
-curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-$response_json = curl_exec($ch);
-curl_close($ch);
-$response=json_decode($response_json, true);
+    $url = 'https://gist.githubusercontent.com/funkyhippo/1d40bd5dae11e03a6af20e5a9a030d81/raw/?';
+    $client = new GuzzleHttp\Client();
+    $response = $client->get($url);
 
-// GRABBING VOLUMES
-$chapters = $response['chapters'];
+    return json_decode($response->getBody()->getContents(), true);
+}
+
+// ACTION
+$chapters = all($home)['chapters'];
 foreach ($chapters as $chapter) {
     $title = "{$chapter["title"]}";
     $fld = $to . DIRECTORY_SEPARATOR . $title;
 
+    // create dir of chapter if needed
     if(!file_exists($fld) && !is_dir($fld)) {
         echo "creating directory: {$fld}";
         mkdir($fld, 0755);
     }
 
+    // select pictures array
     $pics = $chapter['groups']["/r/OnePunchMan"];
 
-    // Check if folder has at least one pic so to avoid API pics naming change.
+    // Check if folder has at least one pic
+    // so to avoid API pics naming change.
     if((count(scandir($fld)) <= 2)) {
-        // echo $title, " api: ", count($pics), " folder: ", (count(scandir($fld)) - 2), "\n";
         foreach ($pics as $pic) {
             $img =  $fld . DIRECTORY_SEPARATOR . basename($pic);
+
+            // download file only if needed
             if(!file_exists($img)) {
                 echo "\nGetting pic: {$img}";
                 file_put_contents($img, file_get_contents($pic));
@@ -57,3 +72,13 @@ foreach ($chapters as $chapter) {
         }
     }
 }
+
+// echo $title, " api: ", count($pics), " folder: ", (count(scandir($fld)) - 2), "\n";
+// function curly(string $url): void
+// {
+//     $ch = curl_init($url);
+//     curl_setopt($ch, CURLOPT_HTTPGET, true);
+//     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+//     $response_json = curl_exec($ch);
+//     curl_close($ch);
+// }
