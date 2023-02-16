@@ -20,15 +20,9 @@ declare(strict_types=1);
 
 $home = getenv('HOME');
 $homeDown = $home . "/Downloads/One Punch Man";
-$to = $homeDown;
-
-// if no directory has been set, use default.
-if(!empty($argv[1])) {
-    $to = $argv[1];
-
-    if(!file_exists($to)) {
-        mkdir($to);
-    }
+$to = $argv[1] ?? $homeDown; // if no directory has been set, use default.
+if (!file_exists($to)) {
+    mkdir($to);
 }
 
 // API
@@ -66,7 +60,7 @@ foreach ($chapters as $chapter) {
     $fld = $to . DIRECTORY_SEPARATOR . $title;
 
     // create dir of chapter if needed
-    if(!file_exists($fld) && !is_dir($fld)) {
+    if (!file_exists($fld) && !is_dir($fld)) {
         echo "creating directory: {$fld}";
         mkdir($fld, 0755);
     }
@@ -76,17 +70,15 @@ foreach ($chapters as $chapter) {
 
     // Check if folder has at least one pic
     // so to avoid API pics naming change.
-    if((count(scandir($fld)) <= 2)) {
+    if ((count(scandir($fld)) <= 2)) {
         foreach ($pics as $pic) {
             $img =  $fld . DIRECTORY_SEPARATOR . basename($pic);
 
             // download file only if needed
-            if(!file_exists($img)) {
+            if (!file_exists($img)) {
                 echo "\nGetting pic: {$img}";
                 file_put_contents($img, file_get_contents($pic));
             }
         }
     }
 }
-
-// echo $title, " api: ", count($pics), " folder: ", (count(scandir($fld)) - 2), "\n";
