@@ -32,7 +32,7 @@ if(!empty($argv[1])) {
 }
 
 // API
-function all(string $homedir): array
+function guzzly(string $homedir): array
 {
     require($homedir . '/.config/composer/vendor/autoload.php');
 
@@ -43,8 +43,24 @@ function all(string $homedir): array
     return json_decode($response->getBody()->getContents(), true);
 }
 
+function curly(string $url): array
+{
+    $handler = curl_init();
+    curl_setopt_array($handler, [
+        CURLOPT_URL => $url,
+        CURLOPT_HTTPGET => true,
+        CURLOPT_RETURNTRANSFER => true
+    ]);
+
+    $response_json = curl_exec($handler);
+    curl_close($handler);
+
+    return json_decode($response_json, true);
+}
+
+
 // ACTION
-$chapters = all($home)['chapters'];
+$chapters = guzzly($home)['chapters'];
 foreach ($chapters as $chapter) {
     $title = "{$chapter["title"]}";
     $fld = $to . DIRECTORY_SEPARATOR . $title;
@@ -74,11 +90,3 @@ foreach ($chapters as $chapter) {
 }
 
 // echo $title, " api: ", count($pics), " folder: ", (count(scandir($fld)) - 2), "\n";
-// function curly(string $url): void
-// {
-//     $ch = curl_init($url);
-//     curl_setopt($ch, CURLOPT_HTTPGET, true);
-//     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-//     $response_json = curl_exec($ch);
-//     curl_close($ch);
-// }
