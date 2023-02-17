@@ -24,7 +24,7 @@ INSTALL='sudo apt-get install -y'
 
 lisp=(guile-3.0 guile-*-doc libzstd-dev)
 php=(php php-common)
-php_libs=(php-curl php-xml php-json php-mbstring php-zip php-*-xsl php-pgsql)
+php_libs=(php-curl php-xml php-json php-mbstring php-zip php-*-xsl php-pgsql php-intl)
 pg=(postgresql postgresql-client postgresql-contrib libpq-dev)
 langs=(ruby-full)
 langs_tools=(python3-pip)
