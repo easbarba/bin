@@ -23,7 +23,7 @@ s-checkdeps "${DEPS[@]}"
 [[ ! -x $HOME/.bun/bin/bun ]] && curl https://bun.sh/install | bash
 
 essential=(npm) # yarn
-tools=(stylelint js-beautify prettier)
+tools=(stylelint js-beautify prettier @prettier/plugin-php)
 node=(nodemon)
 ts=(typescript)
 ts_tools=(ts-node typescript-language-server)
