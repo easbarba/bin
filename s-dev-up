@@ -18,9 +18,10 @@
 set -euo pipefail
 
 s-pack-php
-s-pack-javascript
 s-pack-ruby
-s-ops-containers
-s-pack-scheme
+s-pack-golang
+s-pack-javascript
 s-pack-python
+s-pack-scheme
+s-ops-containers
 s-base-emacs
