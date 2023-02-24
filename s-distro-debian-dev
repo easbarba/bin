@@ -30,13 +30,14 @@ langs=(ruby-full nodejs npm)
 langs_tools=(python3-pip)
 mx=(emacs libgccjit0 libgccjit-12-dev libwebkit2gtk-4.0-dev libjansson-dev libjansson4)
 tools=(jq git-email subversion mercurial libpq-dev editorconfig direnv fd-find shfmt meson cmake)
-editors=(zile vim neovim tidy ripgrep)
+editors=(vim neovim tidy ripgrep)
 
-groups=("${mx[@]}"
+groups=(
+    # "${mx[@]}"
     "${langs[@]}"
-    "${php[@]}"
-    "${php_libs[@]}"
-    "${lisp[@]}"
+    # "${php[@]}"
+    # "${php_libs[@]}"
+    # "${lisp[@]}"
     "${langs_tools[@]}"
     "${editors[@]}"
     "${pg[@]}"

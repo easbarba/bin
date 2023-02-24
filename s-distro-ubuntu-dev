@@ -17,31 +17,46 @@
 # Debug Options
 set -euo pipefail
 
-DEPS=(apt-get bash)
+DEPS=(apt-get)
 s-checkdeps "${DEPS[@]}"
 
-COMMAND='sudo apt-get install -y'
+INSTALL='sudo apt-get install -y'
 
-# EAMCS PACKAGES
-# MX=(emacs libgccjit0 libgccjit-12-dev libwebkit2gtk-4.0-dev libjansson-dev libjansson4)
-# s-dolist "$COMMAND" "${MX[@]}"
+lisp=(guile-3.0 guile-*-doc libzstd-dev)
+php=(php php-common)
+php_libs=(php-curl php-xml php-json php-mbstring php-zip php-*-xsl php-pgsql php-intl)
+pg=(postgresql postgresql-client postgresql-contrib libpq-dev)
+langs=(ruby-full nodejs npm)
+langs_tools=(python3-pip)
+mx=(emacs libgccjit0 libgccjit-12-dev libwebkit2gtk-4.0-dev libjansson-dev libjansson4)
+tools=(jq git-email subversion mercurial libpq-dev editorconfig direnv fd-find shfmt meson cmake)
+editors=(vim neovim tidy ripgrep)
 
-# PROGRAMMING LANGUAGES
-LANGS_HOBBY=(libzstd-dev guile-3.0) # sbcl libssl-dev libfixposix-dev
-s-dolist "$COMMAND" "${LANGS_HOBBY[@]}"
+groups=("${mx[@]}"
+    "${langs[@]}"
+    # "${php[@]}"
+    # "${php_libs[@]}"
+    # "${lisp[@]}"
+    "${langs_tools[@]}"
+    "${editors[@]}"
+    "${pg[@]}"
+    "${tools[@]}")
 
-LANGS_WORK=(openjdk-17-jre openjdk-17-jdk)
-s-dolist "$COMMAND" "${LANGS_WORK[@]}"
+for group in "${groups[@]}"; do
+    s-dolist "$INSTALL" "$group"
+done
 
-LANGS_TOOLS=(maven ant clang-format)
-s-dolist "$COMMAND" "${LANGS_TOOLS[@]}"
+if [[ ! $(command -v insomnia) ]]; then
+    echo "deb [trusted=yes arch=amd64] https://download.konghq.com/insomnia-ubuntu/ default all" |
+        sudo tee -a /etc/apt/sources.list.d/insomnia.list
 
-# PROGRAMMING EDITORS
-EDITORS=(zile vim neovim tidy ripgrep)
-s-dolist "$COMMAND" "${EDITORS[@]}"
+    sudo apt-get update
+    sudo apt-get install -y insomnia
+fi
 
-# PROGRAMMING TOOLS
-TOOLS=(jq git-email subversion mercurial libpq-dev editorconfig gnome-keyring direnv fd-find)
-s-dolist "$COMMAND" "${TOOLS[@]}"
+if [[ ! $(command -v dbeaver) ]]; then
+    [[ ! -f /tmp/dbeaver-ce_latest_amd64.deb ]] && wget -c "https://dbeaver.io/files/dbeaver-ce_latest_amd64.deb" -P /tmp
+    sudo apt install -y /tmp/dbeaver-ce_latest_amd64.deb
+fi
 
 exit
