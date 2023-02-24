@@ -21,14 +21,16 @@ DEPS=(sudo guix bash)
 s-checkdeps "${DEPS[@]}"
 
 frameworks=("laravel/installer")
-tools=("guzzlehttp/guzzle" "phpunit/phpunit" "phing/phing" "friendsofphp/php-cs-fixer"
-    "squizlabs/php_codesniffer=*" "clue/phar-composer" "zircote/swagger-php") # "phpdocumentor/phpdocumentor"
+tools=("guzzlehttp/guzzle" "phpunit/phpunit" "phing/phing"
+    "friendsofphp/php-cs-fixer" "techlivezheng/phpctags"
+    "squizlabs/php_codesniffer=*" "clue/phar-composer"
+    "zircote/swagger-php") # "phpdocumentor/phpdocumentor"
 apps=("psy/psysh")
 
 all=("${frameworks[@]}" "${tools[@]}" "${apps[@]}")
 for each in "${all[@]}"; do
     s-echo "-> $each"
-    composer global require --no-interaction "$each"
+    composer global require --no-interaction --with-all-dependencies "$each"
 done
 
 # UPDATE ALL
