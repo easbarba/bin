@@ -1,0 +1,29 @@
+#!/usr/bin/env bash
+#
+# Bin is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# Bin is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with Bin. If not, see <https://www.gnu.org/licenses/>.
+#
+
+if [[ -x $(command -v psql) ]]; then
+    sudo systemctl enable postgresql
+    sudo systemctl start postgresql
+
+    POSTGRES_VERSION=$(psql --version | awk '{print substr($3, 0, 2)}')
+    HBA_CONF="/etc/postgresql/$POSTGRES_VERSION/main/pg_hba.conf"
+
+    if ! sudo grep -i "$USER" "$HBA_CONF"; then
+        sudo -u postgres createuser --createdb --createrole --pwprompt "$USER" # permission to create database and set password
+        echo -n "local  all  all  md5" | sudo tee -a "$HBA_CONF"
+        sudo systemctl restart postgresql
+    fi
+fi
