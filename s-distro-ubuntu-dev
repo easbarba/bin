@@ -23,8 +23,8 @@ s-checkdeps "${DEPS[@]}"
 COMMAND='sudo apt-get install -y'
 
 # EAMCS PACKAGES
-MX=(emacs libgccjit0 libgccjit-12-dev libwebkit2gtk-4.0-dev libjansson-dev libjansson4)
-s-dolist "$COMMAND" "${MX[@]}"
+# MX=(emacs libgccjit0 libgccjit-12-dev libwebkit2gtk-4.0-dev libjansson-dev libjansson4)
+# s-dolist "$COMMAND" "${MX[@]}"
 
 # PROGRAMMING LANGUAGES
 LANGS_HOBBY=(libzstd-dev guile-3.0) # sbcl libssl-dev libfixposix-dev
