@@ -25,12 +25,13 @@ COMMAND="guix install"
 guix pull
 guix package -u
 
-langs=(php)
-lisp=(guile guile-readline)
+langs=(guile guile-readline php)
 editors=(zile emacs)
+misc=(nss-certs font-dejavu)
+apps=(haunt guile-hall akku)
+libs=(guile-git guile-json)
 
-all=("${editors[@]}" "${lisp[@]}" "${langs[@]}")
-
+all=("${editors[@]}" "${langs[@]}" "${misc[@]}" "${apps[@]}" "${langs[@]}" "${libs[@]}")
 for single in "${all[@]}"; do
 	s-dolist "$COMMAND" "$single"
 done

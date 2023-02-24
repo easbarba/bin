@@ -23,5 +23,8 @@ s-pack-golang
 s-pack-javascript
 s-pack-python
 s-pack-scheme
+
 s-ops-containers
+
 s-base-emacs
+s-distro-guix-dev
