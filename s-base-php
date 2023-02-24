@@ -47,7 +47,7 @@ fi
 
 PHPACTOR_LOCATION="$HOME/Builds/phpactor"
 if [[ ! -x $(command -v phpactor) ]]; then
-    [[ ! -d $PHPACTOR_LOCATION/.git ]] && git clone git@github.com:phpactor/phpactor "$PHPACTOR_LOCATION"
+    [[ ! -d $PHPACTOR_LOCATION/.git ]] && git clone https://github.com/phpactor/phpactor "$PHPACTOR_LOCATION"
 
     cd "$PHPACTOR_LOCATION"
     composer update && composer install
