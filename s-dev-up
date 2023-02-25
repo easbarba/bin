@@ -17,12 +17,7 @@
 # DEBUG SETTINGS
 set -euo pipefail
 
-s-pack-php
-s-pack-ruby
-s-pack-golang
-s-pack-javascript
-s-pack-python
-s-pack-scheme
+./gota --pack
 
 s-ops-containers
 
