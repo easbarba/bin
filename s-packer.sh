@@ -17,16 +17,18 @@
 # Debug Options
 set -euo pipefail
 
-DEPS=(python bash)
-s-checkdeps "${DEPS[@]}"
+PACK=$1
 
-tools=(black pipenv pyflakes pytest isort nose pyperclip)
-libs=(beautifulsoup4 interval yt-dlp)
-apps=(cryptography conan)
+readarray -t packed < <(jq --compact-output '.[]' "$PACK")
 
-groups=("${tools[@]}" "${libs[@]}" "${apps[@]}")
+for item in "${packed[@]}"; do
+    command=$(jq '.command' <<<"$item")
+    readarray -t packages < <(jq --compact-output '.packages' <<<"$item")
 
-COMMAND="python3 -m pip install --upgrade" # --user --break-system-packages
-for group in "${groups[@]}"; do
-    s-dolist "$COMMAND" "${group[@]}"
+    for package in "${packages[@]}"; do
+        for pack in "${package[@]}"; do
+            echo $package
+            echo $pack
+        done
+    done
 done
