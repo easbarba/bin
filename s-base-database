@@ -15,15 +15,21 @@
 #
 
 if [[ -x $(command -v psql) ]]; then
-    sudo systemctl enable postgresql
-    sudo systemctl start postgresql
+    postgres_version=$(psql --version | awk '{print substr($3, 0, 2)}')
+    hba_conf="/etc/postgresql/$postgres_version/main/pg_hba.conf"
 
-    POSTGRES_VERSION=$(psql --version | awk '{print substr($3, 0, 2)}')
-    HBA_CONF="/etc/postgresql/$POSTGRES_VERSION/main/pg_hba.conf"
+    # sudo systemctl enable postgresql
+    # sudo systemctl start postgresql
 
-    if ! sudo grep -i "$USER" "$HBA_CONF"; then
-        sudo -u postgres createuser --createdb --createrole --pwprompt "$USER" # permission to create database and set password
-        echo -n "local  all  all  md5" | sudo tee -a "$HBA_CONF"
+    # set password to postgres user
+    sudo -u postgres psql -c "\password"
+
+    # create $USER
+    sudo -u postgres createuser --createdb --createrole --pwprompt "$USER" # permission to create database and set password
+
+    correct_auth="local all all password"
+    if ! sudo grep -i "$correct_auth" "$hba_conf"; then
+        echo -n "$correct_auth" | sudo tee -a "$hba_conf"
         sudo systemctl restart postgresql
     fi
 fi
