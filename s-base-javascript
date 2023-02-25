@@ -17,26 +17,7 @@
 # Debug Options
 set -euo pipefail
 
-DEPS=(npm)
-s-checkdeps "${DEPS[@]}"
-
 [[ ! -x $HOME/.bun/bin/bun ]] && curl https://bun.sh/install | bash
-
-essential=(npm) # yarn
-tools=(stylelint js-beautify prettier @prettier/plugin-php)
-node=(nodemon)
-ts=(typescript)
-ts_tools=(ts-node typescript-language-server)
-
-all=("${essential[@]}" "${tools[@]}" "${node[@]}" "${ts[@]}")
-
-for single in "${all[@]}"; do
-	s-dolist 'npm install --global' "$single"
-done
-
-# Update all packages
-npm update --global
+# [[ ! -x $HOME/.deno/bin/deno ]] && curl -fsSL https://deno.land/install.sh | bash
 
 exit 0
-
-# [[ ! -x $HOME/.deno/bin/deno ]] && curl -fsSL https://deno.land/install.sh | bash
