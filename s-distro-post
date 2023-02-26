@@ -46,6 +46,9 @@ sudo fc-cache -fv
 # create or update the manual page index caches
 sudo mandb
 
+# brightnessctl acess
+sudo usermod -a -G video,input $USER
+
 # Base
 s-base-database
 s-base-emacs

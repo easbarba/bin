@@ -70,8 +70,7 @@ done
 s-echo "Post Install"
 
 sudo apt -y build-dep emacs
-sudo apt-file update                 # update Debian database
-sudo usermod -a -G video,input $USER # brightnessctl acess
+sudo apt-file update # update Debian database
 
 s-echo "Clean up"
 
