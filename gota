@@ -45,6 +45,9 @@ def distro(data: dict) -> None:
     if "refresh" in data.keys():
         os.system(data['refresh'])
 
+    if "upgrade" in data.keys():
+        os.system(data['upgrade'])
+
     # TODO: check deps
     print("\n", data["name"], "\n")
 
