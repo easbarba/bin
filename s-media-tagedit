@@ -1,82 +1,86 @@
-#!/usr/bin/env ruby
-# frozen_string_literal: true
-#
-# Bin is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# Bin is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with Bin. If not, see <https://www.gnu.org/licenses/>.
-#
+#!/usr/bin/env python3
 
-# TODO: permited media files extension
-# TODO: walk through all sub-directories if required
+from pathlib import Path
 
-# Requirements
-# gem install taglib-ruby
+import argparse
+import taglib
 
-require 'taglib'
-require 'pathname'
-require 'optparse'
 
-TITLE = lambda do |info, file|
-  info = Pathname.new(file).basename('.*').to_path if info.empty?
-  TagLib::FileRef.open(file) do |t|
-    t.tag.title = info
-    t.save
-  end
-end
+class Song:
+    """Edit song attributes."""
 
-ARTIST = lambda do |info, file|
-  TagLib::FileRef.open(file) do |t|
-    t.tag.artist = info
-    t.save
-  end
-end
+    def __init__(self, song: str):
+        self.song = taglib.File(song)
+        self.modified = False
 
-ALBUM = lambda do |info, file|
-  TagLib::FileRef.open(file) do |t|
-    t.tag.album = info
-    t.save
-  end
-end
+    def album(self, name: str) -> None:
+        self.song.tags["ALBUM"] = name
+        self.modified = True
 
-def run(filepath, info, func)
-  raise 'FILE NOT FOUND' unless filepath.exist?
+    def artist(self, name: str) -> None:
+        self.song.tags["ARTIST"] = name
+        self.modified = True
 
-  if filepath.directory?
-    filepath.children.each { |file| func.call(info, file.to_path) }
-  else
-    func.call(info, filepath.to_path)
-  end
-end
+    def title(self, name: str) -> None:
+        self.song.tags["TITLE"] = name
+        self.modified = True
 
-option_parser = OptionParser.new do |opts|
-  opts.banner = 'Usage: tagedit [options]'
-  filepath = String.new
+    def date(self, name: str) -> None:
+        self.song.tags["DATE"] = name
+        self.modified = True
 
-  opts.on('-fFILE', '--file=FILE', 'file to edit') do |file|
-    filepath = Pathname.new(file)
-  end
+    def done(self):
+        self.song.save()
 
-  opts.on('-tTITLE', '--tittle=TITLE', 'edit title tag') do |title|
-    run(filepath, title, TITLE)
-  end
 
-  opts.on('-aNAME', '--album=NAME', 'edit album tag') do |info|
-    run(filepath, info, ALBUM)
-  end
+# ACTIONS
+# -----------------------------------------------------
 
-  opts.on('-sNAME', '--artist=NAME', 'edit artist tag') do |info|
-    run(filepath, info, ARTIST)
-  end
-end
 
-option_parser.parse! ['--help'] if ARGV.empty?
-option_parser.parse!
+def single(file: str) -> None:
+    song = Song(str(file))
+
+    if args.title:
+        song.title(args.title)
+    if args.artist:
+        song.artist(args.artist)
+    if args.album:
+        song.album(args.album)
+    if args.date:
+        song.date(args.date)
+    if song.modified:
+        song.done()
+
+
+def many(dir: str) -> None:
+    for item in dir.iterdir():
+        single(item)
+
+
+# CLI
+# -----------------------------------------------------
+
+parser = argparse.ArgumentParser(
+    prog="tagedit",
+    description="Edit tag of file or directory files.",
+    epilog="Praise the sun!",
+)
+parser.add_argument("-r", "--root", help="file/directory to edit")
+parser.add_argument("-a", "--artist", help="artist name")
+parser.add_argument("-t", "--title", help="song title")
+parser.add_argument("-b", "--album", help="album title")
+parser.add_argument("-d", "--date", help="album/song date of release")
+args = parser.parse_args()
+
+if args.root:
+    root = Path(args.root)
+
+    if root.is_dir():
+        many(root)
+    else:
+        single(root)
+else:
+    parser.print_help()
+    exit(1)
+
+exit()
