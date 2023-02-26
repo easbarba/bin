@@ -17,7 +17,7 @@
 # DEBUG SETTINGS
 set -euo pipefail
 
-./gota --pack
+gota --pack
 
 s-ops-containers
 
