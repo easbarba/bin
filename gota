@@ -81,6 +81,7 @@ args = parser.parse_args()
 if args.pack:
     run("pack", pack)
 
+# TODO: regexp to run only selected tasks: --distro ubuntu
 if args.distro:
     run("distro", distro)
 
