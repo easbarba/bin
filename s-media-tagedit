@@ -11,23 +11,18 @@ class Song:
 
     def __init__(self, song: str):
         self.song = taglib.File(song)
-        self.modified = False
 
     def album(self, name: str) -> None:
         self.song.tags["ALBUM"] = name
-        self.modified = True
 
     def artist(self, name: str) -> None:
         self.song.tags["ARTIST"] = name
-        self.modified = True
 
     def title(self, name: str) -> None:
         self.song.tags["TITLE"] = name
-        self.modified = True
 
     def date(self, name: str) -> None:
         self.song.tags["DATE"] = name
-        self.modified = True
 
     def done(self):
         self.song.save()
