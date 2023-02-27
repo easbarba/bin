@@ -24,18 +24,3 @@ s-checkdeps "${DEPS[@]}"
 
 [[ ! "$(flatpak remotes)" == *'flathub'* ]] &&
     sudo flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
-
-# COMMANDS
-INSTALL="flatpak install flathub -y"
-UPDATE="flatpak update -y"
-
-# PACKAGES
-
-USER=(io.github.NhekoReborn.Nheko)
-COM=(com.discordapp.Discord com.microsoft.Teams com.slack.Slack us.zoom.Zoom com.skype.Client)
-
-ALL=("${USER[@]}" "${COM[@]}")
-for package in "${ALL[@]}"; do
-    s-dolist "$INSTALL" "${package[@]}"
-    s-dolist "$UPDATE" "${package[@]}"
-done
