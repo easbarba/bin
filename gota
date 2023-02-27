@@ -36,17 +36,18 @@ def pack(data: dict) -> None:
 
     # run post command
     if "post" in data.keys():
-        os.system(data['post'])
+        os.system(data["post"])
     else:
         print("post command not provided")
+
 
 def distro(data: dict) -> None:
     # refresh command
     if "refresh" in data.keys():
-        os.system(data['refresh'])
+        os.system(data["refresh"])
 
     if "upgrade" in data.keys():
-        os.system(data['upgrade'])
+        os.system(data["upgrade"])
 
     # TODO: check deps
     print("\n", data["name"], "\n")
@@ -59,7 +60,8 @@ def distro(data: dict) -> None:
 
     # post command
     if "post" in data.keys():
-        os.system(data['post'])
+        os.system(data["post"])
+
 
 def run(where: str, func) -> None:
     for it in gota_home.joinpath(where).iterdir():
@@ -68,21 +70,25 @@ def run(where: str, func) -> None:
 
         func(data)
 
-# PARSE CLI
-parser = argparse.ArgumentParser(prog = 'Gota',
-                    description = 'Install [every/any]thing',
-                    epilog = 'Praise the sun!')
-parser.add_argument('-p', '--pack',
-                    help='install packages', action='store_true')
-parser.add_argument('-d', '--distro',
-                    help='install distro packages', action='store_true')
+
+# CLI
+# ======================================================
+parser = argparse.ArgumentParser(
+    prog="Gota", description="Install [every/any]thing", epilog="Praise the sun!"
+)
+parser.add_argument("-p", "--pack", help="install packages", action="store_true")
+parser.add_argument(
+    "-d", "--distro", help="install distro packages", action="store_true"
+)
 args = parser.parse_args()
 
+# TODO: regexp to run only selected tasks: --distro ubuntu
 if args.pack:
     run("pack", pack)
-
-# TODO: regexp to run only selected tasks: --distro ubuntu
-if args.distro:
+elif args.distro:
     run("distro", distro)
+else:
+    parser.print_help()
+    exit(1)
 
 exit()
