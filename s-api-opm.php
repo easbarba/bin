@@ -1,26 +1,26 @@
-#!/usr/bin/php
+#!/usr/bin/env php
 <?php
-
 declare(strict_types=1);
 
 /*
-* Bin is free software: you can redistribute it and/or modify
-* it under the terms of the GNU General Public License as published by
-* the Free Software Foundation, either version 3 of the License, or
-* (at your option) any later version.
-*
-* Bin is distributed in the hope that it will be useful,
-* but WITHOUT ANY WARRANTY; without even the implied warranty of
-* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-* GNU General Public License for more details.
-*
-* You should have received a copy of the GNU General Public License
-* along with Bin. If not, see <https://www.gnu.org/licenses/>.
-*/
+ * Bin is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Bin is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with Bin. If not, see <https://www.gnu.org/licenses/>.
+ */
 
-$home = getenv('HOME');
+$home = getenv("HOME");
 $homeDown = $home . "/Downloads/One Punch Man";
 $to = $argv[1] ?? $homeDown; // if no directory has been set, use default.
+$to = realpath($to);
 if (!file_exists($to)) {
     mkdir($to);
 }
@@ -28,9 +28,10 @@ if (!file_exists($to)) {
 // API
 function guzzly(string $homedir): array
 {
-    require($homedir . '/.config/composer/vendor/autoload.php');
+    require $homedir . "/.config/composer/vendor/autoload.php";
 
-    $url = 'https://gist.githubusercontent.com/funkyhippo/1d40bd5dae11e03a6af20e5a9a030d81/raw/?';
+    $url =
+        "https://gist.githubusercontent.com/funkyhippo/1d40bd5dae11e03a6af20e5a9a030d81/raw/?";
     $client = new GuzzleHttp\Client();
     $response = $client->get($url);
 
@@ -43,7 +44,7 @@ function curly(string $url): array
     curl_setopt_array($handler, [
         CURLOPT_URL => $url,
         CURLOPT_HTTPGET => true,
-        CURLOPT_RETURNTRANSFER => true
+        CURLOPT_RETURNTRANSFER => true,
     ]);
 
     $response_json = curl_exec($handler);
@@ -52,9 +53,8 @@ function curly(string $url): array
     return json_decode($response_json, true);
 }
 
-
 // ACTION
-$chapters = guzzly($home)['chapters'];
+$chapters = guzzly($home)["chapters"];
 foreach ($chapters as $chapter) {
     $title = "{$chapter["title"]}";
     $fld = $to . DIRECTORY_SEPARATOR . $title;
@@ -66,13 +66,15 @@ foreach ($chapters as $chapter) {
     }
 
     // select pictures array
-    $pics = $chapter['groups']["/r/OnePunchMan"];
+    $pics = $chapter["groups"]["/r/OnePunchMan"];
 
     // Check if folder has at least one pic
     // so to avoid API pics naming change.
-    if ((count(scandir($fld)) <= 2)) {
+    if (count(scandir($fld)) <= 2) {
         foreach ($pics as $pic) {
-            $img =  $fld . DIRECTORY_SEPARATOR . basename($pic);
+            $name_decoded = base64_decode(basename($pic));
+            $real_name = substr($name_decoded, strpos($name_decoded, "_") + 1);
+            $img = $fld . DIRECTORY_SEPARATOR . $real_name;
 
             // download file only if needed
             if (!file_exists($img)) {
