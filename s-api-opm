@@ -22,7 +22,9 @@ namespace bin;
 # TODO: cache api response to a file for future requests.
 
 $home_dir = getenv("HOME");
-require $home_dir . "/.config/composer/vendor/autoload.php";
+require $home_dir .
+    DIRECTORY_SEPARATOR .
+    ".config/composer/vendor/autoload.php";
 
 // API
 final class Response
@@ -35,7 +37,7 @@ final class Response
 
     private function guzzly(): string
     {
-        $client = new GuzzleHttp\Client();
+        $client = new \GuzzleHttp\Client();
         $response = $client->get(self::URL);
 
         return $response->getBody()->getContents();
