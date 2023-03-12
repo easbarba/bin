@@ -17,7 +17,9 @@
 # DEBUG SETTINGS
 set -euo pipefail
 
-gota --pack
-gota --df guix
-gota --df flatpak
+gota --pack --filter php
+gota --pack --filter javascript
+gota --pack --filter python
+gota --distro --filter guix
+gota --distro --filter flatpak
 s-base-emacs
