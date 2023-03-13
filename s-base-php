@@ -22,6 +22,7 @@ s-checkdeps "${DEPS[@]}"
 
 LOCAL_BIN="$HOME/.local/bin"
 
+echo '> COMPOSER'
 if [[ ! -x $(command -v composer) ]]; then
     cd /tmp
 
@@ -45,19 +46,14 @@ if [[ ! -x $(command -v composer) ]]; then
     "$LOCAL_BIN/composer" --version
 fi
 
+echo '> PHPACTOR'
 PHPACTOR_LOCATION="$HOME/Builds/phpactor"
-if [[ ! -x $(command -v phpactor) ]]; then
-    [[ ! -d $PHPACTOR_LOCATION/.git ]] && git clone https://github.com/phpactor/phpactor "$PHPACTOR_LOCATION"
+[[ ! -d $PHPACTOR_LOCATION/.git ]] && git clone https://github.com/phpactor/phpactor "$PHPACTOR_LOCATION"
+git -C "$PHPACTOR_LOCATION" pull
+cd "$PHPACTOR_LOCATION" && composer update && composer install
+[[ ! -x $(command -v phpactor) ]] && ln -s "$PHPACTOR_LOCATION/bin/phpactor" "$LOCAL_BIN/phpactor"
+"$LOCAL_BIN/phpactor" --version
 
-    cd "$PHPACTOR_LOCATION"
-    composer update && composer install
-    ln -s "$PHPACTOR_LOCATION/bin/phpactor" "$LOCAL_BIN/phpactor"
-
-    "$LOCAL_BIN/phpactor" --version
-fi
-
-if [[ ! -f $HOME/.symfony5/bin/symfony ]]; then
-    wget https://get.symfony.com/cli/installer -O - | bash
-fi
+[[ ! -f $HOME/.symfony5/bin/symfony ]] && wget https://get.symfony.com/cli/installer -O - | bash
 
 exit
