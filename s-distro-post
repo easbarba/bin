@@ -49,8 +49,3 @@ sudo mandb
 # brightnessctl acess
 sudo usermod -a -G video,input $USER
 
-# Base
-s-base-database
-s-base-emacs
-s-base-php
-s-base-guix

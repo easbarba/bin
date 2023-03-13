@@ -43,13 +43,7 @@ if [[ ! -x $(command -v podman) ]]; then
     podman system migrate
 fi
 
-if [[ ! -x $(command -v podman-compose) ]]; then
-    python3 -m pip install podman-compose --upgrade
-fi
-
-NET=(gnutls net-tools iproute2 perl-net-telnet dnsutils iwd iw wireless_tools
-    resolvconf gnu-netcat tcpdump httpie) # dhcpcd5
-s-dolist "$INSTALL" "${NET[@]}"
+exit
 
 if [[ ! -x $(command -v docker) ]]; then
     $INSTALL docker #-ce docker-ce-cli containerd.io docker-compose
@@ -95,21 +89,7 @@ if [[ ! -x $(command -v k3s) ]]; then
     curl -sfL https://get.k3s.io | sh -
 fi
 
-if [[ ! -x $(command -v kubectl) ]]; then
-    KUBE=(kubectl kubelet kubeadm)
-    s-dolist "$INSTALL" "${KUBE[@]}"
-fi
-
 [[ ! -x $(command -v kind) ]] && GO111MODULE=on go install sigs.k8s.io/kind@v0.14.0
-
-exit
-
-if [[ ! -x $(command -v ansible) ]]; then
-    $INSTALL ansible
-    python3 -m pip install cryptography # faster ansible vault encryption
-fi
-
-[[ ! -x $(command -v aws) ]] && $INSTALL awscli
 
 if [[ ! -x $(command -v aws-iam-authenticator) ]]; then
     curl -o aws-iam-authenticator https://amazon-eks.s3.us-west-2.amazonaws.com/1.21.2/2021-07-05/bin/linux/amd64/aws-iam-authenticator -P "$HOME/.local/bin"
@@ -119,16 +99,6 @@ fi
 if [[ ! -x $(command -v eksctl) ]]; then
     curl --silent --location "https://github.com/weaveworks/eksctl/releases/latest/download/eksctl_$(uname -s)_amd64.tar.gz" | tar xz -C /tmp
     sudo mv /tmp/eksctl /usr/local/bin
-fi
-
-if [[ ! -x $(command -v gcloud) ]]; then
-    $UPDATE && $INSTALL google-cloud-sdk
-fi
-
-[[ ! -x $(command -v gitlab-runner) ]] && $INSTALL gitlab-runner
-
-if [[ ! -x $(command -v helm) ]]; then
-    $INSTALL helm
 fi
 
 if [[ ! -x $(command -v minikube) ]]; then

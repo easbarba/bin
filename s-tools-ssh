@@ -25,15 +25,17 @@ SSH_KEY="$SSH_HOME/.ssh/id_ed25519"
 # GENERATE NEW KEY
 [[ ! -f $SSH_KEY ]] && ssh-keygen -t ed25519 -C "$EMAIL"
 
-[[ ! -f "$SSH_HOME/config" ]] && cat <<EOF >>"$SSH_HOME/config"
+if [[ ! -f "$SSH_HOME/config" ]]; then
+  cat <<EOF >>"$SSH_HOME/config"
 Host *
      AddKeysToAgent yes
      IdentityFile id_ed25519
 EOF
+  fif
 
 # PROTECT FILES
 chmod 700 "$SSH_HOME"
-chmod 400 "$SSH_KEYS"
+chmod 400 "$SSH_KEY"
 chmod 600 "$SSH_HOME/known_hosts"
 
 exit
