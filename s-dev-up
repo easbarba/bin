@@ -22,4 +22,5 @@ gota --pack --filter javascript
 gota --pack --filter python
 gota --distro --filter guix
 gota --distro --filter flatpak
+s-base-php
 s-base-emacs
