@@ -4,6 +4,11 @@ declare(strict_types=1);
 
 namespace bin;
 
+use Exception;
+use GuzzleHttp\Client;
+use GuzzleHttp\Exception\ClientException;
+use GuzzleHttp\Psr7;
+
 /*
  * Bin is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -29,26 +34,51 @@ require $home_dir .
 // API
 final class Response
 {
-    const URL = "https://gist.githubusercontent.com/funkyhippo/1d40bd5dae11e03a6af20e5a9a030d81/raw/?";
+    public function __construct(
+        private string $url,
+        private string $config_file
+    ) {
+    }
 
-    public function __construct(public string $api_file_cached)
+    // use php's stream-handling
+    private function native(): string
     {
+        $context = stream_context_create([
+            "http" => [
+                "method" => "GET",
+                "header" => [
+                    "Accept: application/json",
+                    "Content-Type: application/json",
+                ],
+            ],
+        ]);
+
+        $response_json = file_get_contents($this->url, false, $context);
+
+        return $response_json;
     }
 
     private function guzzly(): string
     {
-        $client = new \GuzzleHttp\Client();
-        $response = $client->get(self::URL);
+        try {
+            $client = new Client(["base_uri" => $this->url]);
+            $response = $client->get("");
 
-        return $response->getBody()->getContents();
+            return $response->getBody()->getContents();
+        } catch (ClientException $e) {
+            echo Psr7\Message::toString($e->getRequest());
+            echo Psr7\Message::toString($e->getStatusCode());
+            exit();
+        }
     }
 
     private function curly(): array
     {
         $handler = curl_init();
         curl_setopt_array($handler, [
-            CURLOPT_URL => self::URL,
+            CURLOPT_URL => $this->url,
             CURLOPT_HTTPGET => true,
+            CURLOPT_HTTPHEADER => ["Accept: application/json"],
             CURLOPT_RETURNTRANSFER => true,
         ]);
 
@@ -58,39 +88,56 @@ final class Response
         return $response_json;
     }
 
-    private function write(string $grabbed): void
+    // cache response contents to a file
+    private function cache(string $grabbed): void
     {
-        file_put_contents($this->api_file_cached, $grabbed);
+        file_put_contents($this->config_file, $grabbed);
     }
 
-    public function chapters(): array
+    public function chapters(): ?array
     {
-        if (file_exists($this->api_file_cached)) {
-            $fool = file_get_contents($this->api_file_cached);
-            $meh = json_decode($fool, true);
-            return $meh["chapters"];
+        if (file_exists($this->config_file)) {
+            $config_content = file_get_contents($this->config_file);
+            $response = json_decode($config_content, true);
+
+            return $response["chapters"];
         }
 
-        $grabbed = $this->guzzly();
-        $this->write($grabbed);
+        $grabbed = $this->native();
+        if (is_null($grabbed)) {
+            $this->cache($grabbed);
+        } else {
+        }
 
         return json_decode($grabbed, true)["chapters"];
     }
 }
 
 // CLI
-$opm_dir = $home_dir . "/Downloads/One Punch Man";
-$destination_dir = $argv[1] ?? $opm_dir; // if no directory has been set, use default.
-$destination_dir = realpath($destination_dir);
+// TODO: add a proper cli options with --force, --cache, --url URL, --to DIR
+$destination_dir = "";
+$default_folder =
+    $home_dir .
+    DIRECTORY_SEPARATOR .
+    "Downloads" .
+    DIRECTORY_SEPARATOR .
+    "One Punch Man";
+
+$destination_dir = realpath(count($argv) === 1 ? $default_folder : $argv[1]);
 if (!file_exists($destination_dir)) {
     mkdir($destination_dir);
 }
 
-$api_file = $destination_dir . "/opm.json";
-// ACTION
+$config_file = $destination_dir . "/opm.json";
 
-// $chapters_file = $home_download_dir
-$chapters = (new Response($api_file))->chapters();
+echo "destination: ", $destination_dir, "\n";
+echo "config file: ", $config_file, "\n";
+
+# BEGIN
+const URL = "https://gist.githubusercontent.com/funkyhippo/1d40bd5dae11e03a6af20e5a9a030d81/raw/?";
+$chapters = (new Response(URL, $config_file))->chapters();
+
+// ACTION
 foreach ($chapters as $chapter) {
     $chapter_title = "{$chapter["title"]}";
     $chapter_dir = $destination_dir . DIRECTORY_SEPARATOR . $chapter_title;
