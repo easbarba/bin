@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-#
+
 # Bin is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation, either version 3 of the License, or
@@ -12,65 +12,56 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with Bin. If not, see <https://www.gnu.org/licenses/>.
-#
 
-# Debug Options
+# DEBUG OPTIONS
 set -euo pipefail
 
 # Description: Play media given in system clipboard, or provided in terminal or replay last media.
-# DEPS=(vlc mpv getopt)
-
-PLAYERS=(mpv vlc)
-
-CLIPBOARD_URL="$(s-url)"
-
-# Log last required media url
-LOG_FILE="$HOME/.config/scripts/play"
-echo "$CLIPBOARD_URL" >>"$LOG_FILE"
-
-# TODO properly check for players, and set first player found as default player or exit : for player in
-if [[ ! -x $(command -v mpv) ]] || [[ ! -x $(command -v vlc) ]]; then
-    echo "No supported player is available \[ ${PLAYERS[@]} \]"
-    exit
-fi
-
 PLAYER=mpv
+LOG_FILE="$HOME/.config/scripts/play"
 
-# Play media found in clipboard url if no argument is given
-if [[ $# -eq 0 ]]; then
-    $PLAYER "$CLIPBOARD_URL" && exit 1
-    exit 1
-fi
+[[ ! -x $(command -v $PLAYER) ]] && echo "Player [ $PLAYER ] not found, exiting!" && exit
 
 replay_last_media() {
-    echo "Replaying last watched media"
-    local last=$(tail -1 "$LOG_FILE")
-    $PLAYER "$last"
-    exit
+    echo "> Replaying last watched media"
+
+    local last
+    last=$(tail -1 "$LOG_FILE")
+
+    play "$last"
 }
 
-# Parse options
+log_url() {
+    echo "logging url"
+    printf "%s" url >>"$LOG_FILE"
+}
+
+play() {
+    log_url
+    $PLAYER "$1"
+
+    exit 0
+}
+
+# PARSE CLI OPTIONS
 OPTIONS=$(getopt --name play --options lhu: --longoptions last,help,url: -- "$@")
-
 eval set -- "$OPTIONS"
-
 unset OPTIONS
-
-# Run per options given
 while true; do
     case "$1" in
         -l | --last)
             replay_last_media
-            break
             ;;
         -u | --url)
-            echo "Playing media in inline url: $2"
-            $PLAYER "$2"
-            break
+            echo "Playing media with url: $2"
+            play "$2"
             ;;
         -h | --help)
             echo "Usage: play [ -l | --last ] [ -u | --url  URL ] [ -h | --help ]"
             break
+            ;;
+        *)
+            play "$(s-url)"
             ;;
     esac
 done
