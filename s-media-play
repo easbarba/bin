@@ -23,7 +23,7 @@ LOG_FILE="$HOME/.config/scripts/play"
 [[ ! -x $(command -v $PLAYER) ]] && echo "Player [ $PLAYER ] not found, exiting!" && exit
 
 replay_last_media() {
-    echo "> Replaying last watched media"
+    echo ">> Replaying last watched media"
 
     local last
     last=$(tail -1 "$LOG_FILE")
@@ -32,12 +32,14 @@ replay_last_media() {
 }
 
 log_url() {
-    echo "logging url"
+    echo ">> logging url"
     printf "%s" url >>"$LOG_FILE"
 }
 
 play() {
     log_url
+
+    echo ">> playing $1"
     $PLAYER "$1"
 
     exit 0
