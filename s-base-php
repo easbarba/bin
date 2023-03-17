@@ -46,6 +46,15 @@ if [[ ! -x $(command -v composer) ]]; then
     "$LOCAL_BIN/composer" --version
 fi
 
+if [[ ! -f $LOCAL_BIN/phive ]]; then
+    wget -O phive.phar https://phar.io/releases/phive.phar
+    wget -O phive.phar.asc https://phar.io/releases/phive.phar.asc
+    gpg --keyserver hkps://keys.openpgp.org --recv-keys 0x9D8A98B29B2D5D79
+    gpg --verify phive.phar.asc phive.phar
+    chmod +x phive.phar
+    mv phive.phar $HOME/.local/bin/phive
+fi
+
 echo '> PHPACTOR'
 PHPACTOR_LOCATION="$HOME/Builds/phpactor"
 [[ ! -d $PHPACTOR_LOCATION/.git ]] && git clone https://github.com/phpactor/phpactor "$PHPACTOR_LOCATION"
