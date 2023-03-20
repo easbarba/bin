@@ -24,6 +24,7 @@ s-checkdeps "${DEPS[@]}"
 # * SYSTEM
 [[ -f /usr/bin/apt ]] && sudo apt update && sudo apt upgrade && sudo apt autoremove
 [[ -f /usr/bin/dnf ]] && sudo dnf update && sudo dnf upgrade
+[[ -f /usr/bin/pacman ]] && sudo pacman -Syy
 
 # * FOREIGN
 s-distro-guix
