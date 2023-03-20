@@ -103,7 +103,7 @@ gsettings set org.gnome.desktop.input-sources mru-sources "[('xkb', 'br'), ('xkb
 gsettings set org.gnome.desktop.input-sources sources "[('xkb', 'us'), ('xkb', 'br')]"
 
 # EXTENSIONS
-gsettings set org.gnome.shell.extensions.auto-move-windows application-list "['org.gnome.Evince.desktop:2', 'libreoffice-startcenter.desktop:2', 'libreoffice-writer.desktop:2', 'org.gnome.Terminal.desktop:3', 'firefox.desktop:4', 'mpv.desktop:5', 'chromium.desktop:4']"
+gsettings set org.gnome.shell.extensions.auto-move-windows application-list "['org.gnome.Evince.desktop:1', 'libreoffice-startcenter.desktop:1', 'libreoffice-writer.desktop:1', 'org.gnome.Terminal.desktop:3', 'firefox.desktop:4', 'mpv.desktop:5', 'chromium.desktop:4', 'google-chrome.desktop:4', 'steam.desktop:5', 'monodevelop.desktop:2']"
 
 # APPS
 gsettings set org.gnome.Evince.Default fullscreen 'true'
