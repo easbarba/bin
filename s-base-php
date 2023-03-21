@@ -22,8 +22,9 @@ s-checkdeps "${DEPS[@]}"
 
 LOCAL_BIN="$HOME/.local/bin"
 
-echo '> COMPOSER'
 if [[ ! -x $(command -v composer) ]]; then
+    echo '> COMPOSER'
+
     cd /tmp
 
     EXPECTED_CHECKSUM="$(php -r 'copy("https://composer.github.io/installer.sig", "php://stdout");')"
@@ -37,9 +38,7 @@ if [[ ! -x $(command -v composer) ]]; then
     fi
 
     php composer-setup.php --quiet
-    RESULT=$?
     rm composer-setup.php
-    exit "$RESULT"
 
     mv /tmp/composer.phar "$LOCAL_BIN/composer"
 
@@ -47,22 +46,33 @@ if [[ ! -x $(command -v composer) ]]; then
 fi
 
 if [[ ! -f $LOCAL_BIN/phive ]]; then
+    echo '> PHIVE'
+
     wget -O phive.phar https://phar.io/releases/phive.phar
     wget -O phive.phar.asc https://phar.io/releases/phive.phar.asc
     gpg --keyserver hkps://keys.openpgp.org --recv-keys 0x9D8A98B29B2D5D79
     gpg --verify phive.phar.asc phive.phar
     chmod +x phive.phar
-    mv phive.phar $HOME/.local/bin/phive
+
+    mv phive.phar "$LOCAL_BIN/phive"
+    phive --version
 fi
 
-echo '> PHPACTOR'
 PHPACTOR_LOCATION="$HOME/Builds/phpactor"
-[[ ! -d $PHPACTOR_LOCATION/.git ]] && git clone https://github.com/phpactor/phpactor "$PHPACTOR_LOCATION"
-git -C "$PHPACTOR_LOCATION" pull
-cd "$PHPACTOR_LOCATION" && composer update && composer install
-[[ ! -x $(command -v phpactor) ]] && ln -s "$PHPACTOR_LOCATION/bin/phpactor" "$LOCAL_BIN/phpactor"
-"$LOCAL_BIN/phpactor" --version
+if [[ ! -d $PHPACTOR_LOCATION/.git ]]; then
+    git clone https://github.com/phpactor/phpactor "$PHPACTOR_LOCATION"
+else
+    echo '> PHPACTOR'
 
-[[ ! -f $HOME/.symfony5/bin/symfony ]] && wget https://get.symfony.com/cli/installer -O - | bash
+    git -C "$PHPACTOR_LOCATION" pull
+    cd "$PHPACTOR_LOCATION" && composer update && composer install
+    [[ ! -x $(command -v phpactor) ]] && ln -s "$PHPACTOR_LOCATION/bin/phpactor" "$LOCAL_BIN/phpactor"
+    "$LOCAL_BIN/phpactor" --version
+fi
+
+if [[ ! -f $HOME/.symfony5/bin/symfony ]]; then
+    echo '> PHPACTOR'
+    wget https://get.symfony.com/cli/installer -O - | bash
+fi
 
 exit
