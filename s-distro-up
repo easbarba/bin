@@ -29,4 +29,3 @@ s-checkdeps "${DEPS[@]}"
 # * FOREIGN
 s-distro-guix
 s-distro-flatpak
-s-distro-misc
