@@ -17,8 +17,7 @@
 # DEBUG SETTINGS
 set -euo pipefail
 
-gota --pack --filter dotnet
-gota --pack --filter javascript
+gota --pack --filter php
 gota --pack --filter python
 gota --distro --filter guix
 gota --distro --filter flatpak
