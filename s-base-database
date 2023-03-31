@@ -18,8 +18,8 @@ if [[ -x $(command -v psql) ]]; then
     postgres_version=$(psql --version | awk '{print substr($3, 0, 2)}')
     hba_conf="/etc/postgresql/$postgres_version/main/pg_hba.conf"
 
-    # sudo systemctl enable postgresql
-    # sudo systemctl start postgresql
+    sudo systemctl enable postgresql
+    sudo systemctl start postgresql
 
     # set password to postgres user
     sudo -u postgres psql -c "\password"
