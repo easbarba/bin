@@ -23,8 +23,14 @@ s-checkdeps "${DEPS[@]}"
 BUILDS="$HOME/Builds"
 LOCAL_BIN="$HOME/.local/bin"
 
-[[ ! -x $HOME/.jbang/bin/jbang ]] && curl -Ls https://sh.jbang.dev | bash -s - app setup
+[[ ! -x "$HOME/.jbang/bin/jbang" ]] && curl -Ls https://sh.jbang.dev | bash -s - app setup
 
+if [[ ! -x "$HOME/.sdkman/bin/sdkman-init.sh" ]]; then
+    curl -s "https://get.sdkman.io" | bash
+else
+    source "/home/easbarba/.sdkman/bin/sdkman-init.sh"
+    sdk selfupdate
+fi
 # GRAAL
 if [[ ! -x "$LOCAL_BIN/native-image" ]]; then
     GRAAL_LOCATION="$BUILDS/graalvm-ce-java17-22.3.0"

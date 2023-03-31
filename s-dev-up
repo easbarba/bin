@@ -24,6 +24,7 @@ gota --pack --filter javascript
 gota --distro --filter guix
 gota --distro --filter flatpak
 
+s-base-java
 s-base-emacs
 
 qas grab --verbose
