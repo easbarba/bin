@@ -38,7 +38,7 @@ declare -A YTDL
 YTDL=([bin]='yt-dlp'
     [quality]='bestvideo+bestaudio'
     [format]="--format $EXT"
-    [title]="--trim-filenames 15 -o %(title)s.f%(format_id)s.%(ext)s")
+    [title]="--trim-filenames 30 -o %(title)s.f%(format_id)s.%(ext)s")
 
 # LOG VIDEO URL
 echo $URL >>"$LOG_FOLDER/videos"
