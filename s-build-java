@@ -25,6 +25,30 @@ LOCAL_BIN="$HOME/.local/bin"
 
 [[ ! -x $HOME/.jbang/bin/jbang ]] && curl -Ls https://sh.jbang.dev | bash -s - app setup
 
+# GRAAL
+if [[ ! -x "$LOCAL_BIN/native-image" ]]; then
+    GRAAL_LOCATION="$BUILDS/graalvm-ce-java17-22.3.0"
+    URL="https://github.com/graalvm/graalvm-ce-builds/releases/download/vm-22.3.0/graalvm-ce-java17-linux-amd64-22.3.0.tar.gz"
+
+    wget -c $URL -P /tmp
+
+    tar xf /tmp/graalvm-ce-java17-linux-amd64-22.3.0.tar.gz -C "$BUILDS"
+    ln -sf "$GRAAL_LOCATION/bin/gu" "$LOCAL_BIN/gu"
+    "$LOCAL_BIN/gu" --version
+
+    gu install native-image
+    ln -sf "$GRAAL_LOCATION/bin/native-image" "$LOCAL_BIN/native-image"
+    "$LOCAL_BIN/native-image" --version
+fi
+
+exit
+
+if [[ ! -x "$LOCAL_BIN/eclipse" ]]; then
+    ECLIPSE_URL='https://eclipse.c3sl.ufpr.br/oomph/epp/2022-06/R/eclipse-inst-jre-linux64.tar.gz'
+    wget -c "$ECLIPSE_URL" -P "$BUILDS"
+    tar -xf "$BUILDS/eclipse-inst-jre-linux64.tar.gz" -C "$BUILDS"
+fi
+
 # IDEA
 if [[ ! -x "$LOCAL_BIN/idea" ]]; then
     URL="https://download.jetbrains.com/idea/ideaIC-2022.3.tar.gz"
@@ -32,25 +56,6 @@ if [[ ! -x "$LOCAL_BIN/idea" ]]; then
     wget -c $URL -P /tmp
     tar xf /tmp/ideaIC-2022.3.tar.gz -C "$BUILDS"
     ln -sf "$BUILDS/idea-IC-223.7571.182/bin/idea.sh" "$LOCAL_BIN/idea"
-fi
-
-# GRAAL
-if [[ ! -x "$LOCAL_BIN/native-image" ]]; then
-    URL="https://github.com/graalvm/graalvm-ce-builds/releases/download/vm-22.3.0/graalvm-ce-java17-linux-amd64-22.3.0.tar.gz"
-    GRAAL_LOCATION="$BUILDS/graalvm-ce-java17-22.2.0"
-
-    wget -c $URL -P /tmp
-    tar xf /tmp/graalvm-ce-java17-linux-amd64-22.2.0.tar.gz -C "$BUILDS"
-    ln -sf "$GRAAL_LOCATION/bin/gu" "$LOCAL_BIN/gu"
-
-    gu install native-image
-    ln -sf "$GRAAL_LOCATION/bin/native-image" "$LOCAL_BIN/native-image"
-fi
-
-if [[ ! -x "$LOCAL_BIN/eclipse" ]]; then
-    ECLIPSE_URL='https://eclipse.c3sl.ufpr.br/oomph/epp/2022-06/R/eclipse-inst-jre-linux64.tar.gz'
-    wget -c "$ECLIPSE_URL" -P "$BUILDS"
-    tar -xf "$BUILDS/eclipse-inst-jre-linux64.tar.gz" -C "$BUILDS"
 fi
 
 if [[ ! -x "$LOCAL_BIN/spring-tool-suite" ]]; then
