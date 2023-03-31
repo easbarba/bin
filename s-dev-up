@@ -19,10 +19,11 @@ set -euo pipefail
 
 gota --pack --filter php
 gota --pack --filter python
+gota --pack --filter ruby
 gota --pack --filter javascript
 gota --distro --filter guix
 gota --distro --filter flatpak
 
 s-base-emacs
 
-qas --grab
+qas grab --verbose
