@@ -26,7 +26,6 @@ zae update && zae upgrade && zae clean
 
 # * FOREIGN
 s-distro-guix
-s-distro-flatpak
 
 # [[ -f /usr/bin/apt ]] && sudo apt update && sudo apt upgrade && sudo apt autoremove
 # [[ -f /usr/bin/dnf ]] && sudo dnf update && sudo dnf upgrade
