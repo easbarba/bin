@@ -20,32 +20,8 @@ set -euo pipefail
 DEPS=(apt-get)
 s-checkdeps "${DEPS[@]}"
 
-INSTALL='sudo apt-get install -y'
-
-lisp=(guile-3.0 guile-*-doc libzstd-dev)
-php=(php php-common)
-php_libs=(php-curl php-xml php-json php-mbstring php-zip php-*-xsl php-pgsql php-intl)
-pg=(postgresql postgresql-client postgresql-contrib libpq-dev)
-langs=(ruby-full nodejs npm)
-langs_tools=(python3-pip)
-mx=(emacs libgccjit0 libgccjit-12-dev libwebkit2gtk-4.0-dev libjansson-dev libjansson4)
-tools=(jq git-email subversion mercurial libpq-dev editorconfig direnv fd-find shfmt meson cmake)
-editors=(vim neovim tidy ripgrep)
-
-groups=(
-    # "${mx[@]}"
-    "${langs[@]}"
-    # "${php[@]}"
-    # "${php_libs[@]}"
-    # "${lisp[@]}"
-    "${langs_tools[@]}"
-    "${editors[@]}"
-    "${pg[@]}"
-    "${tools[@]}")
-
-for group in "${groups[@]}"; do
-    s-dolist "$INSTALL" "$group"
-done
+# php=(php php-common)
+# php_libs=(php-curl php-xml php-json php-mbstring php-zip php-*-xsl php-pgsql php-intl)
 
 if [[ ! $(command -v insomnia) ]]; then
     echo "deb [trusted=yes arch=amd64] https://download.konghq.com/insomnia-ubuntu/ default all" |
