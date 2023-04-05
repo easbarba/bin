@@ -18,13 +18,11 @@
 set -euo pipefail
 
 # * CHECKER
-DEPS=(bash sudo apt dnf)
+DEPS=(bash zae)
 s-checkdeps "${DEPS[@]}"
 
-# * SYSTEM
 zae update && zae upgrade && zae clean
 
-# * FOREIGN
 s-distro-guix
 
 # [[ -f /usr/bin/apt ]] && sudo apt update && sudo apt upgrade && sudo apt autoremove
