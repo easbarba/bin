@@ -42,12 +42,29 @@ if [[ ! -x $(command -v kubectl) ]]; then
     fi
 
     $UPDATE && $INSTALL kubectl kubelet kubeadm
+    sudo systemctl enable kubelet.service
+fi
+
+if [[ ! -x $(command -v minikube) ]]; then
+    curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube_latest_amd64.deb -P /tmp
+    sudo apt install /tmp/minikube_latest_amd64.deb
+fi
+
+if [[ ! -x $(command -v helm) ]]; then
+    wget -qO- https://baltocdn.com/helm/signing.asc | sudo tee /etc/apt/trusted.gpg.d/heml.asc
+    sudo apt-get install apt-transport-https --yes
+    echo "deb https://baltocdn.com/helm/stable/debian/ all main" | sudo tee /etc/apt/sources.list.d/helm.list
+    sudo apt-get update
+
+    $INSTALL helm
 fi
 
 if [[ ! -x $(command -v tcpdump) ]]; then
     $INSTALL net-tools iproute2 telnet dnsutils iwd iw wireless-tools \
         resolvconf dhcpcd5 netcat-traditional tcpdump httpie gnutls-bin nmap
 fi
+
+exit
 
 [[ ! -x $(command -v qemu-img) ]] && $INSTALL qemu qemu-utils qemu-system-x86 qemu-system-gui qemu-efi qemu-kvm qemu-system
 
@@ -59,17 +76,6 @@ if [[ ! -x $(command -v virt-manager) ]]; then
 
     sudo usermod -aG libvirt "$USER"
     sudo usermod -aG kvm "$USER"
-fi
-
-exit
-
-if [[ ! -x $(command -v helm) ]]; then
-    wget -qO- https://baltocdn.com/helm/signing.asc | sudo tee /etc/apt/trusted.gpg.d/heml.asc
-    sudo apt-get install apt-transport-https --yes
-    echo "deb https://baltocdn.com/helm/stable/debian/ all main" | sudo tee /etc/apt/sources.list.d/helm.list
-    sudo apt-get update
-
-    $INSTALL helm
 fi
 
 if [[ ! -x $(command -v vagrant) ]]; then
@@ -84,11 +90,6 @@ if [[ ! -x $(command -v vagrant) ]]; then
     fi
 
     $UPDATE && $INSTALL terraform vagrant vagrant-libvirt #  nomad
-fi
-
-if [[ ! -x $(command -v minikube) ]]; then
-    curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube_latest_amd64.deb -P /tmp
-    sudo apt install /tmp/minikube_latest_amd64.deb
 fi
 
 [[ ! -x $(command -v aws) ]] && $INSTALL awscli
