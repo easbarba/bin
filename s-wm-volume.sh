@@ -17,6 +17,8 @@
 # Debug Options
 set -euo pipefail
 
+[[ ! -x $(command -v pactl) ]] && echo 'pactl not found, existing!' && exit 1
+
 STEP=3
 STATE="$1"
 
@@ -29,7 +31,6 @@ case $STATE in
         STATE='-'
         ;;
     toggle) ;;
-
 esac
 
 usage() {
@@ -59,4 +60,4 @@ _pactl() {
 # RUN
 [[ $# -eq 0 ]] && usage
 
-[[ -x $(command -v pactl) ]] && _pactl
+_pactl
