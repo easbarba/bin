@@ -42,26 +42,26 @@ if [[ ! -x $(command -v insomnia) ]]; then
 	sudo apt-get install insomnia
 fi
 
-if [[ ! -x $(command -v npm) ]]; then
-	KEYRING=/usr/share/keyrings/nodesource.gpg
-	VERSION=node_16.x
-	DISTRO=bullseye
+# if [[ ! -x $(command -v npm) ]]; then
+# 	KEYRING=/usr/share/keyrings/nodesource.gpg
+# 	VERSION=node_18.x
+# 	DISTRO=bullseye
 
-	wget --quiet -O - https://deb.nodesource.com/gpgkey/nodesource.gpg.key | gpg --dearmor | sudo tee "$KEYRING" >/dev/null
-	gpg --no-default-keyring --keyring "$KEYRING" --list-keys
+# 	wget --quiet -O - https://deb.nodesource.com/gpgkey/nodesource.gpg.key | gpg --dearmor | sudo tee "$KEYRING" >/dev/null
+# 	gpg --no-default-keyring --keyring "$KEYRING" --list-keys
 
-	echo "deb [signed-by=$KEYRING] https://deb.nodesource.com/$VERSION $DISTRO main" | sudo tee /etc/apt/sources.list.d/nodesource.list
-	echo "deb-src [signed-by=$KEYRING] https://deb.nodesource.com/$VERSION $DISTRO main" | sudo tee -a /etc/apt/sources.list.d/nodesource.list
+# 	echo "deb [signed-by=$KEYRING] https://deb.nodesource.com/$VERSION $DISTRO main" | sudo tee /etc/apt/sources.list.d/nodesource.list
+# 	echo "deb-src [signed-by=$KEYRING] https://deb.nodesource.com/$VERSION $DISTRO main" | sudo tee -a /etc/apt/sources.list.d/nodesource.list
 
-	sudo apt update && sudo apt install -y nodejs=16.17.1-deb-1nodesource1 npm
+# 	sudo apt update && sudo apt install -y nodejs=16.17.1-deb-1nodesource1 npm
 
-	node --version
-	npm --version
-fi
+# 	node --version
+# 	npm --version
+# fi
 
-if [[ ! $(command -v dbeaver) ]]; then
-	[[ ! -f /tmp/dbeaver-ce_latest_amd64.deb ]] && wget -c "https://dbeaver.io/files/dbeaver-ce_latest_amd64.deb" -P /tmp
-	sudo apt install -y /tmp/dbeaver-ce_latest_amd64.deb
-fi
+# if [[ ! $(command -v dbeaver) ]]; then
+# 	[[ ! -f /tmp/dbeaver-ce_latest_amd64.deb ]] && wget -c "https://dbeaver.io/files/dbeaver-ce_latest_amd64.deb" -P /tmp
+# 	sudo apt install -y /tmp/dbeaver-ce_latest_amd64.deb
+# fi
 
 exit
