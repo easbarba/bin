@@ -27,6 +27,12 @@ if [[ ! -x $(command -v flatpak) ]]; then
 	sudo flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
 fi
 
+DEB_GET_LOCATION="$HOME/.local/bin/deb-get"
+if [[ -x "$DEB_GET_LOCATION" ]]; then
+	wget -c https://raw.githubusercontent.com/wimpysworld/deb-get/main/deb-get -O "$DEB_GET_LOCATION"
+	chmod +x "$DEB_GET_LOCATION"
+fi
+
 if [[ ! -x $(command -v insomnia) ]]; then
 	echo "deb [trusted=yes arch=amd64] https://download.konghq.com/insomnia-ubuntu/ default all" |
 		sudo tee -a /etc/apt/sources.list.d/insomnia.list
@@ -53,10 +59,9 @@ if [[ ! -x $(command -v npm) ]]; then
 	npm --version
 fi
 
-DEB_GET_LOCATION="$HOME/.local/bin/deb-get"
-if [[ -x "$DEB_GET_LOCATION" ]]; then
-	wget -c https://raw.githubusercontent.com/wimpysworld/deb-get/main/deb-get -O "$DEB_GET_LOCATION"
-	chmod +x "$DEB_GET_LOCATION"
+if [[ ! $(command -v dbeaver) ]]; then
+	[[ ! -f /tmp/dbeaver-ce_latest_amd64.deb ]] && wget -c "https://dbeaver.io/files/dbeaver-ce_latest_amd64.deb" -P /tmp
+	sudo apt install -y /tmp/dbeaver-ce_latest_amd64.deb
 fi
 
 exit
