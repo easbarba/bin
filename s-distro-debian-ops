@@ -70,7 +70,7 @@ if [[ ! -x $(command -v terraform) ]]; then
         echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] https://apt.releases.hashicorp.com $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/hashicorp.list
     fi
 
-    $UPDATE && $INSTALL terraform #vagrant vagrant-libvirt #  nomad
+    $UPDATE && $INSTALL terraform terraform-ls #vagrant vagrant-libvirt #  nomad
 fi
 
 [[ ! -x $(command -v aws) ]] && $INSTALL awscli
