@@ -26,5 +26,6 @@ gota --distro --filter guix
 gota --distro --filter flatpak
 
 s-base-emacs
+s-base-php
 
 qas grab --verbose
