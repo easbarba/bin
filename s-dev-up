@@ -18,8 +18,8 @@
 set -euo pipefail
 
 gota --pack --filter php
+gota --pack --filter rust_
 gota --pack --filter python
-gota --pack --filter ruby
 gota --pack --filter javascript
 gota --misc --filter containers
 gota --distro --filter guix
