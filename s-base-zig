@@ -1,0 +1,67 @@
+#!/usr/bin/env bash
+#
+# Bin is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# Bin is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with Bin. If not, see <https://www.gnu.org/licenses/>.
+#
+
+# Debug Options
+set -euo pipefail
+
+DEPS=(bash)
+s-checkdeps "${DEPS[@]}"
+
+LOCAL_BIN="$HOME/.local/bin"
+LOCAL_DIR="$HOME/.local"
+BUILDS_HOME="$HOME/Builds"
+
+[[ -d $LOCAL_BIN ]] && mkdir -p "$LOCAL_DIR"
+[[ -d $BUILDS_HOME ]] && mkdir -p "$BUILDS_HOME"
+
+cd "$BUILDS_HOME"
+
+ZIG_TARFILE='zig-linux-x86_64-0.11.0-dev.2624+bc804eb84.tar.xz'
+ZIG_LOCATION=$LOCAL_DIR/$(basename $ZIG_TARFILE '.tar.xz')
+[[ ! -f $BUILDS_HOME/$ZIG_TARFILE ]] && wget -c "https://ziglang.org/builds/$ZIG_TARFILE" -P "$BUILDS_HOME"
+if [[ ! -f $LOCAL_BIN/zig ]] && [[ -f $ZIG_TARFILE ]]; then
+    tar -xf "$ZIG_TARFILE" -C "$HOME/.local"
+
+    ln -sf "$ZIG_LOCATION/zig" "$LOCAL_BIN/zig"
+
+    "$LOCAL_BIN/zig" --version
+fi
+
+ZLS_LOCATION="$HOME/Builds/zls"
+[[ ! -d $ZLS_LOCATION/.git ]] && git clone https://github.com/zigtools/zls "$ZLS_LOCATION"
+if [[ -d $ZLS_LOCATION/.git ]]; then
+    git -C "$ZLS_LOCATION" pull
+
+    cd "$ZLS_LOCATION" && zig build -Doptimize=ReleaseSafe
+
+    [[ ! -x $LOCAL_BIN/zls ]] && ln -s "$ZLS_LOCATION/zig-out/bin/zls" "$LOCAL_BIN/zls"
+
+    "$LOCAL_BIN/zls" --version
+fi
+
+exit
+
+ZIG_LOCATION="$HOME/Builds/zig"
+[[ ! -d $ZIG_LOCATION/.git ]] && git clone https://github.com/ziglang/zig "$ZIG_LOCATION"
+if [[ -d $ZIG_LOCATION/.git ]]; then
+    cd "$ZIG_LOCATION"
+
+    [[ ! -d ./build ]] && mkdir build
+
+    cd build
+    cmake ..
+    make install
+fi
