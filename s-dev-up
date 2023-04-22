@@ -18,6 +18,7 @@
 set -euo pipefail
 
 gota --pack --filter php
+gota --pack --filter golang
 gota --pack --filter python
 gota --pack --filter javascript
 
