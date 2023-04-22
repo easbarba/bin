@@ -37,7 +37,7 @@ if [[ ! -f $LOCAL_BIN/zig ]] && [[ -f $ZIG_TARFILE ]]; then
 
     ln -sf "$ZIG_LOCATION/zig" "$LOCAL_BIN/zig"
 
-    "$LOCAL_BIN/zig" --version
+    "$LOCAL_BIN/zig" version
 fi
 
 ZLS_LOCATION="$HOME/Builds/zls"

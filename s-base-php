@@ -45,6 +45,11 @@ if [[ ! -x $(command -v composer) ]]; then
     "$LOCAL_BIN/composer" --version
 fi
 
+if [[ ! -f $HOME/.symfony5/bin/symfony ]]; then
+    echo '> PHPACTOR'
+    wget https://get.symfony.com/cli/installer -O - | bash
+fi
+
 if [[ ! -f $LOCAL_BIN/phive ]]; then
     echo '> PHIVE'
 
@@ -68,11 +73,6 @@ else
     cd "$PHPACTOR_LOCATION" && composer update && composer install
     [[ ! -x $(command -v phpactor) ]] && ln -s "$PHPACTOR_LOCATION/bin/phpactor" "$LOCAL_BIN/phpactor"
     "$LOCAL_BIN/phpactor" --version
-fi
-
-if [[ ! -f $HOME/.symfony5/bin/symfony ]]; then
-    echo '> PHPACTOR'
-    wget https://get.symfony.com/cli/installer -O - | bash
 fi
 
 exit
