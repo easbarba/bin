@@ -26,7 +26,7 @@ VIDEO_FOLDER="$HOME/Videos"
 LOG_FOLDER="$HOME/.config/scripts"
 URL="$(s-url)"
 EXT='mp4'
-TITLE_LENGTH=50
+TITLE_LENGTH=120
 
 # CREATE REQUIRED FOLDERS
 [[ ! -d $VIDEO_FOLDER ]] && mkdir "$VIDEO_FOLDER"
@@ -39,10 +39,11 @@ declare -A YTDL
 YTDL=([bin]='yt-dlp'
     [quality]='bestvideo+bestaudio'
     [format]="--format $EXT"
-    [title]="--trim-filenames $TITLE_LENGTH -o %(title)s.f%(format_id)s.%(ext)s")
+    [options]="--ignore-config --restrict-filenames --trim-filenames $TITLE_LENGTH -wc"
+    [title]="--output %(title)s.f%(format_id)s.%(ext)s")
 
 # LOG VIDEO URL
 echo $URL >>"$LOG_FOLDER/videos"
 
 # RUN
-[[ -x $(command -v yt-dlp) ]] && ${YTDL[bin]} --restrict-filenames ${YTDL[format]} ${YTDL[title]} $URL && exit
+[[ -x $(command -v yt-dlp) ]] && ${YTDL[bin]} ${YTDL[options]} ${YTDL[format]} ${YTDL[title]} $URL && exit
