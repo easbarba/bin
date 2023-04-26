@@ -17,17 +17,18 @@
 # DEBUG SETTINGS
 set -euo pipefail
 
-gota --pack --filter php
-gota --pack --filter golang
-gota --pack --filter python
-gota --pack --filter javascript
+gota --pack --filter php --verbose
+gota --pack --filter golang --verbose
+gota --pack --filter rust --verbose
+gota --pack --filter python --verbose
+gota --pack --filter javascript --verbose
 
-gota --misc --filter containers
+gota --misc --filter containers --verbose
 
 s-base-emacs
 s-base-php
 
 qas grab --verbose
 
-gota --distro --filter guix
-gota --distro --filter flatpak
+gota --distro --filter guix --verbose
+gota --distro --filter flatpak --verbose
