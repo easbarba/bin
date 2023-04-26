@@ -21,10 +21,10 @@ set -euo pipefail
 DEPS=(bash zae)
 s-checkdeps "${DEPS[@]}"
 
-zae update && zae upgrade && zae clean
+[[ -f /usr/bin/apt ]] && sudo apt update && sudo apt upgrade && sudo apt autoremove
+[[ -f /usr/bin/dnf ]] && sudo dnf update && sudo dnf upgrade
+[[ -f /usr/bin/pacman ]] && sudo pacman --sync --refresh --sysupgrade
+# zae update && zae upgrade && zae clean
 
 s-distro-guix
 
-# [[ -f /usr/bin/apt ]] && sudo apt update && sudo apt upgrade && sudo apt autoremove
-# [[ -f /usr/bin/dnf ]] && sudo dnf update && sudo dnf upgrade
-# [[ -f /usr/bin/pacman ]] && sudo pacman --sync --refresh --sysupgrade
