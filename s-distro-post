@@ -31,7 +31,6 @@ paste() {
 
 paste '$HOME/.config/bash/config.sh' "$HOME/.bashrc"
 paste '$HOME/.config/bash/aliases.sh' "$HOME/.bashrc"
-paste '$HOME/.config/env_variables' "$HOME/.profile"
 paste '$HOME/.config/bash/profile.sh' "$HOME/.bash_profile"
 
 # default folders
@@ -48,4 +47,3 @@ sudo mandb
 
 # brightnessctl acess
 sudo usermod -a -G video,input $USER
-
