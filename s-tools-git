@@ -17,18 +17,19 @@
 # Debug Options
 set -euo pipefail
 
+# SETTTINGS
 git config --global init.defaultBranch main
-
-git config --global user.name "${USUARIO:-USER}"
-git config --global user.email "$${USUARIO:-USER}@outlook.com"
-
+git config --global user.name "${USER:-USUARIO}"
+git config --global user.email "${USER:-USUARIO}@outlook.com"
 git config --global core.editor "nano -Sxmkcig_"
 git config --global core.autocrlf "input"
-
 git config --global color.ui true
-
 git config --global credential.helper cache
-
 git config --global pull.ff only
-
 git config --global fetch.prune true
+git config --global core.excludesFile ~/.gitignore
+
+# ALIASES
+git config --global alias.co checkout
+git config --global alias.ci commit
+git config --global alias.br branch
