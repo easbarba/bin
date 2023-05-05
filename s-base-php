@@ -64,11 +64,10 @@ if [[ ! -f $LOCAL_BIN/phive ]]; then
 fi
 
 PHPACTOR_LOCATION="$HOME/Builds/phpactor"
-if [[ ! -d $PHPACTOR_LOCATION/.git ]]; then
-    git clone https://github.com/phpactor/phpactor "$PHPACTOR_LOCATION"
-else
-    echo '> PHPACTOR'
+if [[ ! -f $LOCAL_BIN/phpactor ]]; then
+    [[ ! -d $PHPACTOR_LOCATION/.git ]] && git clone https://github.com/phpactor/phpactor "$PHPACTOR_LOCATION"
 
+    printf '%s' '> PHPACTOR'
     git -C "$PHPACTOR_LOCATION" pull
     cd "$PHPACTOR_LOCATION" && composer update && composer install
     [[ ! -x $(command -v phpactor) ]] && ln -s "$PHPACTOR_LOCATION/bin/phpactor" "$LOCAL_BIN/phpactor"
