@@ -33,6 +33,12 @@ if [[ ! -x $(command -v podman) ]]; then
     echo '%podman ALL=(ALL) NOPASSWD: /usr/bin/podman' | sudo tee -a /etc/sudoers.d/podman
 fi
 
+exit
+if [[ ! -x $(command -v http) ]]; then
+    $INSTALL net-tools iproute2 telnet dnsutils iwd iw wireless-tools \
+        resolvconf dhcpcd5 netcat-traditional tcpdump httpie gnutls-bin nmap httpie
+fi
+
 if [[ ! -x $(command -v kubectl) ]]; then
     if [[ ! -f /etc/apt/sources.list.d/kubernetes.list ]]; then
         $UPDATE
@@ -42,11 +48,6 @@ if [[ ! -x $(command -v kubectl) ]]; then
     fi
 
     $UPDATE && $INSTALL kubectl kubelet kubeadm
-fi
-
-if [[ ! -x $(command -v http) ]]; then
-    $INSTALL net-tools iproute2 telnet dnsutils iwd iw wireless-tools \
-        resolvconf dhcpcd5 netcat-traditional tcpdump httpie gnutls-bin nmap httpie
 fi
 
 # [[ ! -x $(command -v qemu-img) ]] && $INSTALL qemu qemu-utils qemu-system-x86 qemu-system-gui qemu-efi qemu-kvm qemu-system

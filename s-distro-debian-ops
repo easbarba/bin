@@ -54,6 +54,8 @@ if [[ ! -x $(command -v helm) ]]; then
     $INSTALL helm
 fi
 
+exit
+
 if [[ ! -x $(command -v tcpdump) ]]; then
     $INSTALL net-tools iproute2 telnet dnsutils iwd iw wireless-tools \
         resolvconf dhcpcd5 netcat-traditional tcpdump httpie gnutls-bin nmap
