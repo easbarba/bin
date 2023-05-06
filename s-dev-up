@@ -28,5 +28,5 @@ s-base-php
 
 qas grab --verbose
 
-gota --distro --filter guix --verbose
+# gota --distro --filter guix --verbose
 gota --distro --filter flatpak --verbose
