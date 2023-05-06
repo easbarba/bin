@@ -31,7 +31,7 @@ Host *
      AddKeysToAgent yes
      IdentityFile id_ed25519
 EOF
-  fif
+fi
 
 # PROTECT FILES
 chmod 700 "$SSH_HOME"
