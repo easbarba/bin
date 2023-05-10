@@ -23,7 +23,7 @@ s-checkdeps "${DEPS[@]}"
 BUILDS="$HOME/Builds"
 LOCAL_BIN="$HOME/.local/bin"
 
-[[ ! -x "$HOME/.jbang/bin/jbang" ]] && curl -Ls https://sh.jbang.dev | bash -s - app setup
+# [[ ! -x "$HOME/.jbang/bin/jbang" ]] && curl -Ls https://sh.jbang.dev | bash -s - app setup
 
 [[ ! -x "$HOME/.sdkman/bin/sdkman-init.sh" ]] && curl -s "https://get.sdkman.io" | bash
 
