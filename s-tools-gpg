@@ -17,5 +17,9 @@
 # Debug Options
 set -euo pipefail
 
-# * "TIP: RSA Default -> 4096 bits"
+# RSA Default -> 4096 bits"
+# 1y
+
 gpg --full-generate-key
+
+gpg --export --armor easbarba@outlook.com >easbarba.pub
