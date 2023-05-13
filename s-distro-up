@@ -22,9 +22,8 @@ DEPS=(bash zae)
 s-checkdeps "${DEPS[@]}"
 
 [[ -f /usr/bin/apt ]] && sudo apt update && sudo apt upgrade && sudo apt autoremove
-[[ -f /usr/bin/dnf ]] && sudo dnf update && sudo dnf upgrade
+[[ -f /usr/bin/dnf ]] && sudo dnf update --assumeyes && sudo dnf upgrade --assumeyes
 [[ -f /usr/bin/pacman ]] && sudo pacman --sync --refresh --sysupgrade
 # zae update && zae upgrade && zae clean
 
 s-distro-guix
-
