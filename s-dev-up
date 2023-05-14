@@ -23,9 +23,8 @@ gota --pack --filter python --verbose
 gota --misc --filter containers --verbose
 
 s-base-emacs
-s-base-php
 
-qas grab --verbose
+onur grab --verbose
 
 # gota --distro --filter guix --verbose
 gota --distro --filter flatpak --verbose
