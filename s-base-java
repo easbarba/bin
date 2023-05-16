@@ -35,9 +35,10 @@ if [[ ! -x "$LOCAL_BIN/gu" ]]; then
     URL="https://github.com/graalvm/graalvm-ce-builds/releases/download/vm-$version/$current"
 
     wget -c "$URL" -P /tmp
-
     tar xf "/tmp/$current" -C "$BUILDS"
-    ln -sf "$graal_location/bin/gu" "$LOCAL_BIN/gu"
+
+    mv "$graal_location" "$HOME/Builds/graal"
+    ln -sf "$HOME/Builds/graal/bin/gu" "$LOCAL_BIN/gu"
     "$LOCAL_BIN/gu" --version
 fi
 
