@@ -24,7 +24,7 @@ gota --misc --filter containers --verbose
 
 s-base-emacs
 
-onur grab --verbosen
+onur grab --verbose
 
 # gota --distro --filter guix --verbose
 gota --distro --filter flatpak --verbose
