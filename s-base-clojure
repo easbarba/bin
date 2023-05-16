@@ -19,10 +19,23 @@ set -euo pipefail
 
 BIN=$HOME/.local/bin
 
-# CLOJURE CLOJURE-TOOLS
+s-echo "GNU Guix - clojure clojure-tools"
 [[ -x $(command -v guix) ]] && guix install clojure clojure-tools
 
-# CLOJURE-LSP
+s-echo "Babashka"
+if [[ ! -x $BIN/bb ]]; then
+    URL="https://raw.githubusercontent.com/babashka/babashka/master/install"
+    INSTALL_PATH="/tmp/install"
+
+    wget -c $URL -P /tmp
+    sed -i 's+/usr/local/bin+$HOME/.local/bin+g' "$INSTALL_PATH"
+    bash "$INSTALL_PATH"
+    rm "$INSTALL_PATH"
+fi
+
+exit
+
+s-echo "CLOJURE-LSP"
 if [[ ! -x $BIN/clojure-lsp ]]; then
     URL="https://raw.githubusercontent.com/clojure-lsp/clojure-lsp/master/install"
     INSTALLER_PATH="/tmp/clojure-lsp-install"
@@ -34,18 +47,7 @@ if [[ ! -x $BIN/clojure-lsp ]]; then
     [[ -x $BIN/clojure-lsp ]] && "$BIN/clojure-lsp" --version && rm "$INSTALLER_PATH"
 fi
 
-# BABASHKA
-if [[ ! -x $BIN/bb ]]; then
-    URL="https://raw.githubusercontent.com/babashka/babashka/master/install"
-    INSTALL_PATH="/tmp/install"
-
-    wget -c $URL -P /tmp
-    sed -i 's+/usr/local/bin+$HOME/.local/bin+g' "$INSTALL_PATH"
-    bash "$INSTALL_PATH"
-    rm "$INSTALL_PATH"
-fi
-
-# LEIN
+s-echo "Lein"
 if [[ ! -x $BIN/lein ]]; then
     URL="https://raw.githubusercontent.com/technomancy/leiningen/stable/bin/lein"
     wget -c $URL -P "$BIN"
