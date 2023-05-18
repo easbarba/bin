@@ -58,6 +58,7 @@ gsettings set org.gnome.settings-daemon.plugins.media-keys next "['<Alt><Super>d
 gsettings set org.gnome.desktop.wm.preferences audible-bell false
 gsettings set org.gnome.desktop.sound allow-volume-above-100-percent true
 gsettings set org.gnome.desktop.sound event-sounds false
+gsettings set org.gnome.rhythmbox.plugins.alternative_toolbar volume-control true
 
 # gsettings set org.gnome.settings-daemon.plugins.media-keys screen-brightness-up "['<Alt><Super>w']"
 # gsettings set org.gnome.settings-daemon.plugins.media-keys screen-brightness-down "['<Alt><Super>s']"
