@@ -37,7 +37,10 @@ paste '$HOME/.config/bash/profile.sh' "$HOME/.bash_profile"
 mkdir -pv "$HOME"/{Downloads,Pictures,Documents,Videos,Builds,Projects,.local/bin,.config/scripts}
 
 # silent parallel, for good.
-parallel --citation
+[[ -x $(command -v parallel) ]] && parallel --citation
+
+# Add Flathub Repository
+[[ -x $(command -v flatpak) ]] && flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
 
 # cache all system fonts
 sudo fc-cache -fv
@@ -46,4 +49,4 @@ sudo fc-cache -fv
 sudo mandb
 
 # brightnessctl acess
-sudo usermod -a -G video,input $USER
+# sudo usermod -a -G video,input $USER
