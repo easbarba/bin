@@ -26,4 +26,5 @@ s-checkdeps "${DEPS[@]}"
 [[ -f /usr/bin/pacman ]] && sudo pacman --sync --refresh --sysupgrade
 # zae update && zae upgrade && zae clean
 
-s-distro-guix
+[[ -x $(command -v snap) ]] && sudo snap refresh
+[[ -x $(command -v guix) ]] && sudo guix pull && s-distro-guix
