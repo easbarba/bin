@@ -106,10 +106,11 @@ gsettings set org.gnome.settings-daemon.plugins.color night-light-enabled true
 gsettings set org.gnome.desktop.input-sources mru-sources "[('xkb', 'br'), ('xkb', 'us')]"
 gsettings set org.gnome.desktop.input-sources sources "[('xkb', 'us'), ('xkb', 'br')]"
 
-# EXTENSIONS
-gsettings set org.gnome.shell.extensions.auto-move-windows application-list "['org.gnome.Evince.desktop:1', 'libreoffice-startcenter.desktop:1', 'libreoffice-writer.desktop:1', 'org.gnome.Terminal.desktop:3', 'firefox.desktop:4', 'mpv.desktop:5', 'foot.desktop:3', 'org.gnome.Rhythmbox3.desktop:5']"
-
 # APPS
 gsettings set org.gnome.Evince.Default fullscreen 'true'
 gsettings set org.gnome.Evince.Default show-sidebar 'false'
 gsettings set org.gnome.Evince.Default show-toolbar 'false'
+
+# EXTENSIONS
+gsettings set org.gnome.shell.extensions.auto-move-windows application-list "['org.gnome.Evince.desktop:1', 'libreoffice-startcenter.desktop:1', 'libreoffice-writer.desktop:1', 'org.gnome.Terminal.desktop:3', 'firefox.desktop:4', 'mpv.desktop:5', 'foot.desktop:3', 'org.gnome.Rhythmbox3.desktop:5']"
+gsettings set org.gnome.shell enabled-extensions "['user-theme@gnome-shell-extensions.gcampax.github.com', 'auto-move-windows@gnome-shell-extensions.gcampax.github.com', 'freon@UshakovVasilii_Github.yahoo.com', 'launch-new-instance@gnome-shell-extensions.gcampax.github.com']"
