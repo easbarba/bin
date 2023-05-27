@@ -18,6 +18,7 @@
 set -euo pipefail
 
 gota --pack --filter java-sdkman --verbose
+gota --pack --filter javascript --verbose
 gota --pack --filter python --verbose
 
 [[ -x $(command -v podman) ]] && gota --misc --filter containers --verbose
