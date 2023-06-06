@@ -33,6 +33,9 @@ paste '$HOME/.config/bash/config.sh' "$HOME/.bashrc"
 paste '$HOME/.config/bash/aliases.sh' "$HOME/.bashrc"
 paste '$HOME/.config/bash/profile.sh' "$HOME/.bash_profile"
 
+# export to bash --user environment.d confs
+paste 'export $(/usr/lib/systemd/user-environment-generators/30-systemd-environment-d-generator | xargs)' "$HOME/.profile"
+
 # default folders
 mkdir -pv "$HOME"/{Downloads,Pictures,Documents,Videos,Builds,Projects,.local/bin,.config/scripts}
 
@@ -41,7 +44,7 @@ mkdir -pv "$HOME"/{Downloads,Pictures,Documents,Videos,Builds,Projects,.local/bi
 
 # Add Flathub Repository
 [[ -x $(command -v flatpak) ]] && sudo flatpak remote-add --if-not-exists \
-flathub https://flathub.org/repo/flathub.flatpakrepo
+    flathub https://flathub.org/repo/flathub.flatpakrepo
 
 # cache all system fonts
 sudo fc-cache -fv
