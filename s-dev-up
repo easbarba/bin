@@ -26,6 +26,6 @@ gota --pack --filter python --verbose
 
 s-base-emacs
 
-[[ -x $(command -v onur) ]] && onur grab --verbose
+[[ -x $(command -v onur) ]] && onur --grab --verbose
 [[ -x $(command -v guix) ]] && gota --distro --filter guix --verbose
 [[ -x $(command -v flatpak) ]] && gota --distro --filter flatpak --verbose
