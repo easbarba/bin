@@ -18,7 +18,6 @@
 set -euo pipefail
 
 gota --pack --filter php --verbose
-gota --pack --filter ruby --verbose
 gota --pack --filter javascript --verbose
 gota --pack --filter python --verbose
 
@@ -26,6 +25,7 @@ gota --pack --filter python --verbose
 
 s-base-emacs
 
-[[ -x $(command -v onur) ]] && onur --grab --verbose
+[[ -x $(command -v onur) ]] && onur
+
 [[ -x $(command -v guix) ]] && gota --distro --filter guix --verbose
 [[ -x $(command -v flatpak) ]] && gota --distro --filter flatpak --verbose
