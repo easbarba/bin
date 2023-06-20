@@ -18,16 +18,15 @@ set -euo pipefail
 
 # Description: Play media given in system clipboard, or provided in terminal or replay last media.
 PLAYER=mpv
-LOG_FILE="$HOME/.config/scripts/play"
+LOG_FILE="$HOME/.config/scripts/videos"
 
 [[ ! -x $(command -v $PLAYER) ]] && echo "Player [ $PLAYER ] not found, exiting!" && exit
 
 replay_last_media() {
     echo ">> Replaying last watched media"
 
-    local last
-    last=$(tail -1 "$LOG_FILE")
-
+    local last=$(tail -1 "$LOG_FILE")
+    echo $last
     play "$last"
 }
 
@@ -41,22 +40,22 @@ play() {
 
     echo ">> playing $1"
     $PLAYER "$1"
-
-    exit 0
 }
 
 # PARSE CLI OPTIONS
-OPTIONS=$(getopt --name play --options lhu: --longoptions last,help,url: -- "$@")
+OPTIONS=$(getopt --name play --options rhu: --longoptions replay,help,url: -- "$@")
 eval set -- "$OPTIONS"
 unset OPTIONS
 while true; do
     case "$1" in
-        -l | --last)
+        -r | --replay)
             replay_last_media
+            break
             ;;
         -u | --url)
             echo "Playing media with url: $2"
             play "$2"
+            break
             ;;
         -h | --help)
             echo "Usage: play [ -l | --last ] [ -u | --url  URL ] [ -h | --help ]"
@@ -64,6 +63,7 @@ while true; do
             ;;
         *)
             play "$(s-url)"
+            break
             ;;
     esac
 done
