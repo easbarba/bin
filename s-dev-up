@@ -22,10 +22,8 @@ gota --pack --filter javascript --verbose
 gota --pack --filter python --verbose
 
 [[ -x $(command -v podman) ]] && gota --misc --filter containers --verbose
-
-s-base-emacs
-
 [[ -x $(command -v guix) ]] && gota --distro --filter guix --verbose
 [[ -x $(command -v flatpak) ]] && gota --distro --filter flatpak --verbose
 
+s-base-emacs
 [[ -x $(command -v onur) ]] && onur
