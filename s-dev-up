@@ -17,7 +17,6 @@
 # DEBUG SETTINGS
 set -euo pipefail
 
-gota --pack --filter go --verbose
 gota --pack --filter java- --verbose
 gota --pack --filter javascript --verbose
 gota --pack --filter python --verbose
