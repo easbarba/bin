@@ -25,17 +25,17 @@ LOCAL_BIN="$HOME/.local/bin"
 
 [[ ! -x "$HOME/.sdkman/bin/sdkman-init.sh" ]] && curl -s "https://get.sdkman.io" | bash
 
-# GRAAL
+# GRAAL - https://github.com/graalvm/graalvm-ce-builds/releases/
 if [[ ! -x "$LOCAL_BIN/gu" ]]; then
-    version="22.3.2"
-    graal_location="$BUILDS/graalvm-ce-java17-$version"
-    current="graalvm-ce-java17-linux-amd64-$version.tar.gz"
-    URL="https://github.com/graalvm/graalvm-ce-builds/releases/download/vm-$version/$current"
+    version="jdk-20.0.1"
+    graal_location="$BUILDS/graalvm-community-openj${version}+9.1"
+    current="graalvm-community-${version}_linux-x64_bin.tar.gz"
+    URL="https://github.com/graalvm/graalvm-ce-builds/releases/download/${version}/${current}"
 
     wget -c "$URL" -P /tmp
     tar xf "/tmp/$current" -C "$BUILDS"
 
-    mv "$graal_location" "$HOME/Builds/graal"
+    mv "${graal_location}" "$HOME/Builds/graal"
     ln -sf "$HOME/Builds/graal/bin/gu" "$LOCAL_BIN/gu"
     "$LOCAL_BIN/gu" --version
 fi
