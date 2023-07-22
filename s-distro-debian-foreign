@@ -22,6 +22,7 @@ s-checkdeps "${DEPS[@]}"
 
 s-echo "Foreign packages"
 
+# https://learn.microsoft.com/en-us/dotnet/core/install/linux-debian
 if [[ ! -x $(command -v flatpak) ]]; then
 	wget https://packages.microsoft.com/config/debian/11/packages-microsoft-prod.deb -P /tmp
 	sudo apt-get -y /tmp/packages-microsoft-prod.deb

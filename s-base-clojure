@@ -19,9 +19,6 @@ set -euo pipefail
 
 BIN=$HOME/.local/bin
 
-s-echo "GNU Guix - clojure clojure-tools"
-[[ -x $(command -v guix) ]] && guix install clojure clojure-tools
-
 s-echo "Babashka"
 if [[ ! -x $BIN/bb ]]; then
     URL="https://raw.githubusercontent.com/babashka/babashka/master/install"
@@ -31,6 +28,13 @@ if [[ ! -x $BIN/bb ]]; then
     sed -i 's+/usr/local/bin+$HOME/.local/bin+g' "$INSTALL_PATH"
     bash "$INSTALL_PATH"
     rm "$INSTALL_PATH"
+fi
+
+s-echo "Lein"
+if [[ ! -x $BIN/lein ]]; then
+    URL="https://raw.githubusercontent.com/technomancy/leiningen/stable/bin/lein"
+    wget -c $URL -P "$BIN"
+    chmod +x "$BIN/lein"
 fi
 
 exit
@@ -45,11 +49,4 @@ if [[ ! -x $BIN/clojure-lsp ]]; then
     bash "$INSTALLER_PATH"
 
     [[ -x $BIN/clojure-lsp ]] && "$BIN/clojure-lsp" --version && rm "$INSTALLER_PATH"
-fi
-
-s-echo "Lein"
-if [[ ! -x $BIN/lein ]]; then
-    URL="https://raw.githubusercontent.com/technomancy/leiningen/stable/bin/lein"
-    wget -c $URL -P "$BIN"
-    chmod +x "$BIN/lein"
 fi
