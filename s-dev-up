@@ -20,6 +20,7 @@ set -euo pipefail
 gota --pack --filter java- --verbose
 gota --pack --filter javascript --verbose
 gota --pack --filter python --verbose
+gota --pack --filter golang --verbose
 
 [[ -x $(command -v podman) ]] && gota --misc --filter containers --verbose
 [[ -x $(command -v guix) ]] && gota --distro --filter guix --verbose
