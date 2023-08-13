@@ -29,9 +29,11 @@ BUILDS_HOME="$HOME/Builds"
 
 cd "$BUILDS_HOME"
 
-ZIG_TARFILE='zig-linux-x86_64-0.11.0-dev.2624+bc804eb84.tar.xz'
+# wget -O- -q https://ziglang.org/download/index.json | jq '."0.11.0"."x86_64-linux".tarball'
+ZIG_VERSION=0.11.0
+ZIG_TARFILE="zig-linux-x86_64-$ZIG_VERSION.tar.xz"
 ZIG_LOCATION=$LOCAL_DIR/$(basename $ZIG_TARFILE '.tar.xz')
-[[ ! -f $BUILDS_HOME/$ZIG_TARFILE ]] && wget -c "https://ziglang.org/builds/$ZIG_TARFILE" -P "$BUILDS_HOME"
+[[ ! -f $BUILDS_HOME/$ZIG_TARFILE ]] && wget -c "https://ziglang.org/download/$ZIG_VERSION/$ZIG_TARFILE" -P "$BUILDS_HOME"
 if [[ ! -f $LOCAL_BIN/zig ]] && [[ -f $ZIG_TARFILE ]]; then
     tar -xf "$ZIG_TARFILE" -C "$HOME/.local"
 
@@ -41,11 +43,11 @@ if [[ ! -f $LOCAL_BIN/zig ]] && [[ -f $ZIG_TARFILE ]]; then
 fi
 
 ZLS_LOCATION="$HOME/Builds/zls"
-[[ ! -d $ZLS_LOCATION/.git ]] && git clone https://github.com/zigtools/zls "$ZLS_LOCATION"
+[[ ! -d $ZLS_LOCATION/.git ]] && git clone https://github.com/zigtools/zls --single-branch --branch "$ZIG_VERSION" "$ZLS_LOCATION"
 if [[ -d $ZLS_LOCATION/.git ]]; then
     git -C "$ZLS_LOCATION" pull
 
-    cd "$ZLS_LOCATION" && zig build -Doptimize=ReleaseSafe
+    cd "$ZLS_LOCATION" && zig build -Doptimize=ReleaseSafe -Ddata_version=$ZIG_VERSION
 
     [[ ! -x $LOCAL_BIN/zls ]] && ln -s "$ZLS_LOCATION/zig-out/bin/zls" "$LOCAL_BIN/zls"
 

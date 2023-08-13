@@ -110,7 +110,7 @@ gsettings set org.gnome.Evince.Default show-sidebar 'false'
 gsettings set org.gnome.Evince.Default show-toolbar 'false'
 
 # EXTENSIONS
-gsettings set org.gnome.shell enabled-extensions "['user-theme@gnome-shell-extensions.gcampax.github.com', 'auto-move-windows@gnome-shell-extensions.gcampax.github.com', 'freon@UshakovVasilii_Github.yahoo.com', 'launch-new-instance@gnome-shell-extensions.gcampax.github.com']"
-gsettings set org.gnome.shell.extensions.auto-move-windows application-list "['org.gnome.Evince.desktop:1', 'libreoffice-startcenter.desktop:1', 'libreoffice-writer.desktop:1', 'org.gnome.Terminal.desktop:3', 'firefox.desktop:4', 'mpv.desktop:5', 'org.gnome.Rhythmbox3.desktop:5', 'thunderbird.desktop:4', 'io.podman_desktop.PodmanDesktop.desktop:3']"
+gsettings set org.gnome.shell enabled-extensions "['user-theme@gnome-shell-extensions.gcampax.github.com', 'freon@UshakovVasilii_Github.yahoo.com', 'launch-new-instance@gnome-shell-extensions.gcampax.github.com']"
+# gsettings set org.gnome.shell.extensions.auto-move-windows application-list "['org.gnome.Evince.desktop:1', 'libreoffice-startcenter.desktop:1', 'libreoffice-writer.desktop:1', 'org.gnome.Terminal.desktop:3', 'firefox.desktop:4', 'mpv.desktop:5', 'org.gnome.Rhythmbox3.desktop:5', 'thunderbird.desktop:4', 'io.podman_desktop.PodmanDesktop.desktop:3']"
 
 gsettings set org.gnome.rhythmbox.plugins.alternative_toolbar volume-control true
