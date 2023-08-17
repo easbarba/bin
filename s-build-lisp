@@ -16,27 +16,37 @@
 
 # debug options
 set -euo pipefail
-PREFIX=$HOME/.local
-BUILDS_LOCATION=$HOME/Builds
+PREFIX="$HOME/.local"
+BUILDS_DIR="$HOME/Builds"
 
 # ===========================
 # SBCL INSTALL
 
-SBCL_LOCATION="$HOME/Builds/sbcl"
-[[ ! -d "$SBCL_LOCATION" ]] && git clone git://git.code.sf.net/p/sbcl/sbcl "$SBCL_LOCATION"
-cd $SBCL_LOCATION && git checkout sbcl-2.2.5
+SBCL_BUILD_DIR="$BUILDS_DIR/sbcl"
+SBCL_VERSION=sbcl-2.3.7
+if [[ ! -f $PREFIX/bin/sbcl ]] && [[ ! -d "$SBCL_BUILD_DIR" ]]; then
+    git clone \
+        --single-branch \
+        --depth=1 \
+        --branch "$SBCL_VERSION" \
+        git://git.code.sf.net/p/sbcl/sbcl \
+        "$SBCL_BUILD_DIR"
+fi
+
+git -C "$SBCL_BUILD_DIR" pull
 
 export -n SBCL_HOME
-cd "$SBCL_LOCATION"
 
-sh make.sh --fancy --prefix="${HOME}/.local/bin"
+cd "$SBCL_BUILD_DIR"
+
+sh make.sh --fancy --prefix="$PREFIX/bin"
 
 # cd ./tests && sh ./run-tests.sh # test a lil more
 # cd ./doc/manual && make #  documentation
 
-cd "$SBCL_LOCATION"
 sh install.sh --prefix="${HOME}/.local"
-# fi
+
+exit
 
 # ===========================
 # STUMPWM
