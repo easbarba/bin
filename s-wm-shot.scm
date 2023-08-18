@@ -30,7 +30,7 @@
 ;; -----------------------------------------------------------------------
 
 (define home (getenv "HOME"))
-(define shot-folder (string-append home "/" "Pictures" "/" "screenshots" "/"))
+(define shot-folder (string-append home "/" "Pictures" "/" "Screenshots" "/"))
 (define shot-name (format #f "~a.png" (strftime "%A_%d_%B_%T" (localtime (current-time)))))
 
 ;; BRIGHTERS

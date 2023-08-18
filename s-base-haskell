@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-#
+
 # Bin is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation, either version 3 of the License, or
@@ -12,19 +12,15 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with Bin. If not, see <https://www.gnu.org/licenses/>.
-#
 
-# DEBUG SETTINGS
+# DEBUG OPTIONS
 set -euo pipefail
 
-gota --pack --filter go --verbose
-gota --pack --filter rust --verbose
-gota --pack --filter javascript --verbose
-gota --pack --filter python --verbose
+LOCAL_DIR="$HOME/.local"
+BUILDS_DIR="$HOME/Builds"
 
-[[ -x $(command -v podman) ]] && gota --misc --filter containers --verbose
-[[ -x $(command -v flatpak) ]] && gota --distro --filter flatpak --verbose
-[[ -x $(command -v guix) ]] && gota --distro --filter guix --verbose
+curl --proto '=https' --tlsv1.2 -sSf https://get-ghcup.haskell.org | sh
 
-s-base-emacs
-[[ -x $(command -v onur) ]] && onur grab
+git clone --single-branch --depth=1 https://github.com/ndmitchell/hoogle
+
+ghcup install hls
