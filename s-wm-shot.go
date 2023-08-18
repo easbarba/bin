@@ -6,12 +6,11 @@ import (
 	"flag"
 	"fmt"
 	"os"
-	"os/exec"
 	"path/filepath"
 	"time"
 )
 
-type shotter struct {
+type Shotter struct {
 	exec    string
 	full    string
 	partial string
@@ -19,18 +18,18 @@ type shotter struct {
 	name    string
 }
 
+func (s *Shotter) end(partial bool) []string {
+	if partial {
+		return []string{s.common + s.partial + s.name}
+	}
+
+	return []string{s.common + s.full + s.name}
+}
+
 func main() {
-	cfull, cpartial := cli_parse()
-	a_full, a_partial := action_picker()
+	_, partial := shot_cli_parse()
 
-	if *cfull == true {
-		system(a_full[0], a_full[:1]...)
-	}
-
-	if *cpartial == true {
-		system(a_partial[0], a_partial[:1]...)
-	}
-
+	system(grim().exec, grim().end(partial))
 }
 
 func action_picker() ([]string, []string) {
@@ -48,7 +47,7 @@ func shot_location() string {
 		os.Exit(1)
 	}
 
-	screen_folder := filepath.Join(home, "Pictures", "screenshots")
+	screen_folder := filepath.Join(home, "Pictures", "Screenshots")
 
 	if _, err := os.Stat(screen_folder); err != nil {
 		err = os.Mkdir(screen_folder, 0755)
@@ -62,10 +61,10 @@ func shot_location() string {
 	return screen_folder
 }
 
-func grim() shotter {
+func grim() Shotter {
 	shot_name := filepath.Join(shot_location(), time.Now().Format(time.RFC3339)+".png")
 
-	return shotter{
+	return Shotter{
 		exec:    "grimshot",
 		full:    "active",
 		partial: "area",
@@ -74,26 +73,8 @@ func grim() shotter {
 	}
 }
 
-func system(cmd string, args ...string) {
-	cm := exec.Command(cmd, args...)
-
-	err := cm.Run()
-	if err != nil {
-		fmt.Fprintln(os.Stderr, err.Error())
-		os.Exit(1)
-	}
-
-	stdout, err := cm.Output()
-	if err != nil {
-		fmt.Fprintln(os.Stderr, err.Error())
-		os.Exit(1)
-	}
-
-	fmt.Println(string(stdout))
-}
-
 // command line arguments parser
-func cli_parse() (*bool, *bool) {
+func shot_cli_parse() (*bool, *bool) {
 	full := flag.Bool("full", false, "full screen shot")
 	partial := flag.Bool("partial", false, "partial screen shot")
 

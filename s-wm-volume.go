@@ -6,7 +6,6 @@ import (
 	"flag"
 	"fmt"
 	"os"
-	"os/exec"
 )
 
 type manager struct {
@@ -17,7 +16,7 @@ type manager struct {
 }
 
 func main() {
-	up, down, toggle := cli_parse()
+	up, down, toggle := volume_cli_parse()
 	manager := picker()
 
 	if *up == true {
@@ -31,25 +30,6 @@ func main() {
 	if *toggle == true {
 		system(manager.exec, manager.toggle)
 	}
-}
-
-func system(cmd string, action []string) {
-	cm := exec.Command(cmd, action...)
-
-	err := cm.Run()
-	if err != nil {
-		fmt.Fprintln(os.Stderr, err.Error())
-		os.Exit(1)
-	}
-
-	stdout, err := cm.Output()
-	if err != nil {
-		fmt.Fprintln(os.Stderr, err.Error())
-		os.Exit(1)
-	}
-
-	fmt.Println(string(stdout))
-
 }
 
 func picker() manager {
@@ -78,7 +58,7 @@ func pactl() manager {
 }
 
 // command line arguments parser
-func cli_parse() (*bool, *bool, *bool) {
+func volume_cli_parse() (*bool, *bool, *bool) {
 	up := flag.Bool("up", false, "increase volume")
 	down := flag.Bool("down", false, "Decrease volume")
 	toggle := flag.Bool("toggle", false, "Toggle volume")

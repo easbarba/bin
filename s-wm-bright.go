@@ -6,7 +6,6 @@ import (
 	"flag"
 	"fmt"
 	"os"
-	"os/exec"
 )
 
 type brighter struct {
@@ -16,15 +15,15 @@ type brighter struct {
 }
 
 func main() {
-	up, down := cli_parse()
+	up, down := bright_cli_parse()
 	brighter := brightnessctl()
 
 	if *up == true {
-		system(brighter.exec, brighter.up...)
+		system(brighter.exec, brighter.up)
 	}
 
 	if *down == true {
-		system(brighter.exec, brighter.down...)
+		system(brighter.exec, brighter.down)
 	}
 }
 
@@ -38,26 +37,8 @@ func brightnessctl() brighter {
 	}
 }
 
-func system(cmd string, args ...string) {
-	cm := exec.Command(cmd, args...)
-
-	err := cm.Run()
-	if err != nil {
-		fmt.Fprintln(os.Stderr, err.Error())
-		os.Exit(1)
-	}
-
-	stdout, err := cm.Output()
-	if err != nil {
-		fmt.Fprintln(os.Stderr, err.Error())
-		os.Exit(1)
-	}
-
-	fmt.Println(string(stdout))
-}
-
 // command line arguments parser
-func cli_parse() (*bool, *bool) {
+func bright_cli_parse() (*bool, *bool) {
 	up := flag.Bool("up", false, "turn backlight up")
 	down := flag.Bool("down", false, "turn backlight down")
 

@@ -42,8 +42,10 @@
 ;; ACTIONS
 ;; -----------------------------------------------------------------------
 
-(define (full) (system*  grimshot-exec "save" "active" (string-append shot-folder shot-name)))
-(define (partial) (system* grimshot-exec "save" "area" (string-append shot-folder shot-name)))
+(define (full) ((system* grimshot-exec "copy" "active" (string-append shot-folder shot-name))
+                (system* grimshot-exec "save" "active" (string-append shot-folder shot-name))))
+(define (partial) ((system* grimshot-exec "copy" "active" (string-append shot-folder shot-name))
+                   (system* grimshot-exec "save" "area" (string-append shot-folder shot-name))))
 
 ;; CLI PARSING
 ;; -----------------------------------------------------------------------
