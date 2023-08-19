@@ -6,6 +6,7 @@ import (
 	"flag"
 	"fmt"
 	"os"
+	"os/exec"
 )
 
 type manager struct {
@@ -76,4 +77,22 @@ func volume_cli_parse() (*bool, *bool, *bool) {
 	}
 
 	return up, down, toggle
+}
+
+func system(cmd string, args []string) {
+	cm := exec.Command(cmd, args...)
+
+	err := cm.Run()
+	if err != nil {
+		fmt.Fprintln(os.Stderr, err.Error())
+		os.Exit(1)
+	}
+
+	stdout, err := cm.Output()
+	if err != nil {
+		fmt.Fprintln(os.Stderr, err.Error())
+		os.Exit(1)
+	}
+
+	fmt.Println(string(stdout))
 }

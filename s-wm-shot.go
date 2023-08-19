@@ -6,6 +6,7 @@ import (
 	"flag"
 	"fmt"
 	"os"
+	"os/exec"
 	"path/filepath"
 	"time"
 )
@@ -18,25 +19,25 @@ type Shotter struct {
 	name    string
 }
 
-func (s *Shotter) end(partial bool) []string {
-	if partial {
-		return []string{s.common + s.partial + s.name}
-	}
+func (s *Shotter) full_end() []string {
+	return []string{s.common, s.full, s.name}
+}
 
-	return []string{s.common + s.full + s.name}
+func (s *Shotter) partial_end() []string {
+	return []string{s.common, s.partial, s.name}
 }
 
 func main() {
-	_, partial := shot_cli_parse()
+	full, partial := shot_cli_parse()
+	grim := grim()
 
-	system(grim().exec, grim().end(partial))
-}
+	if *full == true {
+		shot_command(grim.exec, grim.full_end())
+	}
 
-func action_picker() ([]string, []string) {
-	full := []string{grim().exec, grim().common, grim().full, grim().name}
-	partial := []string{grim().exec, grim().common, grim().partial, grim().name}
-
-	return full, partial
+	if *partial == true {
+		shot_command(grim.exec, grim.partial_end())
+	}
 }
 
 func shot_location() string {
@@ -91,4 +92,20 @@ func shot_cli_parse() (*bool, *bool) {
 	}
 
 	return full, partial
+}
+
+func shot_command(cmd string, args []string) {
+	command := exec.Command(cmd, args...)
+
+	if err := command.Run(); err != nil {
+		fmt.Fprintln(os.Stderr, err.Error())
+		os.Exit(1)
+	}
+
+	if stdout, err := command.Output(); err != nil {
+		fmt.Fprintln(os.Stderr, err.Error())
+		os.Exit(1)
+	} else {
+		fmt.Println(string(stdout))
+	}
 }

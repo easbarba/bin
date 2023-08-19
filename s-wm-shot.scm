@@ -56,8 +56,8 @@
   -f, --full              full screen shot
   -p, --partial           partial screen shot"))
 
-(define cli-option-list '((full     (single-char #\f) (value #f))
-                          (partial   (single-char #\p) (value #f))))
+(define cli-option-list '((full (single-char #\f) (value #f))
+                          (partial (single-char #\p) (value #f))))
 
 (define (cli-parser args)
   (let* ((option-spec cli-option-list)
