@@ -23,13 +23,14 @@ LOCAL_BIN="$HOME/.local/bin"
 # * LIST OF PROGRAMS
 TOOLS=('blueman-applet'
   "nm-applet --indicator"
-  'udiskie --notify --tray')
+  'udiskie --notify --tray',
+  "mako")
 
 APPS=("$LOCAL_BIN/s-run-emacs"
   'mpd'
   'firefox')
 
-WAYLAND=('alacritty')
+WAYLAND=('foot')
 
 # ===================================================
 # * HELPERS
