@@ -22,36 +22,30 @@ LOCAL_FOLDER="$HOME/.local"
 
 QBE_LOCATION="$BUILDS_HOME/qbe"
 [[ ! -d $QBE_LOCATION/.git ]] && git clone git://c9x.me/qbe.git "$QBE_LOCATION" || git -C "$QBE_LOCATION" pull
-
 cd "$QBE_LOCATION"
 make
 make PREFIX="$LOCAL_FOLDER" install
 
 SCDOC_LOCATION="$BUILDS_HOME/scdoc"
 [[ ! -d $SCDOC_LOCATION/.git ]] && git clone https://git.sr.ht/~sircmpwn/scdoc "$SCDOC_LOCATION" || git -C "$SCDOC_LOCATION" pull
-
 cd scdoc
 make
-make PREFIX="$LOCAL_FOLDER" install
+sudo make install
 
 HAREC_FOLDER="$BUILDS_HOME/harec"
 [[ ! -d "$HAREC_FOLDER"/.git ]] && git clone https://git.sr.ht/~sircmpwn/harec "$HAREC_FOLDER" || git -C "$HAREC_FOLDER" pull
-
 cd "$HAREC_FOLDER"
-
 mkdir build
 cd build
 ../configure
 make
-make PREFIX="$LOCAL_FOLDER" install
+sudo make install
 
 HARE_FOLDER="$BUILDS_HOME/hare"
 [[ ! -d $HARE_FOLDER/.git ]] && git clone https://git.sr.ht/~sircmpwn/hare "$HARE_FOLDER" || git -C "$HARE_FOLDER" pull
-
 cd "$HARE_FOLDER"
-
 cp config.example.mk config.mk
 make
-make PREFIX="$LOCAL_FOLDER" install
+sudo make install
 
 exit
