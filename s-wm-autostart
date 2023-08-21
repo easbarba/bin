@@ -16,14 +16,14 @@
 
 # Description: auto-start some software executables
 
-DEPS=(bash command nohup pgrep awk nm-applet blueman udiskie mpd firefox okular)
+# DEPS=(bash command nohup pgrep awk nm-applet blueman udiskie mpd firefox okular)
 LOCAL_BIN="$HOME/.local/bin"
 
 # ===================================================
 # * LIST OF PROGRAMS
 TOOLS=('blueman-applet'
   "nm-applet --indicator"
-  'udiskie --notify --tray',
+  'udiskie --notify --tray'
   "mako")
 
 APPS=("$LOCAL_BIN/s-run-emacs"
@@ -38,8 +38,8 @@ WAYLAND=('foot')
 not_found() {
   # type: boolean
   # check if program executable is found
-
-  local app=$(echo "$1" | awk '{ print $1}') # get first word of command string with options given
+  local app
+  app=$(echo "$1" | awk '{ print $1}') # get first word of command string with options given
 
   [[ ! -x $(command -v "$app") ]]
 }
