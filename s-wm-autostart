@@ -30,7 +30,7 @@ APPS=("$LOCAL_BIN/s-run-emacs"
   'mpd'
   'firefox')
 
-WAYLAND=('foot')
+WAYLAND=('alacritty')
 
 # ===================================================
 # * HELPERS
