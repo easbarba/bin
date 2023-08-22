@@ -34,15 +34,15 @@ EOF
 fi
 
 # PROTECT FILES
-chmod 700 "$SSH_HOME"
-chmod 400 "$SSH_HOME/id_*"
-chmod 600 "$SSH_HOME/*.pub"
-chmod 600 "$SSH_HOME/known_hosts"
+[[ -f $SSH_HOME ]]             && chmod 700 "$SSH_HOME"
+[[ -f $SSH_KEY ]]              && chmod 400 "$SSH_KEY"
+[[ -f $SSH_KEY.pub ]]          && chmod 600 "$SSH_KEY.pub"
+[[ -f $SSH_HOME/known_hosts ]] && chmod 600 "$SSH_HOME/known_hosts"
 
 exit
 
 # NEW GLOBAL DEFAULTS
-# sudo sed -i "s/Port 22|Port 33/g" # new port
-# sudo sed -i "PermitRootLogin no"  # Disable root
-# sudo sed -i "AllowUsers username" # limit users acess
-# sudo sed -i "Protocol 2"          # use protocol 2
+sudo sed -i "s/Port 22|Port 33/g" # new port
+sudo sed -i "PermitRootLogin no"  # Disable root
+sudo sed -i "AllowUsers username" # limit users acess
+sudo sed -i "Protocol 2"          # use protocol 2
