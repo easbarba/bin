@@ -22,16 +22,12 @@ s-checkdeps "${DEPS[@]}"
 
 s-echo "Foreign packages"
 
-# https://learn.microsoft.com/en-us/dotnet/core/install/linux-debian
-if [[ ! -x $(command -v flatpak) ]]; then
-	wget https://packages.microsoft.com/config/debian/11/packages-microsoft-prod.deb -P /tmp
-	sudo apt-get -y /tmp/packages-microsoft-prod.deb
-fi
-
 if [[ ! -x $(command -v flatpak) ]]; then
 	$INSTALL flatpak gnome-software-plugin-flatpak
 	sudo flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
 fi
+
+exit
 
 DEB_GET_LOCATION="$HOME/.local/bin/deb-get"
 if [[ -x "$DEB_GET_LOCATION" ]]; then
