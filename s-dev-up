@@ -17,7 +17,7 @@
 # DEBUG SETTINGS
 set -euo pipefail
 
-[[ -x $(command -v gota) ]] && gota --pack --filter ruby --verbose
+[[ -x $(command -v gota) ]] && gota --pack --filter go --verbose
 [[ -x $(command -v gota) ]] && gota --pack --filter python --verbose
 [[ -x $(command -v gota) ]] && gota --pack --filter javascript --verbose
 
