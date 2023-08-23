@@ -17,15 +17,15 @@
 # DEBUG SETTINGS
 set -euo pipefail
 
-[[ -x $(command -v gota) ]] && gota --pack --filter go --verbose
-[[ -x $(command -v gota) ]] && gota --pack --filter python --verbose
-[[ -x $(command -v gota) ]] && gota --pack --filter javascript --verbose
+if [[ -x $(command -v gota) ]]; then
+    gota --pack --filter php --verbose
+    gota --pack --filter python --verbose
+    gota --pack --filter javascript --verbose
+    gota --pack --filter rust --verbose
+fi
 
 [[ -x $(command -v podman) ]] && gota --misc --filter containers --verbose
-
-[[ -x $(command -v gota) ]] && gota --pack --filter rust --verbose
 [[ -x $(command -v flatpak) ]] && gota --distro --filter flatpak --verbose
 [[ -x $(command -v guix) ]] && gota --distro --filter guix --verbose
-
 [[ -x $(command -v emacs) ]] && s-base-emacs
 [[ -x $(command -v onur) ]] && onur grab
