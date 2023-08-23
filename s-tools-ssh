@@ -33,10 +33,11 @@ Host *
 EOF
 fi
 
-# PROTECT FILES
-[[ -f $SSH_HOME ]]             && chmod 700 "$SSH_HOME"
-[[ -f $SSH_KEY ]]              && chmod 400 "$SSH_KEY"
-[[ -f $SSH_KEY.pub ]]          && chmod 600 "$SSH_KEY.pub"
+[[ -f $SSH_HOME ]] && chmod 700 "$SSH_HOME"
+[[ -f $SSH_HOME/authorized_keys ]] && chmod 600 "$SSH_HOME/authorized_keys"
+[[ -f $SSH_HOME/config ]] && chmod 600 "$SSH_HOME/config"
+[[ -f $SSH_KEY ]] && chmod 600 "$SSH_KEY"
+[[ -f $SSH_KEY.pub ]] && chmod 644 "$SSH_KEY.pub"
 [[ -f $SSH_HOME/known_hosts ]] && chmod 600 "$SSH_HOME/known_hosts"
 
 exit
