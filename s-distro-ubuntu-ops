@@ -46,7 +46,7 @@ exit
 
 if [[ ! -x $(command -v http) ]]; then
     $INSTALL net-tools iproute2 telnet dnsutils iwd iw wireless-tools \
-        resolvconf dhcpcd5 netcat-traditional tcpdump httpie gnutls-bin nmap httpie
+        resolvconf dhcpcd5 netcat-traditional tcpdump gnutls-bin nmap
 fi
 
 [[ ! -x $(command -v qemu-img) ]] && $INSTALL qemu qemu-utils qemu-system-x86 qemu-system-gui qemu-efi qemu-kvm qemu-system

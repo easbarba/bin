@@ -18,7 +18,7 @@
 set -euo pipefail
 
 if [[ -x $(command -v gota) ]]; then
-    gota --pack --filter php --verbose
+    gota --pack --filter go --verbose
     gota --pack --filter python --verbose
     gota --pack --filter javascript --verbose
     gota --pack --filter rust --verbose
