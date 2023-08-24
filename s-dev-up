@@ -25,7 +25,5 @@ if [[ -x $(command -v gota) ]]; then
 fi
 
 [[ -x $(command -v podman) ]] && gota --misc --filter containers --verbose
-[[ -x $(command -v flatpak) ]] && gota --distro --filter flatpak --verbose
-[[ -x $(command -v guix) ]] && gota --distro --filter guix --verbose
 [[ -x $(command -v emacs) ]] && s-base-emacs
 [[ -x $(command -v onur) ]] && onur grab
