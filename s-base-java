@@ -27,8 +27,8 @@ LOCAL_BIN="$HOME/.local/bin"
 
 # GRAAL - https://github.com/graalvm/graalvm-ce-builds/releases/
 if [[ ! -x "$LOCAL_BIN/gu" ]]; then
-    version="jdk-20.0.1"
-    graal_location="$BUILDS/graalvm-community-openj${version}+9.1"
+    version="20.0.1"
+    graal_location="$BUILDS/graalvm-community-openjdk-${version}+9.1"
     current="graalvm-community-${version}_linux-x64_bin.tar.gz"
     URL="https://github.com/graalvm/graalvm-ce-builds/releases/download/${version}/${current}"
 
