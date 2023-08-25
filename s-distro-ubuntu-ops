@@ -45,7 +45,7 @@ fi
 exit
 
 if [[ ! -x $(command -v http) ]]; then
-    $INSTALL net-tools iproute2 telnet dnsutils iwd iw wireless-tools \
+    $INSTALL iproute2 telnet dnsutils iwd iw wireless-tools \
         resolvconf dhcpcd5 netcat-traditional tcpdump gnutls-bin nmap
 fi
 

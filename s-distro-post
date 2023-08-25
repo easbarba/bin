@@ -52,5 +52,4 @@ sudo fc-cache -fv
 # create or update the manual page index caches
 sudo mandb
 
-# brightnessctl acess
-# sudo usermod -a -G video,input $USER
+sudo usermod -a -G video,bluetooth,input "$USER"
