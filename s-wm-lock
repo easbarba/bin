@@ -17,4 +17,5 @@
 
 [[ -x $(command -v playerctl) ]] && playerctl pause
 [[ -x $(command -v mpc) ]] && mpc volume 75
+[[ -x $(command -v swaylock) ]] && swaylock
 [[ -x $(command -v slock) ]] && slock
