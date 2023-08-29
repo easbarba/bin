@@ -1,0 +1,33 @@
+#!/usr/bin/env bash
+
+# Bin is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# Bin is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with Bin. If not, see <https://www.gnu.org/licenses/>.
+
+# DEBUG OPTIONS
+set -euo pipefail
+
+DWL_BUILD=~/Builds/dwl
+[[ -f $DWL_BUILD/.git/config ]] && git clone https://github.com/easbarba/dwl "$DWL_BUILD"
+cd "$DWL_BUILD"
+git checkout 87d87cc
+make
+ln -sf "$DWL_BUILD"/dwl "$HOME/.local/bin/dwl"
+
+## somebar
+SOMEBAR_BUILD=$HOME/Builds/somebar
+[[ -f $SOMEBAR_BUILD/.git/config ]] && git clone https://github.com/easbarba/somebar "$SOMEBAR_BUILD"
+cd "$SOMEBAR_BUILD"
+cp src/config.def.hpp src/config.hpp
+meson setup build
+ninja -C build
+sudo ninja -C build install
