@@ -21,11 +21,10 @@ LOCAL_BIN="$HOME/.local/bin"
 
 # ===================================================
 # * LIST OF PROGRAMS
-TOOLS=('blueman-applet'
-  "nm-applet --indicator"
-  'udiskie --notify --tray'
-  "mako")
+TOOLS=('udiskie --notify --tray' "mako")
 
+# 'blueman-applet'
+#  "nm-applet --indicator"
 APPS=("$LOCAL_BIN/s-run-emacs"
   'mpd'
   'google-chrome')
