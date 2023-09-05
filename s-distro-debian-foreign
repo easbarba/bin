@@ -23,7 +23,7 @@ s-checkdeps "${DEPS[@]}"
 s-echo "Foreign packages"
 
 if [[ ! -x $(command -v flatpak) ]]; then
-	$INSTALL flatpak gnome-software-plugin-flatpak
+	sudo apt install -y flatpak gnome-software-plugin-flatpak
 	sudo flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
 fi
 
