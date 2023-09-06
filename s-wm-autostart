@@ -21,15 +21,9 @@ LOCAL_BIN="$HOME/.local/bin"
 
 # ===================================================
 # * LIST OF PROGRAMS
-TOOLS=('udiskie --notify --tray' "mako")
-
-# 'blueman-applet'
-#  "nm-applet --indicator"
-APPS=("$LOCAL_BIN/s-run-emacs"
-  'mpd'
-  'google-chrome')
-
-WAYLAND=('alacritty')
+TOOLS=('udiskie --notify --tray' mako) # 'blueman-applet' #  "nm-applet --indicator"
+APPS=("$LOCAL_BIN/s-run-emacs" mpd google-chrome)
+WAYLAND=(foot)
 
 # ===================================================
 # * HELPERS
