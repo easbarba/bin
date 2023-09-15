@@ -21,8 +21,8 @@ LOCAL_BIN="$HOME/.local/bin"
 
 # ===================================================
 # * LIST OF PROGRAMS
-TOOLS=('udiskie --notify --tray' mako) # 'blueman-applet' #  "nm-applet --indicator"
-APPS=("$LOCAL_BIN/s-run-emacs" mpd google-chrome)
+TOOLS=('udiskie --notify --tray' mako)   # 'blueman-applet' #  "nm-applet --indicator"
+APPS=("$LOCAL_BIN/s-run-emacs" mpd nyxt) # icecat google-chrome
 WAYLAND=(foot)
 
 # ===================================================
