@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-#
+
 # Bin is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation, either version 3 of the License, or
@@ -12,25 +12,25 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with Bin. If not, see <https://www.gnu.org/licenses/>.
-#
 
-# Description: auto-start some software executables
+# Description: auto start programs
 
-# DEPS=(bash command nohup pgrep awk nm-applet blueman udiskie mpd firefox okular)
-LOCAL_BIN="$HOME/.local/bin"
+#DEPS=(bash command nohup pgrep awk mako emacs udiskie mpd firefox)
+#LOCAL_BIN="$HOME/.local/bin"
 
-# ===================================================
-# * LIST OF PROGRAMS
-TOOLS=('udiskie --notify --tray' mako)   # 'blueman-applet' #  "nm-applet --indicator"
-APPS=("$LOCAL_BIN/s-run-emacs" mpd firefox) # nyxt icecat google-chrome
-WAYLAND=(foot)
+# =========================== HELPERS
 
-# ===================================================
-# * HELPERS
+is_array() {
+  # type: boolean
+  # description: is argument an array?
+
+  local var=$1
+  [[ $(declare -p "$var" 2>/dev/null) =~ "declare -a" ]]
+}
 
 not_found() {
   # type: boolean
-  # check if program executable is found
+  # description: check if program executable is found
   local app
   app=$(echo "$1" | awk '{ print $1}') # get first word of command string with options given
 
@@ -39,33 +39,52 @@ not_found() {
 
 is_running() {
   # type: boolean
-  # return if PROGRAM is running
+  # description: return if PROGRAM is running
 
   [[ $(pgrep -f "$1") ]]
 }
 
 run() {
   # type: void
-  # run program as gnu bash background process
+  # description: run program as gnu bash background process
 
   nohup bash -c "$1" &
 }
 
 dolist() {
   # type: void
-  # given a list of programs, perform a few tasks before running.
+  # description: given a list of programs, before running perform a few checkers
 
-  local apps=("$@")
+  local APPS=("$@")
 
-  for app in "${apps[@]}"; do
-    not_found "$app" && continue
-    is_running "$app" && continue
-    run "$app"
+  for app in "${APPS[@]}"; do
+    if is_array "$app"; then
+      printf -v subapp ' %s' "${subapp[@]}"
+      not_found "${subapp[0]}" && continue
+      run "${subapp[0]}"
+    else
+      not_found "$app" && continue
+      is_running "$app" && continue
+      run "$app"
+    fi
   done
 }
 
-# ===================================================
-# * RUN
+# =========================== PROGRAMS w/ ARGS
+
+declare -a mxbook=(emacs -T books ~/Documents/books)
+declare -a mxorg=(emacs -T Org ~/Documents/org)
+declare -a mxpersonal=(emacs -T Personal ~/Documents/personal)
+declare -a mxwork=(emacs -T Work ~/Documents/work)
+declare -a udiskie_verbose=(udiskie --notify --tray)
+
+# =========================== LISTS OF PROGRAMS
+
+declare -a TOOLS=("${udiskie_verbose[@]}" mako)   # blueman-applet #  "nm-applet --indicator"
+declare -a APPS=("${mxbook[@]}" "${mxorg[@]}" "${mxpersonal[@]}" "${mxwork[@]}" mpd firefox) # nyxt icecat google-chrom e
+declare -a WAYLAND=(foot)
+
+# =========================== RUN
 
 dolist "${TOOLS[@]}"
 dolist "${APPS[@]}"
