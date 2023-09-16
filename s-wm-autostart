@@ -31,8 +31,8 @@ is_array() {
 not_found() {
   # type: boolean
   # description: check if program executable is found
-  local app
-  app=$(echo "$1" | awk '{ print $1}') # get first word of command string with options given
+
+  local app=$(echo "$1" | awk '{ print $1}') # get first word of command string with options given
 
   [[ ! -x $(command -v "$app") ]]
 }
@@ -53,19 +53,24 @@ run() {
 
 dolist() {
   # type: void
-  # description: given a list of programs, before running perform a few checkers
+  # argument: receive a single array list of programs, may be an array with arrays.
+  # description: given a list of programs, before running perform a few checkers.
 
-  local APPS=("$@")
+  local apps=("$@")
 
-  for app in "${APPS[@]}"; do
-    if is_array "$app"; then
-      printf -v subapp ' %s' "${subapp[@]}"
-      not_found "${subapp[0]}" && continue
-      run "${subapp[0]}"
+  for app in "${apps[@]}"; do
+    if is_array "${app[@]}"; then
+      printf -v app_string ' %s' "${!app}"
+      app_string=${app_string:1} # remove the leading space
+
+      echo "array: ${app} - length: ${#app[@]} - string: ${app_string}"
+      # not_found "${subapp[0]}" && continue
+      # run "${subapp[0]}"
     else
-      not_found "$app" && continue
-      is_running "$app" && continue
-      run "$app"
+      echo "word: $app"
+      # not_found "$app" && continue
+      # is_running "$app" && continue
+       # run "$app"
     fi
   done
 }
@@ -80,8 +85,8 @@ declare -a udiskie_verbose=(udiskie --notify --tray)
 
 # =========================== LISTS OF PROGRAMS
 
-declare -a TOOLS=("${udiskie_verbose[@]}" mako)   # blueman-applet #  "nm-applet --indicator"
-declare -a APPS=("${mxbook[@]}" "${mxorg[@]}" "${mxpersonal[@]}" "${mxwork[@]}" mpd firefox) # nyxt icecat google-chrom e
+declare -a TOOLS=("udiskie_verbose" mako)
+declare -a APPS=("mxbook" "mxorg" "mxpersonal" "mxwork" mpd firefox)
 declare -a WAYLAND=(foot)
 
 # =========================== RUN
@@ -89,3 +94,6 @@ declare -a WAYLAND=(foot)
 dolist "${TOOLS[@]}"
 dolist "${APPS[@]}"
 dolist "${WAYLAND[@]}"
+
+# blueman-applet #  "nm-applet --indicator"
+ # nyxt icecat google-chrom e
