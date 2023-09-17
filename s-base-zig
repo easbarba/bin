@@ -54,6 +54,20 @@ if [[ -d $ZLS_LOCATION/.git ]]; then
     "$LOCAL_BIN/zls" --version
 fi
 
+ZIGMOD_NAME=zigmod
+ZIGMOD_LOCATION="$HOME/Builds/${ZIGMOD_NAME}"
+[[ ! -d $ZIGMOD_LOCATION/.git ]] && git clone https://github.com/nektro/zigmod --single-branch "$ZLS_LOCATION"
+if [[ -d $ZIGMOD_LOCATION/.git ]]; then
+    git -C "$ZIGMOD_LOCATION" pull
+
+    cd "$ZIGMOD_LOCATION" && zig build -j1
+
+    [[ ! -x $LOCAL_BIN/${ZIGMOD_NAME} ]] && ln -s "$ZIGMOD_LOCATION/zig-out/bin/${ZIGMOD_NAME}" "$LOCAL_BIN/${ZIGMOD_NAME}"
+
+    "$LOCAL_BIN/${ZIGMOD_NAME}" version
+fi
+
+
 exit
 
 ZIG_LOCATION="$HOME/Builds/zig"
