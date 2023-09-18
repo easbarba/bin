@@ -86,7 +86,7 @@ declare -a udiskie_verbose=(udiskie --notify --tray)
 # =========================== LISTS OF PROGRAMS
 
 declare -a TOOLS=("udiskie_verbose" mako)
-declare -a APPS=("mxbook" "mxorg" "mxpersonal" "mxwork" mpd firefox)
+declare -a APPS=("mxbook" "mxorg" "mxpersonal" "mxwork" firefox)
 declare -a WAYLAND=(foot)
 
 # =========================== RUN
