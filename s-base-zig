@@ -47,7 +47,7 @@ ZLS_LOCATION="$HOME/Builds/zls"
 if [[ -d $ZLS_LOCATION/.git ]]; then
     git -C "$ZLS_LOCATION" pull
 
-    cd "$ZLS_LOCATION" && zig build -Doptimize=ReleaseSafe -Ddata_version=$ZIG_VERSION
+    cd "$ZLS_LOCATION" && zig build -Doptimize=ReleaseSafe -Ddata_version="$ZIG_VERSION"
 
     [[ ! -x $LOCAL_BIN/zls ]] && ln -s "$ZLS_LOCATION/zig-out/bin/zls" "$LOCAL_BIN/zls"
 
@@ -56,7 +56,7 @@ fi
 
 ZIGMOD_NAME=zigmod
 ZIGMOD_LOCATION="$HOME/Builds/${ZIGMOD_NAME}"
-[[ ! -d $ZIGMOD_LOCATION/.git ]] && git clone https://github.com/nektro/zigmod --single-branch "$ZLS_LOCATION"
+[[ ! -d $ZIGMOD_LOCATION/.git ]] && git clone https://github.com/nektro/zigmod --single-branch "$ZIGMOD_LOCATION"
 if [[ -d $ZIGMOD_LOCATION/.git ]]; then
     git -C "$ZIGMOD_LOCATION" pull
 
