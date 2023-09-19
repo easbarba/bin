@@ -29,7 +29,7 @@
 ;; ACTIONS
 ;; -----------------------------------------------------------------------
 
-(define step 2)
+(define step 1)
 
 (define pactl-exec "/usr/bin/pactl")
 (define pactl-id "@DEFAULT_SINK@")
