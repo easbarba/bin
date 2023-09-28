@@ -19,8 +19,10 @@ set -euo pipefail
 if [[ -x $(command -v gota) ]]; then
     gota --pack --filter go --verbose
     gota --pack --filter python --verbose
+    gota --pack --filter javascript --verbose
     [[ -x $(command -v podman) ]] && gota --misc --filter containers --verbose
     gota --pack --filter guix --verbose
+
 fi
 
 [[ -x $(command -v emacs) ]] && s-base-emacs
