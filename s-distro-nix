@@ -22,8 +22,4 @@ set -euo pipefail
 
 [[ ! -x $(command -v nix-env) ]] && sh <(curl -L https://nixos.org/nix/install) --daemon
 
-packages=() # mcfly direnv cpufetch
-e_dolist 'nix-env -iA' "${packages[@]}"
-
-packages=(nixpkgs.swift)
-e_dolist 'nix-env -iA' "${packages[@]}"
+nix-channel --add https://nixos.org/channels/nixos-unstable nixos
