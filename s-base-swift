@@ -21,6 +21,9 @@ DEPS=(bash wget git tar mv ln)
 s-checkdeps "${DEPS[@]}"
 
 LOCAL_DIR="$HOME/.local"
+BUILDS_DIR="$HOME/Builds"
+
+mkdir -pv "$BUILDS_DIR"
 
 SWIFT_URL='https://download.swift.org/swift-5.9-release/ubuntu2204/swift-5.9-RELEASE/swift-5.9-RELEASE-ubuntu22.04.tar.gz'
 if [[ ! -d "$LOCAL_DIR/swift" ]]; then
@@ -30,7 +33,7 @@ if [[ ! -d "$LOCAL_DIR/swift" ]]; then
 fi
 
 if [[ ! -f "$LOCAL_DIR/bin/swift" ]]; then
-    ln -sf "$LOCAL_DIR/swift/usr/bin/swift*" "$HOME/.local/bin"
+    ln -sf "$LOCAL_DIR/swift/usr/bin/swift*" "$LOCAL_DIR/bin"
     "$LOCAL_DIR/bin/swift" --version
 fi
 
@@ -43,5 +46,13 @@ cd "$SWIFT_FORMAT_DIR"
 git checkout "$SWIFT_FORMAT_VERSION"
 swift build -c release
 ln -sf "$SWIFT_FORMAT_DIR/.build/release/swift-format" "$LOCAL_DIR/bin"
+
+
+VAPOR_VERSION=18.7.1 # https://github.com/vapor/toolbox/releases
+VAPOR_DIR=$BUILDS/vapor
+[[ ! -d $VAPOR_DIR/.git ]] && git clone https://github.com/vapor/toolbox.git "$VAPOR_DIR"
+cd "$VAPOR_DIR"
+gitf checkout "$VAPOR_VERSION"
+make install
 
 exit
