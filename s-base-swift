@@ -25,6 +25,8 @@ BUILDS_DIR="$HOME/Builds"
 
 mkdir -pv "$BUILDS_DIR"
 
+# ======================================================
+
 SWIFT_URL='https://download.swift.org/swift-5.9-release/ubuntu2204/swift-5.9-RELEASE/swift-5.9-RELEASE-ubuntu22.04.tar.gz'
 if [[ ! -d "$LOCAL_DIR/swift" ]]; then
     wget -c "$SWIFT_URL" -P /tmp
@@ -37,6 +39,8 @@ if [[ ! -f "$LOCAL_DIR/bin/swift" ]]; then
     "$LOCAL_DIR/bin/swift" --version
 fi
 
+# ======================================================
+
 SWIFT_FORMAT_DIR="$HOME/Builds/swift-format"
 SWIFT_FORMAT_VERSION=509.0.0
 [[ ! -d $SWIFT_FORMAT_DIR/.git ]] && git clone https://github.com/apple/swift-format.git "$SWIFT_FORMAT_DIR"
@@ -47,6 +51,7 @@ git checkout "$SWIFT_FORMAT_VERSION"
 swift build -c release
 ln -sf "$SWIFT_FORMAT_DIR/.build/release/swift-format" "$LOCAL_DIR/bin"
 
+# ======================================================
 
 VAPOR_VERSION=18.7.1 # https://github.com/vapor/toolbox/releases
 VAPOR_DIR=$BUILDS/vapor
