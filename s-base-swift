@@ -36,7 +36,9 @@ fi
 
 if [[ ! -f "$LOCAL_DIR/bin/swift" ]]; then
     ln -sf "$LOCAL_DIR/swift/usr/bin/swift*" "$LOCAL_DIR/bin"
+    ln -sf "$LOCAL_DIR/swift/usr/bin/sourcekit-lsp" "$LOCAL_DIR/bin/sourcekit-lsp"
     "$LOCAL_DIR/bin/swift" --version
+    "$LOCAL_DIR/bin/sourcekit-lsp" --help
 fi
 
 # ======================================================
@@ -50,6 +52,10 @@ cd "$SWIFT_FORMAT_DIR"
 git checkout "$SWIFT_FORMAT_VERSION"
 swift build -c release
 ln -sf "$SWIFT_FORMAT_DIR/.build/release/swift-format" "$LOCAL_DIR/bin"
+
+# ======================================================
+SOURCEKIT_DIR=$BUILDS/sourcekit-lsp
+[[ -d  $SOURCEKIT_DIR ]] && git clone https://github.com/apple/sourcekit-lsp
 
 # ======================================================
 
