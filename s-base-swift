@@ -17,34 +17,31 @@
 # DEBUG OPTIONS
 set -euo pipefail
 
-DEPS=(git swift)
+DEPS=(bash wget git tar mv ln)
 s-checkdeps "${DEPS[@]}"
 
-LOCAL="$HOME/.local"
+LOCAL_DIR="$HOME/.local"
 
-if [[ ! -d "$LOCAL/swift" ]]; then
-    url='https://download.swift.org/swift-5.7.3-release/ubuntu2204/swift-5.7.3-RELEASE/swift-5.7.3-RELEASE-ubuntu22.04.tar.gz'
-    wget -c $url -P /tmp
-
-    tar -xvzf /tmp/swift-*-RELEASE-ubuntu*.tar.gz -C "$LOCAL"
-    mv "$LOCAL"/swift-*-RELEASE-* "$LOCAL/swift"
+SWIFT_URL='https://download.swift.org/swift-5.9-release/ubuntu2204/swift-5.9-RELEASE/swift-5.9-RELEASE-ubuntu22.04.tar.gz'
+if [[ ! -d "$LOCAL_DIR/swift" ]]; then
+    wget -c "$SWIFT_URL" -P /tmp
+    tar -xvzf /tmp/swift-*-RELEASE-ubuntu*.tar.gz -C "$LOCAL_DIR"
+    mv "$LOCAL_DIR"/swift-*-RELEASE-* "$LOCAL_DIR/swift"
 fi
 
-if [[ ! -f "$LOCAL/bin/swift" ]]; then
-    ln -sf "$LOCAL/swift/usr/bin/swift" "$HOME/.local/bin/swift"
-    "$LOCAL/bin/swift" --version
+if [[ ! -f "$LOCAL_DIR/bin/swift" ]]; then
+    ln -sf "$LOCAL_DIR/swift/usr/bin/swift*" "$HOME/.local/bin"
+    "$LOCAL_DIR/bin/swift" --version
 fi
 
-SF_FOLDER="$HOME/Builds/swift-format"
-if [[ ! -x $(command -v swift-format) ]]; then
-    version=0.50700.1
+SWIFT_FORMAT_DIR="$HOME/Builds/swift-format"
+SWIFT_FORMAT_VERSION=509.0.0
+[[ ! -d $SWIFT_FORMAT_DIR/.git ]] && git clone https://github.com/apple/swift-format.git "$SWIFT_FORMAT_DIR"
 
-    git clone https://github.com/apple/swift-format.git "$SF_FOLDER"
-    cd "$SF_FOLDER"
-    git checkout "tags/$version"
+git -C "$SWIFT_FORMAT_DIR" pull
+cd "$SWIFT_FORMAT_DIR"
+git checkout "$SWIFT_FORMAT_VERSION"
+swift build -c release
+ln -sf "$SWIFT_FORMAT_DIR/.build/release/swift-format" "$LOCAL_DIR/bin"
 
-    swift build -c release
-    cp "$SF_FOLDER/.build/release/swift-format" "$LOCAL/bin"
-fi
-
-git -C "$SF_FOLDER" pull
+exit
