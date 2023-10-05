@@ -37,8 +37,11 @@ fi
 if [[ ! -f "$LOCAL_DIR/bin/swift" ]]; then
     ln -sf "$LOCAL_DIR/swift/usr/bin/swift*" "$LOCAL_DIR/bin"
     ln -sf "$LOCAL_DIR/swift/usr/bin/sourcekit-lsp" "$LOCAL_DIR/bin/sourcekit-lsp"
+    ln -sf "$LOCAL_DIR/swift/usr/bin/docc" "$LOCAL_DIR/bin/docc"
+
     "$LOCAL_DIR/bin/swift" --version
     "$LOCAL_DIR/bin/sourcekit-lsp" --help
+    "$LOCAL_DIR/bin/docc" --help
 fi
 
 # ======================================================
