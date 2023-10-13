@@ -58,14 +58,13 @@ if [[ ! -x $(command -v helm) ]]; then
 fi
 
 if [[ ! -x $(command -v tcpdump) ]]; then
-    $INSTALL net-tools iproute2 telnet dnsutils \
-        resolvconf netcat-traditional tcpdump httpie gnutls-bin nmap
+    $INSTALL iproute2 dnsutils resolvconf
 fi # iwd iw wireless-tools dhcpcd5
 
 exit
 
 if [[ ! -x $(command -v minikube) ]]; then
-    curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube_latest_amd64.deb -P /tmp
+    wget -c https://storage.googleapis.com/minikube/releases/latest/minikube_latest_amd64.deb -P /tmp
     sudo apt install /tmp/minikube_latest_amd64.deb
 fi
 
