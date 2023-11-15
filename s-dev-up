@@ -16,13 +16,16 @@
 # DEBUG SETTINGS
 set -euo pipefail
 
-[[ -x $(command -v emacs) ]] && s-base-emacs
-[[ -x $(command -v onur) ]] && onur grab
-
 if [[ -x $(command -v gota) ]]; then
     [[ -x $(command -v podman) ]] && gota --misc --filter containers --verbose
 
-    gota --pack --filter dotnet --verbose
+    gota --pack --filter php --verbose
+    gota --pack --filter golang-nondev --verbose
+    gota --pack --filter sdkman --verbose
     gota --pack --filter python --verbose
     gota --pack --filter guix --verbose
 fi
+
+[[ -x $(command -v onur) ]] && onur grab
+[[ -x $(command -v emacs) ]] && s-base-emacs
+[[ -x $(command -v doom) ]] && doom doctor
