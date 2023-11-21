@@ -19,8 +19,6 @@ set -euo pipefail
 if [[ -x $(command -v gota) ]]; then
     [[ -x $(command -v podman) ]] && gota --misc --filter containers --verbose
 
-    gota --pack --filter php --verbose
-    gota --pack --filter rust --verbose
     gota --pack --filter golang-nondev --verbose
     gota --pack --filter python --verbose
     gota --pack --filter guix --verbose
@@ -30,4 +28,3 @@ fi
 [[ -x $(command -v onur) ]] && onur grab
 
 [[ -x $(command -v emacs) ]] && s-base-emacs
-[[ -x $(command -v doom) ]] && doom doctor
