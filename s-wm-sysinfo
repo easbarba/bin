@@ -46,8 +46,12 @@ _cpuf() {
 
     echo -e "\Uf110 ${result}%"
 }
-
-echo -e "$VOLUME $(_cpuf) $CPUT $GPUT $MEMORY $BATTERY $DATE"
+# echo -e "info|string|$VOLUME $(_cpuf) $CPUT $GPUT $MEMORY $BATTERY $DATE"
+while true; do
+    echo -e "info|string|$CPUT $GPUT"
+    echo ""
+    sleep 5
+done
 
 exit
 
