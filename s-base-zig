@@ -67,7 +67,6 @@ if [[ -d $ZIGMOD_LOCATION/.git ]]; then
     "$LOCAL_BIN/${ZIGMOD_NAME}" version
 fi
 
-
 exit
 
 ZIG_LOCATION="$HOME/Builds/zig"
