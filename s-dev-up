@@ -25,6 +25,6 @@ if [[ -x $(command -v gota) ]]; then
     gota --pack --filter guix --verbose
 fi
 
-[[ -x $(command -v onur) ]] && onur grab
+[[ -x $(command -v onur) ]] && onur --grab
 
 [[ -x $(command -v emacs) ]] && s-base-emacs
