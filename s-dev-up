@@ -30,3 +30,7 @@ fi
 [[ -x $(command -v onur) ]] && onur --grab
 
 [[ -x $(command -v emacs) ]] && s-base-emacs
+
+echo "The end!"
+
+exit
