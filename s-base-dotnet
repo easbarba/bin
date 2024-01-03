@@ -23,7 +23,7 @@ s-checkdeps "${DEPS[@]}"
 DOTNET_DIR="$HOME/.dotnet"
 DOTNET_BIN_NAME=dotnet-install
 DOTNET_INSTALL_BIN="$HOME/.local/bin/$DOTNET_BIN_NAME"
-DOTNET_VERSION=7.0
+DOTNET_VERSION=8.0
 
 if [[ ! -f $DOTNET_INSTALL_BIN ]]; then
     wget https://dot.net/v1/dotnet-install.sh -O "$DOTNET_INSTALL_BIN"
@@ -31,4 +31,4 @@ if [[ ! -f $DOTNET_INSTALL_BIN ]]; then
 fi
 
 [[ -f $DOTNET_INSTALL_BIN ]] && $DOTNET_INSTALL_BIN --channel "$DOTNET_VERSION"
-[[ -f $DOTNET_DIR/dotnet ]] && ln -sf $DOTNET_DIR/dotnet $HOME/.local/bin/dotnet
+[[ -f $DOTNET_DIR/dotnet ]] && ln -sf "$DOTNET_DIR/dotnet" "$HOME/.local/bin/dotnet"
