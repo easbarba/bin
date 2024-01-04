@@ -35,6 +35,6 @@ fi
 [[ -x $(command -v guix) ]] && sudo guix pull && s-distro-guix
 [[ -x $(command -v guix) ]] && gota --distro --filter guix --verbose
 
-echo "The end!"
+echo "THE END!"
 
 exit
