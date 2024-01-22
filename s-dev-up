@@ -19,10 +19,10 @@ set -euo pipefail
 if [[ -x $(command -v gota) ]]; then
     [[ -x $(command -v podman) ]] && gota --misc --filter containers --verbose
 
-    gota --pack --filter javascript --verbose
-    gota --pack --filter python --verbose
+    gota --pack --filter  --info javascript --verbose
+    gota --pack --filter  --info python --verbose
 
-    gota --pack --filter guix --verbose
+    gota --pack --filter  --info guix --verbose
 fi
 
 [[ -x $(command -v onur) ]] && onur --grab
