@@ -28,9 +28,9 @@ while true; do
     CONNECTION="$([[ "$(nmcli connection show | gawk 'NR==2 {print $4}')" != '--' ]] && printf "\Uf1eb" || printf "\Uf1eb")"
     DISTRO="\uf05a GNU $(gawk '{print $1}' /etc/hostname)"
     DATE="\Uf017 $(date "+%H:%M - %a, %b %d")"
-    HOOST="${HOSTNAME^}"
-    CPUT="$(sensors 2>&1 | gawk '/Tctl/ {print substr($2, 2)}')" # sensors 2>&1 | grep Tctl | awk '{print substr($2, 2)}'
-    GPUT="$(sensors 2>&1 | gawk '/edge/ {print substr($2, 2)}')" # sensors 2>&1 | grep edge | awk '{print substr($2, 2)}'
+    _HOST="${HOSTNAME^}"
+    CPUT="\Uf06d $(sensors 2>&1 | gawk '/Tctl/ {print substr($2, 2)}')" # sensors 2>&1 | grep Tctl | awk '{print substr($2, 2)}'
+    GPUT="\Uf11b $(sensors 2>&1 | gawk '/edge/ {print substr($2, 2)}')" # sensors 2>&1 | grep edge | awk '{print substr($2, 2)}'
     MEMORY="\Uf18d $(free -m | gawk 'NR==2 {printf "%dMB\n", $3,$2,$3*100/$2 }')"
     VOLUME="\Uf026 $(pactl list sinks | gawk '/Volume: front/ {print $5}')"
     KERNEL=$(gawk '{ print substr($3,1,4)}' /proc/version) # uname -r | sed 's/.//5g'
@@ -50,9 +50,10 @@ while true; do
         echo -e "\Uf110 ${result}%"
     }
 
-    printf -- '%s\n' "cpu|string|$CPUT"
-    printf -- '%s\n' "gpu|string|$GPUT"
-    printf -- '%s\n' ""
+    echo -e "host|string|$_HOST"
+    echo -e "cpu|string|$CPUT"
+    echo -e "gpu|string|$GPUT"
+    echo -e ""
 
     sleep $interval
 done
