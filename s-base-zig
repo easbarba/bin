@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-#
+
 # Bin is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation, either version 3 of the License, or
@@ -12,7 +12,7 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with Bin. If not, see <https://www.gnu.org/licenses/>.
-#
+
 
 # Debug Options
 set -euo pipefail
@@ -29,9 +29,7 @@ BUILDS_HOME="$HOME/Builds"
 
 cd "$BUILDS_HOME"
 
-echo
-echo "ZIG"
-echo
+echo -e "\n- zig\n"
 
 # wget -O- -q https://ziglang.org/download/index.json | jq '."0.11.0"."x86_64-linux".tarball'
 ZIG_VERSION=0.11.0
@@ -46,9 +44,7 @@ if [[ ! -f $LOCAL_BIN/zig ]] && [[ -f $ZIG_TARFILE ]]; then
     "$LOCAL_BIN/zig" version
 fi
 
-echo
-echo "ZLS"
-echo
+echo -e "\n- zls\n"
 
 ZLS_LOCATION="$HOME/Builds/zls"
 [[ ! -d $ZLS_LOCATION/.git ]] && git clone https://github.com/zigtools/zls --single-branch --branch "$ZIG_VERSION" "$ZLS_LOCATION"
@@ -62,9 +58,7 @@ if [[ -d $ZLS_LOCATION/.git ]]; then
     "$LOCAL_BIN/zls" --version
 fi
 
-echo
-echo "ZIGMOD"
-echo
+echo -e "\n- zigmod\n"
 
 ZIGMOD_NAME=zigmod
 ZIGMOD_LOCATION="$HOME/Builds/${ZIGMOD_NAME}"
@@ -79,14 +73,15 @@ if [[ -d $ZIGMOD_LOCATION/.git ]]; then
     "$LOCAL_BIN/${ZIGMOD_NAME}" version
 fi
 
-echo
-echo "RIVERWM"
-echo
+echo -e "\n- riverwm\n"
 
 RIVER_NAME=river
 RIVER_LOCATION="$HOME/Builds/${RIVER_NAME}"
-[[ ! -d $RIVER_LOCATION/.git ]] && git clone https://github.com/riverwm/river --single-branch "$RIVER_LOCATION"
+if [[ ! -d $RIVER_LOCATION/.git ]]; then
+    git clone https://github.com/riverwm/river --depth=1 --recurse-submodules --single-branch "$RIVER_LOCATION"
+fi
 if [[ -d $RIVER_LOCATION/.git ]]; then
+    git submodule update --init
     git -C "$RIVER_LOCATION" pull
 
     cd "$RIVER_LOCATION" && zig build -Doptimize=ReleaseSafe -Dxwayland --prefix "$LOCAL_DIR" install
