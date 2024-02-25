@@ -28,6 +28,12 @@ if [[ ! -f "$HOME/.sdkman/bin/sdkman-init.sh" ]]; then
      curl -s "https://get.sdkman.io" | bash
 fi
 
+if [[ ! -f "$HOME/.jbang/bin/jbang" ]]; then
+    curl -Ls https://sh.jbang.dev | bash -s - app setup
+fi
+
+
+
 # =============== GOOGLE-JAVA-FORMAT - https://github.com/google/google-java-format
 TAGS_URL="https://api.github.com/repos/google/google-java-format/tags"
 VERSION="$(curl -s $TAGS_URL | awk '/name/ {version=substr($2,2,7); print version; exit}')"
