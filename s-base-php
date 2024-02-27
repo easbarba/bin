@@ -22,9 +22,8 @@ s-checkdeps "${DEPS[@]}"
 
 LOCAL_BIN="$HOME/.local/bin"
 
+echo -e '\n- COMPOSER'
 if [[ ! -x $(command -v composer) ]]; then
-    echo '> COMPOSER'
-
     cd /tmp
 
     EXPECTED_CHECKSUM="$(php -r 'copy("https://composer.github.io/installer.sig", "php://stdout");')"
@@ -45,14 +44,19 @@ if [[ ! -x $(command -v composer) ]]; then
     "$LOCAL_BIN/composer" --version
 fi
 
-if [[ ! -f $HOME/.symfony5/bin/symfony ]]; then
-    echo '> PHPACTOR'
-    wget https://get.symfony.com/cli/installer -O - | bash
-fi
+echo -e '\n- SYMFONY'
+[[ ! -f $HOME/.symfony5/bin/symfony ]] && wget https://get.symfony.com/cli/installer -O - | bash
 
+echo -e '\n- PHPACTOR'
+PHPACTOR_LOCATION="$HOME/Builds/phpactor"
+[[ ! -d $PHPACTOR_LOCATION/.git ]] && git clone https://github.com/phpactor/phpactor "$PHPACTOR_LOCATION"
+git -C "$PHPACTOR_LOCATION" pull
+cd "$PHPACTOR_LOCATION" && composer install
+[[ ! -x $(command -v phpactor) ]] && ln -s "$PHPACTOR_LOCATION/bin/phpactor" "$LOCAL_BIN/phpactor"
+"$LOCAL_BIN/phpactor" --version
+
+echo -e '\n- PHIVE'
 if [[ ! -f $LOCAL_BIN/phive ]]; then
-    echo '> PHIVE'
-
     wget -O phive.phar https://phar.io/releases/phive.phar
     wget -O phive.phar.asc https://phar.io/releases/phive.phar.asc
     gpg --keyserver hkps://keys.openpgp.org --recv-keys 0x9D8A98B29B2D5D79
@@ -62,13 +66,5 @@ if [[ ! -f $LOCAL_BIN/phive ]]; then
     mv phive.phar "$LOCAL_BIN/phive"
     phive --version
 fi
-
-PHPACTOR_LOCATION="$HOME/Builds/phpactor"
-[[ ! -d $PHPACTOR_LOCATION/.git ]] && git clone https://github.com/phpactor/phpactor "$PHPACTOR_LOCATION"
-    printf '%s' '> PHPACTOR'
-    git -C "$PHPACTOR_LOCATION" pull
-    cd "$PHPACTOR_LOCATION" && composer install
-    [[ ! -x $(command -v phpactor) ]] && ln -s "$PHPACTOR_LOCATION/bin/phpactor" "$LOCAL_BIN/phpactor"
-    "$LOCAL_BIN/phpactor" --version
 
 exit
