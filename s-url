@@ -19,13 +19,16 @@ set -euo pipefail
 
 URL=""
 
-[[ $XDG_SESSION_TYPE = "x11" ]] && URL=$(xclip -selection clipboard -o)
-[[ $XDG_SESSION_TYPE = "wayland" ]] && URL=$(wl-paste)
+# [[ $XDG_SESSION_TYPE = "x11" ]] && URL=$(xclip -selection clipboard -o)
+# [[ $XDG_SESSION_TYPE = "wayland" ]] && URL=$(wl-paste)
 [[ $(command -v wl-paste) ]] && URL=$(wl-paste)
+
+# TRIM SPACE AROUND STRING
+URL=$(python3 -c "print(\"$URL\".strip(' '))")
 
 if [[ ! "$URL" =~ http?(s)://* ]]; then
     echo 'ERROR: Text found in clipboard is not a proper URI'
     exit 1
 else
-    printf "%s" "$URL"
+    echo -e "$URL"
 fi
