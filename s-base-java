@@ -23,16 +23,18 @@ s-checkdeps "${DEPS[@]}"
 BUILDS="$HOME/Builds"
 LOCAL_BIN="$HOME/.local/bin"
 
-# =============== SDKMAN
+echo -e "\nSDKMAN"
 if [[ ! -f "$HOME/.sdkman/bin/sdkman-init.sh" ]]; then
      curl -s "https://get.sdkman.io" | bash
 fi
 
+echo -e "\nJBANG"
 if [[ ! -f "$HOME/.jbang/bin/jbang" ]]; then
     curl -Ls https://sh.jbang.dev | bash -s - app setup
 fi
 
-# =============== GOOGLE-JAVA-FORMAT - https://github.com/google/google-java-format
+
+echo -e "\nGOOGLE-JAVA-FORMAT" # https://github.com/google/google-java-format
 TAGS_URL="https://api.github.com/repos/google/google-java-format/tags"
 VERSION="$(curl -s $TAGS_URL | awk '/name/ {version=substr($2,2,7); print version; exit}')"
 URL="https://github.com/google/google-java-format/releases/download/"
