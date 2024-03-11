@@ -21,9 +21,8 @@ if [[ -x $(command -v gota) ]]; then
 
     gota --pack --filter java --verbose
     gota --pack --filter ecmascript --verbose
-    gota --pack --filter python --verbose
 
-    gota --pack --filter guix --verbose
+    [[ -x $(command -v guix) ]] && gota --pack --filter guix --verbose
 fi
 
 [[ -x $(command -v onur) ]] && onur grab
