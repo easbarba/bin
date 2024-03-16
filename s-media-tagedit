@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-#
+
 # Bin is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation, either version 3 of the License, or
@@ -12,7 +12,7 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with Bin. If not, see <https://www.gnu.org/licenses/>.
-#
+
 
 from pathlib import Path
 import argparse
@@ -21,7 +21,7 @@ import taglib
 
 
 class Song:
-    """Edit song attributes."""
+    """Edit tune attributes."""
 
     def __init__(self, song: str):
         self.song = taglib.File(song)
@@ -38,15 +38,15 @@ class Song:
     def date(self, name: str) -> None:
         self.song.tags["DATE"] = name
 
-    def done(self):
+    def save(self):
         self.song.save()
 
 
-# ACTIONS
-# -----------------------------------------------------
+# ACTIONS -----------------------------------------------------
 
 
 def single(file: str) -> None:
+    """Edit single file metadata."""
     song = Song(str(file))
 
     if args.title:
@@ -57,39 +57,40 @@ def single(file: str) -> None:
         song.album(args.album)
     if args.date:
         song.date(args.date)
-    if song.modified:
-        song.done()
+
+    song.save()
 
 
-def many(dir: str) -> None:
+def multiple(dir: str) -> None:
+    """Edit all files metadata in directory."""
     for item in dir.iterdir():
         single(item)
 
 
-# CLI
-# -----------------------------------------------------
+# CLI -----------------------------------------------------
 
 parser = argparse.ArgumentParser(
     prog="tagedit",
     description="Edit tag of file or directory files.",
     epilog="Praise the sun!",
 )
-parser.add_argument("-r", "--root", help="file/directory to edit")
+parser.add_argument("-s", "--source", help="file/directory to edit")
 parser.add_argument("-a", "--artist", help="artist name")
 parser.add_argument("-t", "--title", help="song title")
-parser.add_argument("-b", "--album", help="album title")
+parser.add_argument("-l", "--album", help="album title")
 parser.add_argument("-d", "--date", help="album/song date of release")
 args = parser.parse_args()
 
-if args.root:
-    root = Path(args.root)
-
-    if root.is_dir():
-        many(root)
-    else:
-        single(root)
-else:
+if not args.source:
     parser.print_help()
     exit(1)
+
+source = Path(args.source)
+
+if source.is_dir():
+    multiple(source)
+    exit()
+
+single(source)
 
 exit()
