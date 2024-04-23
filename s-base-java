@@ -31,6 +31,8 @@ fi
 echo -e "\nJBANG"
 if [[ ! -f "$HOME/.jbang/bin/jbang" ]]; then
     curl -Ls https://sh.jbang.dev | bash -s - app setup
+else
+    jbang version --update
 fi
 
 
