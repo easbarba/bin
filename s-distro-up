@@ -32,8 +32,8 @@ fi
 [[ -x $(command -v flatpak) ]] && gota --distro --filter flatpak --verbose
 [[ -x $(command -v snap) ]] && sudo snap refresh
 
-# [[ -x $(command -v guix) ]] && sudo guix pull && s-distro-guix
-# [[ -x $(command -v guix) ]] && gota --distro --filter guix --verbose
+[[ -x $(command -v guix) ]] && sudo guix pull && guix pull && guix package -u
+[[ -x $(command -v guix) ]] && gota --distro --filter guix --verbose
 
 echo "THE END!"
 
