@@ -21,11 +21,9 @@ if [[ -x $(command -v gota) ]]; then
 
     gota --pack --filter ecmascript --verbose
     gota --pack --filter python --verbose
-
-    [[ -x $(command -v guix) ]] && gota --distro --filter guix --verbose
 fi
 
-[[ -x $(command -v onur) ]] && onur grab --verbose
+[[ -x $(command -v onur) ]] && onur grab
 
 [[ -x $(command -v emacs) ]] && s-base-emacs
 
