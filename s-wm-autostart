@@ -85,15 +85,15 @@ declare -a udiskie_verbose=(udiskie --notify --tray)
 
 # =========================== LISTS OF PROGRAMS
 
-declare -a TOOLS=("udiskie_verbose" mako)
-declare -a APPS=("mxbook" "mxorg" "mxpersonal" "mxwork" firefox)
-declare -a WAYLAND=(foot)
+# declare -a TOOLS=("udiskie_verbose" mako)
+# declare -a APPS=("mxbook" "mxorg" "mxpersonal" "mxwork" firefox)
+# declare -a WAYLAND=(foot)
 
-# =========================== RUN
+# # =========================== RUN
 
-dolist "${TOOLS[@]}"
-dolist "${APPS[@]}"
-dolist "${WAYLAND[@]}"
+# dolist "${TOOLS[@]}"
+# dolist "${APPS[@]}"
+# dolist "${WAYLAND[@]}"
 
-# blueman-applet #  "nm-applet --indicator"
+# # blueman-applet #  "nm-applet --indicator"
  # nyxt icecat google-chrom e
