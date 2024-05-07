@@ -41,10 +41,10 @@ gsettings set org.gnome.desktop.wm.keybindings move-to-workspace-6 "['<Super><Sh
 
 # VOLUME
 gsettings set org.gnome.settings-daemon.plugins.media-keys volume-step 3
-gsettings set org.gnome.settings-daemon.plugins.media-keys volume-up "['<Shift><Super>w']"
-gsettings set org.gnome.settings-daemon.plugins.media-keys volume-down "['<Shift><Super>s']"
-gsettings set org.gnome.settings-daemon.plugins.media-keys volume-mute "['<Shift><Super>e']"
-gsettings set org.gnome.settings-daemon.plugins.media-keys mic-mute "['<Super>q']"
+gsettings set org.gnome.settings-daemon.plugins.media-keys volume-up "['<Ctrl><Super>w']"
+gsettings set org.gnome.settings-daemon.plugins.media-keys volume-down "['<Ctrl><Super>s']"
+gsettings set org.gnome.settings-daemon.plugins.media-keys volume-mute "['<Ctrl><Super>e']"
+gsettings set org.gnome.settings-daemon.plugins.media-keys mic-mute "['<Alt><Super>q']"
 
 # MEDIA
 gsettings set org.gnome.settings-daemon.plugins.media-keys next "['<Shift><Super>d']"
@@ -52,14 +52,15 @@ gsettings set org.gnome.settings-daemon.plugins.media-keys previous "['<Shift><S
 gsettings set org.gnome.settings-daemon.plugins.media-keys play "['<Alt><Super>e']"
 gsettings set org.gnome.settings-daemon.plugins.media-keys previous "['<Alt><Super>a']"
 gsettings set org.gnome.settings-daemon.plugins.media-keys next "['<Alt><Super>d']"
+gsettings set org.gnome.settings-daemon.plugins.media-keys volume-step 2
 
 # SOUND
 gsettings set org.gnome.desktop.wm.preferences audible-bell false
 gsettings set org.gnome.desktop.sound allow-volume-above-100-percent true
 gsettings set org.gnome.desktop.sound event-sounds false
 
-# gsettings set org.gnome.settings-daemon.plugins.media-keys screen-brightness-up "['<Alt><Super>w']"
-# gsettings set org.gnome.settings-daemon.plugins.media-keys screen-brightness-down "['<Alt><Super>s']"
+gsettings set org.gnome.settings-daemon.plugins.media-keys screen-brightness-up "['<Ctrl><Super>a']"
+gsettings set org.gnome.settings-daemon.plugins.media-keys screen-brightness-down "['<Ctrl><Super>d']"
 
 # THEMES
 #gsettings set org.gnome.desktop.interface gtk-theme 'Adwaita-dark'
@@ -94,6 +95,7 @@ gsettings set org.gnome.desktop.wm.preferences focus-new-windows 'smart'
 gsettings set org.gnome.desktop.peripherals.mouse natural-scroll false
 gsettings set org.gnome.desktop.peripherals.mouse left-handed true
 gsettings set org.gnome.desktop.peripherals.touchpad tap-to-click true
+gsettings set org.gnome.desktop.peripherals.touchpad natural-scroll false
 
 gsettings set org.gnome.shell.app-switcher current-workspace-only true
 
@@ -105,9 +107,9 @@ gsettings set org.gnome.desktop.input-sources mru-sources "[('xkb', 'br'), ('xkb
 gsettings set org.gnome.desktop.input-sources sources "[('xkb', 'us'), ('xkb', 'br')]"
 
 # APPS
-gsettings set org.gnome.Evince.Default fullscreen 'true'
-gsettings set org.gnome.Evince.Default show-sidebar 'false'
-gsettings set org.gnome.Evince.Default show-toolbar 'false'
+# gsettings set org.gnome.Evince.Default fullscreen 'true'
+# gsettings set org.gnome.Evince.Default show-sidebar 'false'
+# gsettings set org.gnome.Evince.Default show-toolbar 'false'
 
 # EXTENSIONS
 gsettings set org.gnome.shell enabled-extensions "['user-theme@gnome-shell-extensions.gcampax.github.com', 'freon@UshakovVasilii_Github.yahoo.com', 'launch-new-instance@gnome-shell-extensions.gcampax.github.com']"
