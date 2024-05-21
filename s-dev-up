@@ -22,6 +22,8 @@ if [[ -x $(command -v gota) ]]; then
     gota --pack --filter golang --verbose
     gota --pack --filter ecmascript --verbose
     gota --pack --filter python --verbose
+
+[[ -x $(command -v guix) ]] && gota --pack --filter guix --verbose
 fi
 
 [[ -x $(command -v onur) ]] && onur --grab
