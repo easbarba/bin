@@ -14,6 +14,7 @@
 # along with Bin. If not, see <https://www.gnu.org/licenses/>.
 
 # gsettings list-recursively | grep WORD
+# gsettings get org.gnome.settings-daemon.plugins.media-keys custom-keybindings
 
 # DEBUG OPTIONS
 set -euo pipefail
@@ -116,3 +117,18 @@ gsettings set org.gnome.shell enabled-extensions "['user-theme@gnome-shell-exten
 # gsettings set org.gnome.shell.extensions.auto-move-windows application-list "['org.gnome.Evince.desktop:1', 'libreoffice-startcenter.desktop:1', 'libreoffice-writer.desktop:1', 'org.gnome.Terminal.desktop:3', 'firefox.desktop:4', 'mpv.desktop:5', 'org.gnome.Rhythmbox3.desktop:5', 'thunderbird.desktop:4', 'io.podman_desktop.PodmanDesktop.desktop:3']"
 
 gsettings set org.gnome.rhythmbox.plugins.alternative_toolbar volume-control true
+
+
+	# gsettings set org.gnome.settings-daemon.plugins.media-keys.custom-keybinding:/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom_brightness_up/ name 'Brightness Up'
+	# gsettings set org.gnome.settings-daemon.plugins.media-keys.custom-keybinding:/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom_brightness_up/ command "$COMMAND up"
+	# gsettings set org.gnome.settings-daemon.plugins.media-keys.custom-keybinding:/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom_brightness_up/ binding '<Alt>Page_Up'
+
+	# # Decrease brightness binding
+	# gsettings set org.gnome.settings-daemon.plugins.media-keys.custom-keybinding:/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom_brightness_down/ name 'Brightness Down'
+	# gsettings set org.gnome.settings-daemon.plugins.media-keys.custom-keybinding:/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom_brightness_down/ command "$COMMAND down"
+	# gsettings set org.gnome.settings-daemon.plugins.media-keys.custom-keybinding:/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom_brightness_down/ binding '<Alt>Page_Down'
+
+	# # Reset brightness binding
+	# gsettings set org.gnome.settings-daemon.plugins.media-keys.custom-keybinding:/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom_brightness_reset/ name 'Brightness Reset'
+	# gsettings set org.gnome.settings-daemon.plugins.media-keys.custom-keybinding:/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom_brightness_reset/ command "$COMMAND reset"
+	# gsettings set org.gnome.settings-daemon.plugins.media-keys.custom-keybinding:/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom_brightness_reset/ binding '<Alt>Home'
