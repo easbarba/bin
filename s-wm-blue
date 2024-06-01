@@ -27,7 +27,7 @@ s-checkdeps "${DEPS[@]}"
     /usr/bin/sudo /usr/bin/sed -i 's/#AutoEnable=false/AutoEnable=true/g' /etc/bluetooth/main.conf
 
 # poweron
-bluetoothctl power on
+# bluetoothctl power on
 
 # connect
-bluetoothctl devices | awk '/Device/ {printf $2}' | xargs -I {} bluetoothctl 'connect {}'
+# bluetoothctl devices | awk '/Device/ {printf $2}' | xargs -I {} bluetoothctl 'connect {}'

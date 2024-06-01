@@ -1,174 +1,198 @@
-#!/usr/bin/env php
-<?php
-declare(strict_types=1);
+///usr/bin/env jbang "$0" "$@" ; exit $?
+//DEPS jakarta.json.bind:jakarta.json.bind-api:3.0.1
+//DEPS org.eclipse:yasson:3.0.3
+//DEPS jakarta.json:jakarta.json-api:2.1.3
+//DEPS commons-io:commons-io:2.16.1
 
-namespace bin;
+// mvn dependenncy:get -DgroupId=jakarta.json.bind -DartifactId=jakarta.json.bind-api -Dversion=3.0.1
+// mvn dependency:get -DgroupId=org.eclipse -DartifactId=yasson -Dversion=3.0.3
+// mvn dependency:get -DgroupId=jakarta.json -DartifactId=jakarta.json-api -Dversion=2.1.3
 
-use Exception;
-use GuzzleHttp\Client;
-use GuzzleHttp\Exception\ClientException;
-use GuzzleHttp\Psr7;
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
+import java.net.SocketException;
+import java.net.URL;
 
-/*
- * Bin is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * Bin is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with Bin. If not, see <https://www.gnu.org/licenses/>.
- */
+import java.util.List;
+import java.util.Map;
+import java.util.Base64;
 
-# TODO: cache api response to a file for future requests.
+import java.time.LocalDateTime;
 
-$home_dir = getenv("HOME");
-require $home_dir .
-    DIRECTORY_SEPARATOR .
-    ".config/composer/vendor/autoload.php";
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.File;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.Path;
 
-// API
-final class Response
-{
-    public function __construct(
-        private string $url,
-        private string $config_file
-    ) {
-    }
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
-    // use php's stream-handling
-    private function native(): string
-    {
-        $context = stream_context_create([
-            "http" => [
-                "method" => "GET",
-                "header" => [
-                    "Accept: application/json",
-                    "Content-Type: application/json",
-                ],
-            ],
-        ]);
 
-        $response_json = file_get_contents($this->url, false, $context);
+import java.io.FileOutputStream;
+import java.io.InputStream;
 
-        return $response_json;
-    }
+import jakarta.json.bind.Jsonb;
+import jakarta.json.bind.JsonbBuilder;
+import jakarta.json.bind.JsonbBuilder;
 
-    private function guzzly(): string
-    {
+import org.apache.commons.io.FileUtils;
+
+public class SApiOpm {
+
+    private static String opmURL = "https://gist.githubusercontent.com/funkyhippo/1d40bd5dae11e03a6af20e5a9a030d81/raw/?";
+
+    public static void main(String... args) {
         try {
-            $client = new Client(["base_uri" => $this->url]);
-            $response = $client->get("");
-
-            return $response->getBody()->getContents();
-        } catch (ClientException $e) {
-            echo Psr7\Message::toString($e->getRequest());
-            echo Psr7\Message::toString($e->getStatusCode());
-            exit();
-        }
-    }
-
-    private function curly(): array
-    {
-        $handler = curl_init();
-        curl_setopt_array($handler, [
-            CURLOPT_URL => $this->url,
-            CURLOPT_HTTPGET => true,
-            CURLOPT_HTTPHEADER => ["Accept: application/json"],
-            CURLOPT_RETURNTRANSFER => true,
-        ]);
-
-        $response_json = curl_exec($handler);
-        curl_close($handler);
-
-        return $response_json;
-    }
-
-    // cache response contents to a file
-    private function cache(string $grabbed): void
-    {
-        file_put_contents($this->config_file, $grabbed);
-    }
-
-    public function chapters(): ?array
-    {
-        if (file_exists($this->config_file)) {
-            $config_content = file_get_contents($this->config_file);
-            $response = json_decode($config_content, true);
-
-            return $response["chapters"];
-        }
-
-        $grabbed = $this->native();
-        if (is_null($grabbed)) {
-            $this->cache($grabbed);
-        } else {
-        }
-
-        return json_decode($grabbed, true)["chapters"];
-    }
-}
-
-// CLI
-// TODO: add a proper cli options with --force, --cache, --url URL, --to DIR
-$destination_dir = "";
-$default_folder =
-    $home_dir .
-    DIRECTORY_SEPARATOR .
-    "Downloads" .
-    DIRECTORY_SEPARATOR .
-    "One Punch Man";
-
-$destination_dir = realpath(count($argv) === 1 ? $default_folder : $argv[1]);
-if (!file_exists($destination_dir)) {
-    mkdir($destination_dir);
-}
-
-$config_file = $destination_dir . "/opm.json";
-
-echo "destination: ", $destination_dir, "\n";
-echo "config file: ", $config_file, "\n";
-
-# BEGIN
-const URL = "https://gist.githubusercontent.com/funkyhippo/1d40bd5dae11e03a6af20e5a9a030d81/raw/?";
-$chapters = (new Response(URL, $config_file))->chapters();
-
-// ACTION
-foreach ($chapters as $chapter) {
-    $chapter_title = "{$chapter["title"]}";
-    $chapter_dir = $destination_dir . DIRECTORY_SEPARATOR . $chapter_title;
-
-    // create dir of chapter if needed
-    if (!file_exists($chapter_dir) && !is_dir($chapter_dir)) {
-        echo "creating directory: {$chapter_dir}";
-        mkdir($chapter_dir, 0755);
-    }
-
-    // select pictures array
-    $pictures = $chapter["groups"]["/r/OnePunchMan"];
-
-    // Check if folder has at least one pic
-    // so to avoid API pics naming change.
-    if (count(scandir($chapter_dir)) <= 2) {
-        foreach ($pictures as $picture) {
-            $pic_name_decoded = base64_decode(basename($picture));
-            $pic_real_name = substr(
-                $pic_name_decoded,
-                strpos($pic_name_decoded, "_") + 1
-            );
-            $pic_path = $chapter_dir . DIRECTORY_SEPARATOR . $pic_real_name;
-
-            // download file only if needed
-            if (!file_exists($pic_path)) {
-                echo "\nGetting pic: {$pic_path}";
-                file_put_contents($pic_path, file_get_contents($picture));
+            var response = getRequest();
+            if (response == null) {
+                System.out.println("Something went wrong with response, exiting!");
+                System.exit(1);
             }
+
+            Jsonb jsonb = JsonbBuilder.create();
+            Opm opm = jsonb.fromJson(response, Opm.class);
+
+            printInfo(opm);
+           getPics(opm.chapters);
         }
-    } else {
-        echo "DONE: {$chapter_title}\n";
+        catch(jakarta.json.bind.JsonbException je) {
+            System.out.println(je);
+            je.printStackTrace();
+        }
+        catch (Exception e) {
+            System.out.println(e);
+            e.printStackTrace();
+        }
+
     }
+
+    private static void getPics(Map<String, Chapter> chapters) {
+        var home = System.getProperty("user.home");
+        chapters.forEach((k, v) -> {
+                var chapterDir = Paths
+                    .get(home, "Downloads", "opm", k)
+                    .toString()
+                    .replace(".", "_");
+
+                System.out.println();
+                System.out.println("Chapter: " + k);
+                System.out.printf("%-2sDirectory: %s\n", "", chapterDir);
+
+                v.groups.get("/r/OnePunchMan").forEach(link -> {
+                        try {
+                            Thread.sleep(3000);
+                            var finalLink = getDecodedLink(link);
+                            var picName = new String(URI.create(finalLink).getPath()).substring(1);
+                            var filepath = Paths.get(chapterDir, picName);
+
+                            if(!Files.exists(filepath)) {
+                                System.out.printf("%-4surl: %s - filepath: %s\n", "", finalLink, filepath);
+                                try {
+                                    Files.createDirectories(Paths.get(chapterDir));
+
+                                    var finalLinkUrl = new URL(finalLink).openConnection();
+                                    finalLinkUrl.setRequestProperty("User-Agent", "Mozilla/5.0");
+                                    FileUtils.copyInputStreamToFile(finalLinkUrl.getInputStream(),
+                                                                    new File(filepath.toString()));
+                                } catch(SocketException se) {
+                                    System.out.println("Error: " + se.getMessage());
+                                    se.printStackTrace();
+                                }
+                                catch(IOException ioe) {
+                                    System.out.println("Error: error copying file: " + ioe.getMessage());
+                                    ioe.printStackTrace();
+                                }
+                            }
+                        } catch(InterruptedException e){
+                            System.out.println(e.getMessage());
+                            e.printStackTrace();
+                        }
+                    });
+            });
+    }
+
+    private static String chapterZeroAppend(String meh) {
+        String regex = "\\b(\\d)_";
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(meh);
+        if(matcher.find()) {
+            return "0" + meh;
+        }
+
+        return meh;
+    }
+
+    private static void printInfo(Opm opm) {
+        System.out.printf("\ntitle: %s\n", opm.title);
+        System.out.printf("latest cover: %s\n", getDecodedLink(opm.cover));
+    }
+
+	private static String getRequest() {
+      var jsonLocation = "/tmp/opm"+ ".json"; // + LocalDateTime.now()
+      var file = new File(jsonLocation);
+      if(file.exists()) {
+          System.out.println("WARNING: JSON file already downloaded, imma using it!");
+          try {
+              return String.join(System.lineSeparator(), Files.readAllLines(Paths.get(jsonLocation)));
+          } catch(IOException ioe) {
+              System.out.println("An error occurred while saving the JSON data: " + ioe.getMessage());
+              ioe.printStackTrace();
+}
+      }
+
+      HttpResponse<String> response = null;
+		var client = HttpClient.newHttpClient();
+      var request = HttpRequest
+            .newBuilder()
+            .uri(URI.create(opmURL))
+            .build();
+
+        try {
+            response = client.send(request, HttpResponse.BodyHandlers.ofString());
+        } catch(InterruptedException ie) {
+            System.out.println("An error occurred while saving the JSON data: " + ie.getMessage());
+            ie.printStackTrace();
+        } catch (IOException e) {
+            System.out.println("An error occurred while saving the JSON data: " + e.getMessage());
+            e.printStackTrace();
+        }
+
+        try {
+            var filew = new FileWriter(jsonLocation);
+            filew.write(response.body());
+            filew.close();
+        } catch(IOException ioe) {
+            System.out.println("An error occurred while saving the JSON data: " + ioe.getMessage());
+            ioe.printStackTrace();
+        }
+
+        return response.body();
+	}
+
+    private static String getDecodedLink(String link) {
+        String result = null;
+        var uLink = URI.create(link).getPath().replaceAll("/v1/image/", "");
+        result = new String(Base64.getDecoder().decode(uLink));
+
+        return result;
+    }
+
+    public record Chapter(
+                          Map<String, List<String>> groups,
+                          long lastUpdated,
+                          String title,
+                          String volume) {
+    }
+
+    public record Opm(
+                      String cover,
+                      String description,
+                      String title,
+                      Map<String, Chapter> chapters) {
+    }
+
 }
