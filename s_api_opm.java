@@ -41,7 +41,7 @@ import jakarta.json.bind.JsonbBuilder;
 
 import org.apache.commons.io.FileUtils;
 
-public class SApiOpm {
+public class s_api_opm {
 
     private static String opmURL = "https://gist.githubusercontent.com/funkyhippo/1d40bd5dae11e03a6af20e5a9a030d81/raw/?";
 
@@ -84,13 +84,15 @@ public class SApiOpm {
 
                 v.groups.get("/r/OnePunchMan").forEach(link -> {
                         try {
-                            Thread.sleep(3000);
                             var finalLink = getDecodedLink(link);
                             var picName = new String(URI.create(finalLink).getPath()).substring(1);
                             var filepath = Paths.get(chapterDir, picName);
 
                             if(!Files.exists(filepath)) {
+                                Thread.sleep(3000);
+
                                 System.out.printf("%-4surl: %s - filepath: %s\n", "", finalLink, filepath);
+
                                 try {
                                     Files.createDirectories(Paths.get(chapterDir));
 
