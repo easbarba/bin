@@ -1,0 +1,64 @@
+#!/usr/bin/env bash
+#
+# Bin is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# Bin is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with Bin. If not, see <https://www.gnu.org/licenses/>.
+#
+
+# DEBUG SETTINGS
+set -euo pipefail
+
+# Description: Extract audio of video pointed in clipboards url.
+
+# TODO: Check uri!
+
+DEPS=(yt-dlp ffmpeg)
+s_checkdeps "${DEPS[@]}"
+
+FREE=(vorbis mp3)
+EXT="${FREE[0]}"
+URL="$(s-url)"
+AUDIO_FOLDER="$HOME/Music/temp"
+LOG_FOLDER="$HOME/.config/scripts"
+
+# CREATE REQUIRED FOLDERS
+[[ ! -d $AUDIO_FOLDER ]] && mkdir "$AUDIO_FOLDER"
+[[ ! -d $LOG_FOLDER ]] && mkdir "$LOG_FOLDER"
+cd "$AUDIO_FOLDER"
+
+# GETTERS COMMANDS
+declare -A YTDL
+YTDL=([bin]='yt-dlp'
+      [format]='--extract-audio --audio-format'
+      [title]="-o %(title)s.%(ext)s")
+
+declare -A YOUTUBEDL
+YOUTUBEDL=([bin]='youtube-dl'
+      [format]='--extract-audio --audio-format'
+      [title]="-o %(title)s.%(ext)s")
+
+# OUTPUT INFO
+INFO=$(
+      cat <<EOF
+Format: $EXT
+URL: $URL
+Folder: $AUDIO_FOLDER
+EOF
+)
+echo "$INFO"
+
+# LOG AUDIO URL
+echo $URL >>"$LOG_FOLDER/audio"
+
+# RUN
+[[ -x $(command -v yt-dlp) ]] && ${YTDL[bin]} --restrict-filenames ${YTDL[format]} $EXT ${YTDL[title]} $URL && exit
+[[ -x $(command -v youtube-dl) ]] && ${YOUTUBEDL[bin]} ${YOUTUBEDL[audio]} "$EXT" ${YOUTUBEDL[title]} "$URL" && exit

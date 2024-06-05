@@ -1,0 +1,218 @@
+#!/usr/bin/env bash
+#
+# Bin is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# Bin is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with Bin. If not, see <https://www.gnu.org/licenses/>.
+#
+
+# Debug Options
+set -euo pipefail
+
+DEPS=(sudo dnf usermod command systemctl tee)
+s_checkdeps "${DEPS[@]}"
+
+INSTALL='sudo dnf install -y'
+
+if [[ ! -x $(command -v podman) ]]; then
+    $INSTALL podman podman-compose
+
+    sudo systemctl enable podman.socket
+    sudo systemctl start podman.socket
+
+    sudo sysctl kernel.unprivileged_userns_clone
+
+    # Add a new group called podman so its easier to manage who can run podman w/out sudo
+    echo '%podman ALL=(ALL) NOPASSWD: /usr/bin/podman' | sudo tee -a /etc/sudoers.d/podman
+
+    # Set subuid and subgid
+    sudo touch /etc/subuid /etc/subgid
+    sudo chmod 644 /etc/subuid /etc/subgid
+    sudo usermod --add-subuids 100000-165535 --add-subgids 100000-165535 $USER
+
+    # Rootless Podman
+    podman system migrate
+fi
+
+exit
+
+# TODO: check and up to date every statement below
+
+if [[ ! -x $(command -v docker) ]]; then
+    # uninstall old versions
+    sudo dnf remove docker docker-client docker-client-latest \
+        docker-common docker-latest docker-latest-logrotate \
+        docker-logrotate docker-selinux docker-engine-selinux docker-engine
+
+    sudo dnf -y install dnf-plugins-core
+
+    sudo dnf config-manager \
+        --add-repo \
+        https://download.docker.com/linux/fedora/docker-ce.repo
+
+    sudo dnf install -y dnf-plugins-core docker-ce docker-ce-cli containerd.io
+
+    sudo systemctl start docker
+    sudo systemctl enable docker.service
+
+    sudo groupadd docker
+    sudo gpasswd -a $USER docker
+
+    sudo systemctl restart docker
+
+    # activate group, for now
+    newgrp docker
+fi
+
+_gcloud() {
+    _pre() {
+        sudo tee -a /etc/yum.repos.d/google-cloud-sdk.repo <<EOM
+[google-cloud-sdk]
+name=Google Cloud SDK
+baseurl=https://packages.cloud.google.com/yum/repos/cloud-sdk-el8-x86_64
+enabled=1
+gpgcheck=1
+repo_gpgcheck=0
+gpgkey=https://packages.cloud.google.com/yum/doc/yum-key.gpg
+        https://packages.cloud.google.com/yum/doc/rpm-package-key.gpg
+EOM
+
+        sudo dnf update -y
+    }
+
+    _install() {
+        sudo dnf install -y libxcrypt-compat.x86_64 google-cloud-sdk
+    }
+
+    for f in {_pre,_install}; do
+        $f
+    done
+}
+
+_aws() {
+    [[ -x $(command -v aws) ]] && return
+
+    _install() {
+        sudo dnf install -y awscli
+    }
+
+    _install
+}
+
+_terraform() {
+    [[ -x $(command -v terraform) ]] && return
+
+    _pre() {
+        sudo dnf config-manager --add-repo https://rpm.releases.hashicorp.com/fedora/hashicorp.repo
+    }
+
+    _install() {
+        sudo dnf install -y terraform
+    }
+
+    _pre
+    _install
+}
+
+_minikube() {
+    _pre() {
+        curl -o /tmp/minikube -L https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
+    }
+
+    _install() {
+        chmod +x /tmp/minikube
+        sudo mv /tmp/minikube /usr/local/bin/
+    }
+
+    _pre
+    _install
+}
+
+_kubectl() {
+    _pre() {
+        curl -o /tmp/kubectl -LO "https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl"
+    }
+
+    _install() {
+        chmod +x /tmp/kubectl
+        sudo mv /tmp/kubectl /usr/local/bin/
+    }
+
+    _pre
+    _install
+}
+
+_qemu() {
+    _install() {
+        sudo dnf install -y qemu
+    }
+
+    _install
+}
+
+_virtualbox() {
+    [[ -x $(command -v virtualbox) ]] && return
+
+    _install() {
+        sudo dnf install -y VirtualBox
+    }
+
+    _install
+}
+
+_ansible() {
+    [[ -x $(command -v ansible) ]] && return
+
+    _install() {
+        sudo dnf install -y ansible
+    }
+
+    _install
+}
+
+_virtualization() {
+    _install() {
+        sudo dnf install -y @virtualization
+    }
+
+    _services() {
+        sudo systemctl start libvirtd
+        sudo systemctl enable libvirtd
+
+    }
+
+    _post() {
+        sudo usermod -aG libvirt "$USER"
+        sudo usermod -aG kvm "$USER"
+    }
+
+    # run
+    for func in {_install,_services,_post}; do
+        $func
+    done
+}
+
+_vagrant() {
+    _install() {
+        sudo dnf install -y vagrant
+    }
+
+    _install
+}
+
+_podman_docker_compose() {
+    _post() {
+        # Docker Compose will use the correct socket.
+        export DOCKER_HOST=///run/user/$UID/podman/podman.sock
+    }
+
+    _post
+}

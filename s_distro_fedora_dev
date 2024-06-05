@@ -1,0 +1,41 @@
+#!/usr/bin/env bash
+#
+# Bin is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# Bin is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with Bin. If not, see <https://www.gnu.org/licenses/>.
+#
+
+# Debug Options
+set -euo pipefail
+
+DEPS=(apt-get bash)
+s_checkdeps "${DEPS[@]}"
+
+INSTALL='sudo dnf install -y'
+
+langs_hobby=(guile)
+langs_work=(java-17-openjdk java-17-openjdk-devel ruby-devel clang)
+langs_tools=(maven ant)
+editors=(zile vim neovim)
+tools=(jq subversion mercurial direnv editorconfig fd-find tidy ripgrep shfmt git-email)
+
+groups=("${langs_hobby[@]}"
+    "${langs_work[@]}"
+    "${langs_tools[@]}"
+    "${editors[@]}"
+    "${tools[@]}")
+
+for group in "${groups[@]}"; do
+    s-dolist "$INSTALL" "$group"
+done
+
+exit

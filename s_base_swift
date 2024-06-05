@@ -1,0 +1,72 @@
+#!/usr/bin/env bash
+#
+# Bin is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# Bin is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with Bin. If not, see <https://www.gnu.org/licenses/>.
+#
+
+# DEBUG OPTIONS
+set -euo pipefail
+
+DEPS=(bash wget git tar mv ln)
+s_checkdeps "${DEPS[@]}"
+
+LOCAL_DIR="$HOME/.local"
+BUILDS_DIR="$HOME/Builds"
+
+mkdir -pv "$BUILDS_DIR"
+
+# ======================================================
+
+SWIFT_URL='https://download.swift.org/swift-5.9-release/ubuntu2204/swift-5.9-RELEASE/swift-5.9-RELEASE-ubuntu22.04.tar.gz'
+if [[ ! -d "$LOCAL_DIR/swift" ]]; then
+    wget -c "$SWIFT_URL" -P /tmp
+    tar -xvzf /tmp/swift-*-RELEASE-ubuntu*.tar.gz -C "$LOCAL_DIR"
+    mv "$LOCAL_DIR"/swift-*-RELEASE-* "$LOCAL_DIR/swift"
+fi
+
+if [[ ! -f "$LOCAL_DIR/bin/swift" ]]; then
+    ln -sf "$LOCAL_DIR/swift/usr/bin/swift*" "$LOCAL_DIR/bin"
+    ln -sf "$LOCAL_DIR/swift/usr/bin/sourcekit-lsp" "$LOCAL_DIR/bin/sourcekit-lsp"
+    ln -sf "$LOCAL_DIR/swift/usr/bin/docc" "$LOCAL_DIR/bin/docc"
+
+    "$LOCAL_DIR/bin/swift" --version
+    "$LOCAL_DIR/bin/sourcekit-lsp" --help
+    "$LOCAL_DIR/bin/docc" --help
+fi
+
+# ======================================================
+
+SWIFT_FORMAT_DIR="$HOME/Builds/swift-format"
+SWIFT_FORMAT_VERSION=509.0.0
+[[ ! -d $SWIFT_FORMAT_DIR/.git ]] && git clone https://github.com/apple/swift-format.git "$SWIFT_FORMAT_DIR"
+
+git -C "$SWIFT_FORMAT_DIR" pull
+cd "$SWIFT_FORMAT_DIR"
+git checkout "$SWIFT_FORMAT_VERSION"
+swift build -c release
+ln -sf "$SWIFT_FORMAT_DIR/.build/release/swift-format" "$LOCAL_DIR/bin"
+
+# ======================================================
+SOURCEKIT_DIR=$BUILDS/sourcekit-lsp
+[[ -d  $SOURCEKIT_DIR ]] && git clone https://github.com/apple/sourcekit-lsp
+
+# ======================================================
+
+VAPOR_VERSION=18.7.1 # https://github.com/vapor/toolbox/releases
+VAPOR_DIR=$BUILDS/vapor
+[[ ! -d $VAPOR_DIR/.git ]] && git clone https://github.com/vapor/toolbox.git "$VAPOR_DIR"
+cd "$VAPOR_DIR"
+gitf checkout "$VAPOR_VERSION"
+make install
+
+exit

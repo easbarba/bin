@@ -1,0 +1,39 @@
+#!/usr/bin/env bash
+#
+# Bin is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# Bin is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with Bin. If not, see <https://www.gnu.org/licenses/>.
+#
+
+# DEBUG SETTINGS
+set -euo pipefail
+
+TO=/media/$USER/MOAR
+
+# * CHECKER
+DEPS=(rsync qas cp)
+s_checkdeps "${DEPS[@]}"
+
+# Save last state to usb-stick
+if [[ -x $(command -v qas) ]]; then
+    qas --grab
+    qas --archive bin,lar,annotations # TODO: save to usb-stick
+
+    rsync -vhazrtP "$HOME/Downloads/archived" "$TO"
+fi
+
+# * USB-TO
+rsync -vhazrtP --ignore-existing --exclude={'.terraform','.vagrant','node_modules','.local','.git'} /da/personal "$TO"
+rsync -vhazrtP --ignore-existing --exclude={'.terraform','.vagrant','node_modules','.local','.git'} /da/work "$TO"
+rsync -vhazrtP --ignore-existing /da/livros "$TO"
+rsync -vhazrtP --ignore-existing /da/misc "/media/$USER/MOAR/"
+rsync -vhazrtP --ignore-existing /da/pictures "$TO"

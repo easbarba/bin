@@ -1,0 +1,48 @@
+#!/usr/bin/env bash
+#
+# Bin is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# Bin is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with Bin. If not, see <https://www.gnu.org/licenses/>.
+#
+
+# Debug Options
+set -euo pipefail
+
+DEPS=(pip)
+s_checkdeps "${DEPS[@]}"
+
+# AWS ELASTIC BEAN
+[[ ! -x $(command -v eb) ]] && pip install awsebcli --upgrade --user
+
+# AWS IAM AUTHENTICATOR
+if [[ ! -x $(command -v aws-iam-authenticator) ]]; then
+    curl -o aws-iam-authenticator https://amazon-eks.s3.us-west-2.amazonaws.com/1.21.2/2021-07-05/bin/linux/amd64/aws-iam-authenticator -P "$HOME/.local/bin"
+    chmod +x "$HOME/.local/bin/aws-iam-authenticator"
+fi
+
+if [[ ! -x $(command -v podman-compose) ]]; then
+    python3 -m pip install podman-compose --upgrade
+
+    # Docker Compose will use the correct socket.
+    export DOCKER_HOST=///run/user/$UID/podman/podman.sock
+fi
+
+if [[ ! -x $(command -v eksctl) ]]; then
+    curl --silent --location "https://github.com/weaveworks/eksctl/releases/latest/download/eksctl_$(uname -s)_amd64.tar.gz" | tar xz -C /tmp
+    sudo mv /tmp/eksctl /usr/local/bin
+fi
+
+if [[ ! -x $(command -v k3s) ]]; then
+    ''
+fi
+
+[[ ! -x $(command -v kind) ]] && GO111MODULE=on go install sigs.k8s.io/kind@v0.12.0

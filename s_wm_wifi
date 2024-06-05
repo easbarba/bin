@@ -1,0 +1,34 @@
+#!/usr/bin/env bash
+#
+# Bin is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# Bin is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with Bin. If not, see <https://www.gnu.org/licenses/>.
+#
+
+deps=(nmcli iwd sudo curl)
+s_checkdeps "${deps[@]}"
+
+if [[ $(pgrep -x NetworkManager) ]]; then
+    # wifi already registered
+    nmcli networking connectivity | grep -q none &&
+        nmcli networking on ||
+        nmcli networking off
+
+    # first time
+    # state="$(nmcli connection show | awk '/barbosas5g/ {print $4}')"
+    # ssid="barbosas5g" # "$(nmcli connection show | awk 'NR==2 {print $1}')"
+
+    # [[ $state == '--' ]] && nmcli con up "$ssid" || nmcli con down "$ssid"
+fi
+
+# device=$(ip a | awk '/wl+/ { split($0,a,": "); print a[2] }')
+# [[ ! $(pgrep -x iwd) && ! $(curl -I gnu.org) ]] && sudo ifup "$DEVICE" || sudo ifdown "$DEVICE"

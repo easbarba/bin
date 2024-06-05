@@ -1,0 +1,70 @@
+#!/usr/bin/env bash
+#
+# Bin is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# Bin is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with Bin. If not, see <https://www.gnu.org/licenses/>.
+#
+
+# Debug Options
+set -euo pipefail
+
+DEPS=(curl bash)
+s_checkdeps "${DEPS[@]}"
+
+LOCAL_BIN="$HOME/.local/bin"
+
+echo -e '\n- COMPOSER'
+if [[ ! -x $(command -v composer) ]]; then
+    cd /tmp
+
+    EXPECTED_CHECKSUM="$(php -r 'copy("https://composer.github.io/installer.sig", "php://stdout");')"
+    php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
+    ACTUAL_CHECKSUM="$(php -r "echo hash_file('sha384', 'composer-setup.php');")"
+
+    if [ "$EXPECTED_CHECKSUM" != "$ACTUAL_CHECKSUM" ]; then
+        echo >&2 'ERROR: Invalid installer checksum'
+        rm composer-setup.php
+        exit 1
+    fi
+
+    php composer-setup.php --quiet
+    rm composer-setup.php
+
+    mv /tmp/composer.phar "$LOCAL_BIN/composer"
+
+    "$LOCAL_BIN/composer" --version
+fi
+
+echo -e '\n- SYMFONY'
+[[ ! -f $HOME/.symfony5/bin/symfony ]] && wget https://get.symfony.com/cli/installer -O - | bash
+
+echo -e '\n- PHPACTOR'
+PHPACTOR_LOCATION="$HOME/Builds/phpactor"
+[[ ! -d $PHPACTOR_LOCATION/.git ]] && git clone https://github.com/phpactor/phpactor "$PHPACTOR_LOCATION"
+git -C "$PHPACTOR_LOCATION" pull
+cd "$PHPACTOR_LOCATION" && composer install
+[[ ! -x $(command -v phpactor) ]] && ln -s "$PHPACTOR_LOCATION/bin/phpactor" "$LOCAL_BIN/phpactor"
+"$LOCAL_BIN/phpactor" --version
+
+echo -e '\n- PHIVE'
+if [[ ! -f $LOCAL_BIN/phive ]]; then
+    wget -O phive.phar https://phar.io/releases/phive.phar
+    wget -O phive.phar.asc https://phar.io/releases/phive.phar.asc
+    gpg --keyserver hkps://keys.openpgp.org --recv-keys 0x9D8A98B29B2D5D79
+    gpg --verify phive.phar.asc phive.phar
+    chmod +x phive.phar
+
+    mv phive.phar "$LOCAL_BIN/phive"
+    phive --version
+fi
+
+exit

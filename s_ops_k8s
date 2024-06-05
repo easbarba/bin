@@ -1,0 +1,48 @@
+#!/usr/bin/env bash
+#
+# Bin is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# Bin is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with Bin. If not, see <https://www.gnu.org/licenses/>.
+#
+
+# DEBUG SETTINGS
+set -euo pipefail
+
+# * CHECKER
+DEPS=(bash minikube k3s)
+s_checkdeps "${DEPS[@]}"
+
+# PODMAN
+# systemctl --user enable --now podman.socket
+# XDG_RUNTIME_DIR=${XDG_RUNTIME_DIR:-/run/user/$(id -u)}
+# export DOCKER_HOST=unix://$XDG_RUNTIME_DIR/podman/podman.sock
+# export DOCKER_SOCK=$XDG_RUNTIME_DIR/podman/podman.sock
+
+# MINIKUBE
+
+minikube config set driver podman
+# minikube config set rootless true
+
+# minikube start --driver=podman --container-runtime=containerd
+
+exit
+
+# K3S
+
+K3S_KUBECONFIG=$HOME/.local/k3s-kube-config
+if [[ ! -f "$K3S_KUBECONFIG" ]]; then
+    sudo k3s kubectl config view --raw >"$K3S_KUBECONFIG"
+    chmod 0600 "$K3S_KUBECONFIG"
+    # set to KUBECONFIG="$K3S_KUBECONFIG"
+    # Check for Ready node, takes ~30 seconds
+    # k3s kubectl get node
+fi

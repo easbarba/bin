@@ -1,0 +1,113 @@
+#!/usr/bin/env bash
+#
+# Bin is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# Bin is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with Bin. If not, see <https://www.gnu.org/licenses/>.
+#
+
+# Debug Options
+set -euo pipefail
+
+DEPS=(sudo apt curl python3 go systemctl tee gpasswd)
+s_checkdeps "${DEPS[@]}"
+
+INSTALL='sudo pacman -S --noconfirm'
+# UPDATE='sudo apt-get update'
+
+if [[ ! -x $(command -v podman) ]]; then
+    $INSTALL podman fuse-overlayfs slirp4netns
+
+    sudo systemctl enable podman.socket
+    sudo systemctl start podman.socket
+
+    sudo sysctl kernel.unprivileged_userns_clone
+
+    # Add a new group called podman so its easier to manage who can run podman w/out sudo
+    echo '%podman ALL=(ALL) NOPASSWD: /usr/bin/podman' | sudo tee -a /etc/sudoers.d/podman
+
+    # Set subuid and subgid
+    sudo touch /etc/subuid /etc/subgid
+    sudo chmod 644 /etc/subuid /etc/subgid
+    sudo usermod --add-subuids 100000-165535 --add-subgids 100000-165535 $USER
+
+    # Rootless Podman
+    podman system migrate
+fi
+
+exit
+
+if [[ ! -x $(command -v docker) ]]; then
+    $INSTALL docker #-ce docker-ce-cli containerd.io docker-compose
+
+    sudo systemctl start docker
+    sudo systemctl enable docker.service
+
+    sudo groupadd docker
+    sudo gpasswd -a "$USER" docker
+
+    sudo systemctl restart docker
+
+    # activate group, for now
+    newgrp docker
+fi
+
+if [[ ! -x $(command -v firewalld) ]]; then
+    $INSTALL firewalld
+
+    sudo systemctl enable firewalld
+    sudo systemctl start firewalld
+fi
+
+if [[ ! -x $(command -v vagrant) ]]; then
+    $INSTALL vagrant
+    vagrant plugin install vagrant-libvirt
+fi
+
+[[ ! -x $(command -v qemu-img) ]] && $INSTALL qemu # infra=( qemu qemu-utils qemu-efi qemu-kvm ) # ebtables
+
+if [[ ! -x $(command -v virt-manager) ]]; then
+    VIRT=(libvirt bridge-utils virt-manager) #libvirt-clients libvirt-daemon-system virtinst
+    s-dolist "$INSTALL" "${VIRT[@]}"
+
+    sudo systemctl start libvirtd
+    sudo systemctl enable libvirtd
+
+    sudo usermod -aG libvirt "$USER"
+    sudo usermod -aG kvm "$USER"
+fi
+
+if [[ ! -x $(command -v k3s) ]]; then
+    curl -sfL https://get.k3s.io | sh -
+fi
+
+[[ ! -x $(command -v kind) ]] && GO111MODULE=on go install sigs.k8s.io/kind@v0.14.0
+
+if [[ ! -x $(command -v aws-iam-authenticator) ]]; then
+    curl -o aws-iam-authenticator https://amazon-eks.s3.us-west-2.amazonaws.com/1.21.2/2021-07-05/bin/linux/amd64/aws-iam-authenticator -P "$HOME/.local/bin"
+    chmod +x "$HOME/.local/bin/aws-iam-authenticator"
+fi
+
+if [[ ! -x $(command -v eksctl) ]]; then
+    curl --silent --location "https://github.com/weaveworks/eksctl/releases/latest/download/eksctl_$(uname -s)_amd64.tar.gz" | tar xz -C /tmp
+    sudo mv /tmp/eksctl /usr/local/bin
+fi
+
+if [[ ! -x $(command -v minikube) ]]; then
+    curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube_latest_amd64.deb
+    sudo apt install ./minikube_latest_amd64.deb
+fi
+
+if [[ ! -x $(command -v jenkins) ]]; then
+    $UPDATE && $INSTALL fontconfig openjdk-11-jre jenkins
+fi
+
+[[ ! -x $(command -v virtualbox) ]] && $INSTALL virtualbox

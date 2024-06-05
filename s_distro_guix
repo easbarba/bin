@@ -1,0 +1,39 @@
+#!/usr/bin/env bash
+#
+# Bin is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# Bin is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with Bin. If not, see <https://www.gnu.org/licenses/>.
+#
+
+# Site: https://guix.gnu.org/
+
+# * DEBUG OPTIONS
+set -euo pipefail
+
+DEPS=(sudo guix wget bash)
+s_checkdeps "${DEPS[@]}"
+
+export GUIX_LOCPATH="$HOME/.guix-profile/lib/locale"
+
+s_echo "GNU Guix"
+
+if [[ ! -x $(command -v guix) ]]; then
+	wget "https://sv.gnu.org/people/viewgpg.php?user_id=127547" -qO - | sudo -i gpg --import -
+	wget -P /tmp -c 'https://git.savannah.gnu.org/cgit/guix.git/plain/etc/guix-install.sh'
+
+	sudo bash /tmp/guix-install.sh
+	sudo -i guix pull
+	guix install glibc-locales # Fix GUIX_LOCPATH warning
+fi
+
+guix pull
+guix upgrade

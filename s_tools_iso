@@ -1,0 +1,34 @@
+#!/usr/bin/env bash
+#
+# Bin is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# Bin is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with Bin. If not, see <https://www.gnu.org/licenses/>.
+#
+
+# Debug Options
+set -euo pipefail
+
+DEPS=(sudo dd)
+s_checkdeps "${DEPS[@]}"
+
+# Check if minimal arguments are given.
+[[ $# -ne 2 ]] && echo -e '\nUsage: </iso/location> </usb/location/>' && exit
+
+# * Arguments
+ISO="$1" # TODO: check if ISO is valid
+TO="$2"  # TODO: check if TO exist
+
+echo "ISO: $ISO"
+echo "TO: $TO"
+
+s_echo "Burning"
+sudo dd bs=4M if="$ISO" of="$TO" status=progress oflag=sync

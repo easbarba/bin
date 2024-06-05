@@ -1,0 +1,52 @@
+#!/usr/bin/env bash
+#
+# Bin is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# Bin is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with Bin. If not, see <https://www.gnu.org/licenses/>.
+#
+
+# Debug Options
+set -euo pipefail
+
+DEPS=(perl cpan)
+s_checkdeps "${DEPS[@]}"
+
+# Automate CPAN initial configuration
+# ----------------------------------------------
+if [[ ! -f $HOME/.cpan/CPAN/MyConfig.pm ]]; then
+    (
+        echo y
+        echo o conf prerequisites_policy follow
+        echo o conf commit
+    ) | cpan
+fi
+
+# CPNAM
+# ----------------------------------------------
+if [[ ! -f $HOME/perl5/bin/cpanm ]]; then
+    cpan App::cpanminus && cpanm --version
+else
+    cpanm --self-upgrade
+fi
+
+# MODULES
+# ----------------------------------------------
+essential=(Term::ReadLine::Perl)
+tools=(Perl::LanguageServer)
+libs=(Audio::TagLib)
+
+all=("${essential[@]}" "${tools[@]}" "${libs[@]}")
+
+for pack in "${all[@]}"; do
+    s_echo "$pack"
+    cpanm "$pack"
+done

@@ -1,0 +1,32 @@
+#!/usr/bin/env bash
+
+# Bin is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# Bin is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with Bin. If not, see <https://www.gnu.org/licenses/>.
+#
+
+# Debug Options
+set -euo pipefail
+
+DEPS=(python3)
+s_checkdeps "${DEPS[@]}"
+
+BUILDS_DIR=$HOME/Builds
+mkdir -pv "$BUILDS_DIR"
+
+IGCC_DIR=$BUILDS_DIR/igcc
+[[ ! -f $IGCC_DIR/.git/config ]] && git clone https://github.com/alexandru-dinu/igcc.git "$IGCC_DIR"
+cd "$IGCC_DIR"
+python3 -m pip install --break-system-packages -r requirements.txt
+# ./igcc -I libigcc
+
+exit

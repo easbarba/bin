@@ -1,0 +1,40 @@
+#!/usr/bin/env bash
+#
+# Bin is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# Bin is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with Bin. If not, see <https://www.gnu.org/licenses/>.
+#
+
+# DEBUG SETTINGS
+set -euo pipefail
+
+# * CHECKER
+DEPS=(bash zae)
+s_checkdeps "${DEPS[@]}"
+
+if [[ -x $(command -v zae) ]]; then
+    zae update && zae upgrade && zae clean
+else
+    [[ -f /usr/bin/apt ]] && sudo apt update && sudo apt upgrade && sudo apt autoremove
+    [[ -f /usr/bin/dnf ]] && sudo dnf update --assumeyes && sudo dnf upgrade --assumeyes
+    [[ -f /usr/bin/pacman ]] && sudo pacman --sync --refresh --sysupgrade
+fi
+
+[[ -x $(command -v flatpak) ]] && gota --distro --filter flatpak --verbose
+[[ -x $(command -v snap) ]] && sudo snap refresh
+
+[[ -x $(command -v guix) ]] && sudo guix pull && guix pull && guix package -u
+[[ -x $(command -v guix) ]] && gota --distro --filter guix --verbose
+
+echo "THE END!"
+
+exit
