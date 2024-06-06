@@ -35,7 +35,7 @@ groups=("${langs_hobby[@]}"
     "${tools[@]}")
 
 for group in "${groups[@]}"; do
-    s-dolist "$INSTALL" "$group"
+    s_dolist "$INSTALL" "$group"
 done
 
 exit

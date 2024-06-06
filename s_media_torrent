@@ -23,6 +23,6 @@ DEPS=(aria2c)
 s_checkdeps "${DEPS[@]}"
 
 DOWN_FOLDER="$HOME/Downloads"
-URL="$(s-url)"
+URL="$(s_url)"
 
 aria2c "$URL" -d "$DOWN_FOLDER"

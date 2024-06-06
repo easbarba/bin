@@ -24,5 +24,5 @@ s_checkdeps "${DEPS[@]}"
 
 boxes=(debian/bullseye64 ubuntu/focal64)
 
-[[ ! "$(vagrant box list | grep debian)" ]] && s-dolist 'vagrant box add' "${boxes[@]}"
-s-dolist 'vagrant box update' "${boxes[@]}"
+[[ ! "$(vagrant box list | grep debian)" ]] && s_dolist 'vagrant box add' "${boxes[@]}"
+s_dolist 'vagrant box update' "${boxes[@]}"

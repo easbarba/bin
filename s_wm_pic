@@ -18,7 +18,7 @@
 set -euo pipefail
 
 PIC_DIR="$HOME/Pictures"
-URL="$(s-url)"
-PIC_NAME="$(uuid)-$(basename $(s-url))"
+URL="$(s_url)"
+PIC_NAME="$(uuid)-$(basename $(s_url))"
 
 wget -c "$URL" -O "$PIC_DIR/$PIC_NAME"

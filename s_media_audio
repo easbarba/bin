@@ -26,7 +26,7 @@ s_checkdeps "${DEPS[@]}"
 
 FREE=(vorbis mp3)
 EXT="${FREE[0]}"
-URL="$(s-url)"
+URL="$(s_url)"
 AUDIO_FOLDER="$HOME/Music/temp"
 LOG_FOLDER="$HOME/.config/scripts"
 

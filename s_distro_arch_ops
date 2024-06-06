@@ -76,7 +76,7 @@ fi
 
 if [[ ! -x $(command -v virt-manager) ]]; then
     VIRT=(libvirt bridge-utils virt-manager) #libvirt-clients libvirt-daemon-system virtinst
-    s-dolist "$INSTALL" "${VIRT[@]}"
+    s_dolist "$INSTALL" "${VIRT[@]}"
 
     sudo systemctl start libvirtd
     sudo systemctl enable libvirtd

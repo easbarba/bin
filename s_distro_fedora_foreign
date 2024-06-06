@@ -41,7 +41,7 @@ sound=(pipewire pipewire-pulse lib32-pipewire pipewire-docs) # wireplumber pulse
 groups=("${media[@]}" "${sound[@]}")
 
 for group in "${groups[@]}"; do
-    s-dolist "$INSTALL" "$group"
+    s_dolist "$INSTALL" "$group"
 done
 
 exit

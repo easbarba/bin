@@ -24,7 +24,7 @@ s_checkdeps "${DEPS[@]}"
 
 VIDEO_FOLDER="$HOME/Videos"
 LOG_FOLDER="$HOME/.config/scripts"
-URL="$(s-url)"
+URL="$(s_url)"
 EXT='mp4'
 TITLE_LENGTH=120
 

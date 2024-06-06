@@ -63,5 +63,5 @@ groups=("${arch[@]}"
 	"${fonts[@]}")
 
 for group in "${groups[@]}"; do
-	s-dolist "$INSTALL" "$group"
+	s_dolist "$INSTALL" "$group"
 done

@@ -32,7 +32,7 @@ CURL=([bin]='curl'
 # CONFIG
 # GETTERS=("${WGET[@]}" "${CURL[@]}") # merge all arrays
 
-CLIPBOARD_URL="$(s-url)"
+CLIPBOARD_URL="$(s_url)"
 FOLDER=$HOME/Pictures/temp
 
 # CHECKER
