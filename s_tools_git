@@ -19,7 +19,7 @@ set -euo pipefail
 
 # SETTTINGS
 git config --global init.defaultBranch main
-git config --global user.name "${USER:-USUARIO}"
+git config --global user.name "EAS Barbosa"
 git config --global user.email "${USER:-USUARIO}@outlook.com"
 git config --global core.editor "nano -Sxmkcig_"
 git config --global core.autocrlf "input"
