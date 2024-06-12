@@ -20,7 +20,7 @@ set -euo pipefail
 PLAYER=mpv
 LOG_FILE="$HOME/.config/scripts/videos"
 URL="$(s_url)"
-
+[[ ! -f $LOG_FILE ]] && touch $LOG_FILE
 [[ ! -x $(command -v $PLAYER) ]] && echo "Player [ $PLAYER ] not found, exiting!" && exit
 
 replay_last_media() {
