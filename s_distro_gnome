@@ -87,7 +87,7 @@ gsettings set org.gnome.desktop.interface clock-show-weekday true
 gsettings set org.gnome.desktop.wm.preferences num-workspaces 5
 gsettings set org.gnome.desktop.wm.preferences workspace-names "['emacs','read', 'term','www', 'media']"
 gsettings set org.gnome.desktop.wm.keybindings toggle-maximized "['<Super>m']"
-gsettings set org.gnome.desktop.wm.keybindings panel-run-dialog "['<Super>x']"
+gsettings set org.gnome.desktop.wm.keybindings panel-run-dialog "['<Super><Alt>x']"
 gsettings set org.gnome.desktop.wm.keybindings toggle-fullscreen "['<Super><Alt>f']"
 gsettings set org.gnome.desktop.wm.keybindings close "['<Super><Alt>c']"
 gsettings set org.gnome.desktop.wm.preferences auto-raise 'true'
@@ -104,19 +104,38 @@ gsettings set org.gnome.settings-daemon.plugins.color night-light-enabled true
 
 #gsettings set org.gnome.system.locale region "pt_BR.UTF-8"
 
-gsettings set org.gnome.desktop.input-sources mru-sources "[('xkb', 'br'), ('xkb', 'us')]"
-gsettings set org.gnome.desktop.input-sources sources "[('xkb', 'us'), ('xkb', 'br')]"
+#gsettings set org.gnome.desktop.input-sources mru-sources "[('xkb', 'br'),
+#('xkb', 'us')]"
+#gsettings set org.gnome.desktop.input-sources sources "[('xkb', 'us'), ('xkb',
+#'br')]"
 
 # APPS
 # gsettings set org.gnome.Evince.Default fullscreen 'true'
 # gsettings set org.gnome.Evince.Default show-sidebar 'false'
 # gsettings set org.gnome.Evince.Default show-toolbar 'false'
 
+# CUSTOM BINDINGS
+DMENU=('dmenu_run -fn "-xos4-terminus-medium-r-*-*-14-*"' 'dmenu' "<Super>x")
+PLAYER_DOWN=('playerctl volume 0.1-' 'player_down' "<Super><Alt>s")
+PLAYER_UP=('playerctl volume 0.1+' 'player_up' "<Super><Alt>w")
+
+gsettings set org.gnome.settings-daemon.plugins.media-keys custom-keybindings "['/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0/', '/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom1/', '/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom2/', '/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom3/', '/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom4/', '/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom5/', '/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom6/', '/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom7/', '/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom8/','/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom9/']"
+
+var=0
+bindings=(DMENU[@] PLAYER_DOWN[@] PLAYER_UP[@])
+for foo in "${bindings[@]}"; do
+	entry=("${!foo}")
+	gsettings set org.gnome.settings-daemon.plugins.media-keys.custom-keybinding:/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom$var/ command "${entry[0]}"
+	gsettings set org.gnome.settings-daemon.plugins.media-keys.custom-keybinding:/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom$var/ name "${entry[1]}"
+	gsettings set org.gnome.settings-daemon.plugins.media-keys.custom-keybinding:/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom$var/ binding "${entry[2]}"
+	var=$((var + 1))
+done
+
 # EXTENSIONS
 gsettings set org.gnome.shell enabled-extensions "['user-theme@gnome-shell-extensions.gcampax.github.com', 'freon@UshakovVasilii_Github.yahoo.com', 'launch-new-instance@gnome-shell-extensions.gcampax.github.com']"
 # gsettings set org.gnome.shell.extensions.auto-move-windows application-list "['org.gnome.Evince.desktop:1', 'libreoffice-startcenter.desktop:1', 'libreoffice-writer.desktop:1', 'org.gnome.Terminal.desktop:3', 'firefox.desktop:4', 'mpv.desktop:5', 'org.gnome.Rhythmbox3.desktop:5', 'thunderbird.desktop:4', 'io.podman_desktop.PodmanDesktop.desktop:3']"
 
-gsettings set org.gnome.rhythmbox.plugins.alternative_toolbar volume-control true
+#gsettings set org.gnome.rhythmbox.plugins.alternative_toolbar volume-control true
 
 
 	# gsettings set org.gnome.settings-daemon.plugins.media-keys.custom-keybinding:/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom_brightness_up/ name 'Brightness Up'
@@ -132,3 +151,4 @@ gsettings set org.gnome.rhythmbox.plugins.alternative_toolbar volume-control tru
 	# gsettings set org.gnome.settings-daemon.plugins.media-keys.custom-keybinding:/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom_brightness_reset/ name 'Brightness Reset'
 	# gsettings set org.gnome.settings-daemon.plugins.media-keys.custom-keybinding:/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom_brightness_reset/ command "$COMMAND reset"
 	# gsettings set org.gnome.settings-daemon.plugins.media-keys.custom-keybinding:/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom_brightness_reset/ binding '<Alt>Home'
+
