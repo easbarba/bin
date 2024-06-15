@@ -16,18 +16,16 @@
 # DEBUG SETTINGS
 set -euo pipefail
 
-[[ -x $(command -v emacs) ]] && s_base_emacs
-
 if [[ -x $(command -v gota) ]]; then
     [[ -x $(command -v podman) ]] && gota --misc --filter containers --verbose
 
-    gota --pack --filter golang --verbose
     gota --pack --filter python --verbose
+    gota --pack --filter ecmascript --verbose
 
     [[ -x $(command -v guix) ]] && gota --pack --filter guix --verbose
-
-    gota --pack --filter ecmascript --verbose
 fi
+
+[[ -x $(command -v emacs) ]] && s_base_emacs
 
 [[ -x $(command -v onur) ]] && onur --grab
 
