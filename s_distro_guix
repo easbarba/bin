@@ -32,8 +32,9 @@ if [[ ! -x $(command -v guix) ]]; then
 
 	sudo bash /tmp/guix-install.sh
 	sudo -i guix pull
-	guix install glibc-locales # Fix GUIX_LOCPATH warning
+	sudo guix install glibc-locales # Fix GUIX_LOCPATH warning
 fi
 
 guix pull
 guix upgrade
+guix install glibc-locales 

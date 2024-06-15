@@ -29,14 +29,12 @@ paste() {
     fi
 }
 
-paste '. $HOME/.config/bash/config.sh' "$HOME/.bashrc"
-paste '. $HOME/.config/bash/aliases.sh' "$HOME/.bashrc"
-paste '. $HOME/.config/bash/profile.sh' "$HOME/.bash_profile"
+paste 'source $HOME/.config/bash/config.sh' "$HOME/.bashrc"
+paste 'source $HOME/.config/bash/aliases.sh' "$HOME/.bashrc"
+paste 'source $HOME/.config/bash/profile.sh' "$HOME/.bash_profile"
 
 # export to bash --user environment.d confs
-# paste 'export
-# $(/usr/lib/systemd/user-environment-generators/30-systemd-environment-d-generator
-# | xargs)' "$HOME/.profile"
+paste 'export $(/usr/lib/systemd/user-environment-generators/30-systemd-environment-d-generator | xargs)' "$HOME/.profile"
 
 # default folders
 mkdir -pv "$HOME"/{Downloads,Pictures,Documents,Videos,Builds,Projects,.local/bin,.config/scripts}
