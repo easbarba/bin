@@ -1,0 +1,87 @@
+#!/usr/bin/env bash
+
+# Bin is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# Bin is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with Bin. If not, see <https://www.gnu.org/licenses/>.
+
+# Debug Options
+set -euo pipefail
+
+STEP=3
+
+_ncmpcpp() {
+    [[ ! $(command -v mpc)  ]] && echo "mpc is not installed to manage player volume" && exit 1
+
+    local action
+
+    case "$1" in
+        down)
+            action="-$STEP"
+            ;;
+        up)
+            action="+$STEP"
+            ;;
+        toggle)
+            action="toggle"
+            ;;
+        previous)
+            action="previous"
+            ;;
+        next)
+            action="next"
+            ;;
+    esac
+
+    # echo "action: $action"
+    mpc volume $action
+}
+
+print_info() {
+            echo "Usage: wm_player [ -d | --down ] [ -u | --up ] [ -p | --previous ] [ -n | --next ] [ -t | --toggle ] [ -h | --help ]"
+}
+
+# PARSE CLI OPTIONS
+OPTIONS=$(getopt --name play --options udthnp --longoptions up,down,toggle,next,previous,help -- "$@")
+eval set -- "$OPTIONS"
+unset OPTIONS
+while true; do
+    case "$1" in
+        -d | --down)
+            [[ $(pgrep -x ncmpcpp) ]] && _ncmpcpp down
+            break;
+            ;;
+        -u | --up)
+            [[ $(pgrep -x ncmpcpp) ]] && _ncmpcpp up
+            break
+            ;;
+        -t | --toggle)
+            [[ $(pgrep -x ncmpcpp) ]] && _ncmpcpp toggle
+            break
+            ;;
+        -p | --previous)
+            [[ $(pgrep -x ncmpcpp) ]] && _ncmpcpp previous
+            break
+            ;;
+        -n | --next)
+            [[ $(pgrep -x ncmpcpp) ]] && _ncmpcpp next
+            break
+            ;;
+        -h | --help)
+            print_info
+            break
+            ;;
+        *)
+            print_info
+            break
+            ;;
+    esac
+done
