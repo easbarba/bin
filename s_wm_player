@@ -19,6 +19,7 @@ set -euo pipefail
 STEP=3
 
 _ncmpcpp() {
+    [[ ! $(pgrep -x ncmpcpp) ]] && return
     [[ ! $(command -v mpc)  ]] && echo "mpc is not installed to manage player volume" && exit 1
 
     local action
@@ -55,23 +56,23 @@ unset OPTIONS
 while true; do
     case "$1" in
         -d | --down)
-            [[ $(pgrep -x ncmpcpp) ]] && _ncmpcpp down
+            _ncmpcpp down
             break;
             ;;
         -u | --up)
-            [[ $(pgrep -x ncmpcpp) ]] && _ncmpcpp up
+            _ncmpcpp up
             break
             ;;
         -t | --toggle)
-            [[ $(pgrep -x ncmpcpp) ]] && _ncmpcpp toggle
+            _ncmpcpp toggle
             break
             ;;
         -p | --previous)
-            [[ $(pgrep -x ncmpcpp) ]] && _ncmpcpp previous
+            _ncmpcpp previous
             break
             ;;
         -n | --next)
-            [[ $(pgrep -x ncmpcpp) ]] && _ncmpcpp next
+            _ncmpcpp next
             break
             ;;
         -h | --help)
