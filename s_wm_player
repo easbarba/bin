@@ -25,10 +25,10 @@ _ncmpcpp() {
 
     case "$1" in
         down)
-            action="-$STEP"
+            action="volume -$STEP"
             ;;
         up)
-            action="+$STEP"
+            action="volume +$STEP"
             ;;
         toggle)
             action="toggle"
@@ -41,8 +41,7 @@ _ncmpcpp() {
             ;;
     esac
 
-    # echo "action: $action"
-    mpc volume $action
+    mpc $action
 }
 
 print_info() {
