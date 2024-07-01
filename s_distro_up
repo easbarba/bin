@@ -27,6 +27,7 @@ else
     [[ -f /usr/bin/apt ]] && sudo apt update && sudo apt upgrade && sudo apt autoremove
     [[ -f /usr/bin/dnf ]] && sudo dnf update --assumeyes && sudo dnf upgrade --assumeyes
     [[ -f /usr/bin/pacman ]] && sudo pacman --sync --refresh --sysupgrade
+    [[ -f /usr/bin/zypper ]] && sudo zypper dist-upgrade --no-confirm
 fi
 
 [[ -x $(command -v flatpak) ]] && gota --distro --filter flatpak --verbose
