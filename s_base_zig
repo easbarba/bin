@@ -24,8 +24,8 @@ LOCAL_BIN="$HOME/.local/bin"
 LOCAL_DIR="$HOME/.local"
 BUILDS_HOME="$HOME/Builds"
 
-[[ -d $LOCAL_BIN ]] && mkdir -p "$LOCAL_DIR"
-[[ -d $BUILDS_HOME ]] && mkdir -p "$BUILDS_HOME"
+[[ ! -d $LOCAL_BIN ]] && mkdir -p "$LOCAL_DIR"
+[[ ! -d $BUILDS_HOME ]] && mkdir -p "$BUILDS_HOME"
 
 cd "$BUILDS_HOME"
 
