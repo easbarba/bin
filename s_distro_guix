@@ -31,10 +31,8 @@ if [[ ! -x $(command -v guix) ]]; then
 	wget -P /tmp -c 'https://git.savannah.gnu.org/cgit/guix.git/plain/etc/guix-install.sh'
 
 	sudo bash /tmp/guix-install.sh
-	sudo -i guix pull
-	sudo guix install glibc-locales # Fix GUIX_LOCPATH warning
+    sudo guix install glibc-locales # Fix GUIX_LOCPATH warning
 fi
 
-guix pull
-guix upgrade
 guix install glibc-locales 
+
