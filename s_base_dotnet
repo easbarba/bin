@@ -31,4 +31,5 @@ if [[ ! -f $DOTNET_INSTALL_BIN ]]; then
 fi
 
 [[ -f $DOTNET_INSTALL_BIN ]] && $DOTNET_INSTALL_BIN --channel "$DOTNET_VERSION"
+[[ -f $DOTNET_INSTALL_BIN ]] && $DOTNET_INSTALL_BIN --runtime dotnet --version 6.0.31
 [[ -f $DOTNET_DIR/dotnet ]] && ln -sf "$DOTNET_DIR/dotnet" "$HOME/.local/bin/dotnet"
