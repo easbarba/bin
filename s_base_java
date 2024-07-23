@@ -21,7 +21,8 @@ DEPS=(curl bash awk)
 s_checkdeps "${DEPS[@]}"
 
 BUILDS="$HOME/Builds"
-LOCAL_BIN="$HOME/.local/bin"
+LOCAL_HOME="$HOME/.local"
+LOCAL_BIN="$LOCAL_HOME/bin"
 
 echo -e "\nSDKMAN"
 if [[ ! -f "$HOME/.sdkman/bin/sdkman-init.sh" ]]; then
@@ -34,7 +35,6 @@ if [[ ! -f "$HOME/.jbang/bin/jbang" ]]; then
 else
     jbang version --update
 fi
-
 
 echo -e "\nGOOGLE-JAVA-FORMAT" # https://github.com/google/google-java-format
 TAGS_URL="https://api.github.com/repos/google/google-java-format/tags"
