@@ -23,7 +23,7 @@ if [[ -x $(command -v gota) ]]; then
     gota --pack --filter python --verbose
     gota --pack --filter ecmascript --verbose
 
-    [[ -x $(command -v guix) ]] && gota --pack --filter guix --verbose
+    [[ -x $(command -v guix) ]] && gota --distro --filter guix --verbose
 fi
 
 [[ -x $(command -v emacs) ]] && s_base_emacs
