@@ -17,11 +17,7 @@
 set -euo pipefail
 
 if [[ -x $(command -v gota) ]]; then
-    # [[ -x $(command -v podman) ]] && gota --misc --filter containers --verbose
-export GEM_HOME=$HOME/.local/gem
-export PATH=$GEM_HOME/bin:$PATH
-export RBENV_HOME=$HOME/.rbenvP
-export PATH=$RBENV_HOME/shims:$PATH
+    [[ -x $(command -v podman) ]] && gota --misc --filter containers --verbose
 
     gota --pack --filter ruby --verbose
     gota --pack --filter python --verbose
