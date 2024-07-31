@@ -19,7 +19,6 @@ set -euo pipefail
 if [[ -x $(command -v gota) ]]; then
     [[ -x $(command -v podman) ]] && gota --misc --filter containers --verbose
 
-    gota --pack --filter ruby --verbose
     gota --pack --filter python --verbose
     gota --pack --filter ecmascript --verbose
 
@@ -28,7 +27,7 @@ fi
 
 [[ -x $(command -v emacs) ]] && s_base_emacs
 
-[[ -x $(command -v onur) ]] && onur grab
+[[ -x $(command -v onur) ]] && onur --grab
 
 echo "THE END!"
 
