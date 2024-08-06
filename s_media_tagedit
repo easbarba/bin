@@ -20,7 +20,7 @@ import argparse
 import taglib
 
 
-class Song:
+class SongMeta:
     """Edit tune attributes."""
 
     def __init__(self, song: str):
@@ -47,24 +47,25 @@ class Song:
 
 def single(file: str) -> None:
     """Edit single file metadata."""
-    song = Song(str(file))
+    song_meta = SongMeta(str(file))
 
-    if args.title:
-        song.title(args.title)
+    if args.song:
+        song_meta.title(args.song)
     if args.artist:
-        song.artist(args.artist)
+        song_meta.artist(args.artist)
     if args.album:
-        song.album(args.album)
+        song_meta.album(args.album)
     if args.date:
-        song.date(args.date)
+        song_meta.date(args.date)
 
-    song.save()
+    song_meta.save()
 
 
 def multiple(dir: str) -> None:
     """Edit all files metadata in directory."""
     for item in dir.iterdir():
-        single(item)
+        if Path(item).is_file:
+            single(item)
 
 
 # CLI -----------------------------------------------------
@@ -74,23 +75,24 @@ parser = argparse.ArgumentParser(
     description="Edit tag of file or directory files.",
     epilog="Praise the sun!",
 )
-parser.add_argument("-s", "--source", help="file/directory to edit")
+parser.add_argument("-t", "--target", help="file/directory to edit")
 parser.add_argument("-a", "--artist", help="artist name")
-parser.add_argument("-t", "--title", help="song title")
-parser.add_argument("-l", "--album", help="album title")
+parser.add_argument("-s", "--song", help="song title")
+parser.add_argument("-A", "--album", help="album title")
 parser.add_argument("-d", "--date", help="album/song date of release")
+
 args = parser.parse_args()
 
-if not args.source:
+if not args.target:
     parser.print_help()
     exit(1)
 
-source = Path(args.source)
+target = Path(args.target)
 
-if source.is_dir():
-    multiple(source)
+if target.is_dir():
+    multiple(target)
     exit()
 
-single(source)
+single(target)
 
 exit()
