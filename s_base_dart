@@ -20,8 +20,12 @@ set -euo pipefail
 DEPS=(git dart flutter)
 s_checkdeps "${DEPS[@]}"
 
-TO=$HOME/.local/flutter
+LOCAL_DIR=$HOME/.local
+FLUTTER_DIR="$LOCAL_DIR/flutter"
 
-[[ ! -d $TO/.git ]] && git clone https://github.com/flutter/flutter --branch stable --single-branch "$TO"
+[[ ! -d $FLUTTER_DIR/.git ]] && git clone https://github.com/flutter/flutter --branch stable --single-branch "$FLUTTER_DIR"
 
-git -C "$TO" pull
+ln -sf "$FLUTTER_DIR"/bin/flutter "$LOCAL_DIR/bin"
+ln -sf "$FLUTTER_DIR"/bin/dart "$LOCAL_DIR/bin"
+
+git -C "$FLUTTER_DIR" pull
