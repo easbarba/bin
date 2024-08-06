@@ -25,9 +25,10 @@ BUILDS_DIR="$HOME/Builds"
 
 mkdir -pv "$BUILDS_DIR"
 
-# ======================================================
-
-SWIFT_URL='https://download.swift.org/swift-5.9-release/ubuntu2204/swift-5.9-RELEASE/swift-5.9-RELEASE-ubuntu22.04.tar.gz'
+echo " --- Swift"
+SWIFT_VERSION=swift-5.10.1
+UBUNTU_VERSION=ubuntu24.04
+SWIFT_URL="https://download.swift.org/$SWIFT_VERSION-release/ubuntu2204/$SWIFT_VERSION-release-RELEASE/$SWIFT_VERSION-RELEASE-$UBUNTU_VERSION.tar.gz"
 if [[ ! -d "$LOCAL_DIR/swift" ]]; then
     wget -c "$SWIFT_URL" -P /tmp
     tar -xvzf /tmp/swift-*-RELEASE-ubuntu*.tar.gz -C "$LOCAL_DIR"
@@ -44,11 +45,11 @@ if [[ ! -f "$LOCAL_DIR/bin/swift" ]]; then
     "$LOCAL_DIR/bin/docc" --help
 fi
 
-# ======================================================
+echo " --- Swift Format"
 
 SWIFT_FORMAT_DIR="$HOME/Builds/swift-format"
-SWIFT_FORMAT_VERSION=509.0.0
-[[ ! -d $SWIFT_FORMAT_DIR/.git ]] && git clone https://github.com/apple/swift-format.git "$SWIFT_FORMAT_DIR"
+SWIFT_FORMAT_VERSION=510.1.0
+[[ ! -d $SWIFT_FORMAT_DIR/.git ]] && git clone https://github.com/apple/swift-format "$SWIFT_FORMAT_DIR"
 
 git -C "$SWIFT_FORMAT_DIR" pull
 cd "$SWIFT_FORMAT_DIR"
@@ -56,11 +57,12 @@ git checkout "$SWIFT_FORMAT_VERSION"
 swift build -c release
 ln -sf "$SWIFT_FORMAT_DIR/.build/release/swift-format" "$LOCAL_DIR/bin"
 
-# ======================================================
-SOURCEKIT_DIR=$BUILDS/sourcekit-lsp
-[[ -d  $SOURCEKIT_DIR ]] && git clone https://github.com/apple/sourcekit-lsp
+echo " --- sourcekit-lsp"
 
-# ======================================================
+SOURCEKIT_DIR=$BUILDS/sourcekit-lsp
+[[ -d $SOURCEKIT_DIR ]] && git clone https://github.com/apple/sourcekit-lsp
+
+exit
 
 VAPOR_VERSION=18.7.1 # https://github.com/vapor/toolbox/releases
 VAPOR_DIR=$BUILDS/vapor
@@ -68,5 +70,3 @@ VAPOR_DIR=$BUILDS/vapor
 cd "$VAPOR_DIR"
 gitf checkout "$VAPOR_VERSION"
 make install
-
-exit
