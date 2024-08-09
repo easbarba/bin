@@ -28,7 +28,7 @@ fi
 
 [[ -x $(command -v emacs) ]] && s_base_emacs
 
-[[ -x $(command -v onur) ]] && onur --grab
+[[ -x $(command -v onur) ]] && onur grab
 
 echo "THE END!"
 
