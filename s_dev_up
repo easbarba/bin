@@ -20,7 +20,6 @@ if [[ -x $(command -v gota) ]]; then
     [[ -x $(command -v podman) ]] && gota --misc --filter containers --verbose
 
     gota --pack --filter rust --verbose
-    gota --pack --filter golang --verbose
     gota --pack --filter python --verbose
     gota --pack --filter ecmascript --verbose
 
