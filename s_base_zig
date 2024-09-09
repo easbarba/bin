@@ -58,6 +58,8 @@ if [[ -d $ZLS_LOCATION/.git ]]; then
     "$LOCAL_BIN/zls" --version
 fi
 
+exit 
+
 echo -e "\n- zigmod\n"
 
 ZIGMOD_NAME=zigmod
@@ -89,8 +91,6 @@ if [[ -d $RIVER_LOCATION/.git ]]; then
     "$LOCAL_BIN/${RIVER_NAME}" version
 fi
 
-
-exit
 
 ZIG_LOCATION="$HOME/Builds/zig"
 [[ ! -d $ZIG_LOCATION/.git ]] && git clone https://github.com/ziglang/zig "$ZIG_LOCATION"

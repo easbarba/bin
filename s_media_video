@@ -37,7 +37,7 @@ cd "$VIDEO_FOLDER"
 # GETTERS COMMANDS
 declare -A YTDL
 YTDL=([bin]='yt-dlp'
-    [quality]='bestvideo+bestaudio'
+    [quality]='-f "bestvideo[height<=1080]+bestaudio/best[height<=1080]"'
     [format]="--format $EXT"
     [options]="--ignore-config --restrict-filenames --trim-filenames $TITLE_LENGTH -wc"
     [title]="--output %(title)s.f%(format_id)s.%(ext)s")
@@ -46,4 +46,4 @@ YTDL=([bin]='yt-dlp'
 echo $URL >>"$LOG_FOLDER/videos"
 
 # RUN
-[[ -x $(command -v yt-dlp) ]] && ${YTDL[bin]} ${YTDL[options]} ${YTDL[format]} ${YTDL[title]} $URL && exit
+[[ -x $(command -v yt-dlp) ]] && ${YTDL[bin]} ${YTDL[quality]} ${YTDL[options]} ${YTDL[format]} ${YTDL[title]} $URL && exit
